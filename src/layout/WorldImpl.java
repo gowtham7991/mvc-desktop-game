@@ -135,7 +135,7 @@ public class WorldImpl implements World {
               spaceHeight);
 
       g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
-      g.drawString(spaceName, x + 10, y + 10);
+      g.drawString(spaceName, x + 5, y + 10);
     }
 
     g.dispose();

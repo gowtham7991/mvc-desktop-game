@@ -1,10 +1,11 @@
-import game.Game;
-import game.GameImpl;
 import java.awt.image.WritableRenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import javax.imageio.ImageIO;
+
+import game.Game;
+import game.GameImpl;
 
 /**
  * Driver class which acts as intermediate controller to access the model.
@@ -16,23 +17,25 @@ public class GameDriver {
    * @throws IOException - if the file is unreadable
    */
   public static void main(String[] args) throws IOException {
-    if (args.length == 0) {
+    if (args.length != 0) {
       throw new IllegalArgumentException("File name not provided!");
     } else {
-      String configFilePath = args[0];
-      Game game = new GameImpl(configFilePath);
+//      String configFilePath = args[0];
+      Game game = new GameImpl("./res/Milestone-1 Config File.txt");
       game.moveTarget();
       game.moveTarget();
-      System.out.println(game.getTargetPosition());
+      System.out.println("Target Position: \n" + game.getTargetPosition());
 
-      String str = game.getInfoOf("Lilac Room");
+      String space1 = "Avengers Mansion";
+      String str = game.getInfoOf(space1);
       System.out.println("The details the space: \n" + str);
 
-      Set<String> neighbours = game.getNeighboursOf("Foyer");
-      System.out.println("The neighbours: \n" + neighbours.toString());
+      String space2 = "Titan";
+      Set<String> neighbours = game.getNeighboursOf(space2);
+      System.out.println("The neighbours of" + space2 + "\n" + neighbours.toString() );
 
       WritableRenderedImage img = game.createGraphicalRepresentation();
-      File file = new File("World.png");
+      File file = new File("./res/World.png");
       ImageIO.write(img, "png", file);
     }
   }
