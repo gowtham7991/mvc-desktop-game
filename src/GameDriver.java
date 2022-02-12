@@ -16,11 +16,11 @@ public class GameDriver {
    * @throws IOException - if the file is unreadable
    */
   public static void main(String[] args) throws IOException {
-    if (args.length == 0) {
+    if (args.length != 0) {
       throw new IllegalArgumentException("File name not provided!");
     } else {
-      String configFilePath = args[0];
-      Game game = new GameImpl(configFilePath);
+      //String configFilePath = args[0];
+      Game game = new GameImpl("./res/ConfigFile.txt");
       game.moveTarget();
       game.moveTarget();
       System.out.println("Target Position: \n" + game.getTargetPosition());

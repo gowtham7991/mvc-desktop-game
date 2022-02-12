@@ -100,7 +100,7 @@ public class WorldImpl implements World {
 
   @Override
   public WritableRenderedImage getBufferedImage() {
-    int imgScaleFactor = 20;
+    int imgScaleFactor = 17;
     int layoutScaleFactor = 15;
 
     int width = noOfColumns * imgScaleFactor;
@@ -112,6 +112,8 @@ public class WorldImpl implements World {
     g.setColor(Color.white);
     g.fillRect(0, 0, width, height);
     g.setColor(Color.black);
+    g.setFont(new Font("TimesRoman", Font.PLAIN, 14));
+    g.drawString(name, width / 2 - 50, 10);
 
     int spacesStartIdx = 3;
     int spacesEndIdx = spacesStartIdx + noOfSpaces;
