@@ -1,0 +1,49 @@
+30 40 Marvel Multiverse
+100 Thanos
+22
+8 32 21 35 Hydra
+27 1 28 39 Asgard
+11 23 18 31 Avengers Mansion
+16 19 26 21 Bifrsot
+7 8 10 11 Ego's Planet
+8 23 10 31 Kamartaj
+5 23 7 25 London
+22 23 24 26 Midtown School
+7 14 10 17 Morag
+5 26 7 28 New York
+25 11 26 14 Nidavellir
+14 17 15 22 Quantum Realm
+1 1 2 39 S.H.E.I.L.D Headquarters
+13 36 16 37 Sokovia
+22 27 24 31 Stark Industries
+3 19 13 21 Ta Lo
+12 2 17 8 Collector's Museum
+11 9 18 16 Titan
+5 29 7 31 Tokyo Sanctum
+19 8 22 11 Vormir
+19 23 21 31 Wakanda
+19 14 22 17 Xandar
+23
+0 8 Chitauri Scepter 
+1 6 NecroSwords
+1 19 Space Stone
+1 9 Mjolnir
+2 11 Mark 35
+3 5 Hofund
+4 3 Quad Blasters
+5 17 Time Stone
+16 14 Reality
+6 4 Cloak of Levitation
+7 7 Web Shooters
+20 7 Vibranium Sheild
+9 9 Tribunal
+10 15 Stormbreaker
+11 9 Ant man suit
+12 15 Mind
+15 13 The Ten Rings
+17 22 Infinity Gauntlet
+18 2 Sling Ring
+19 14 Soul Stone
+20 10 Panther Habit
+21 13 Power Stone
+14 3 Jericho Missile

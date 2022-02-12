@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import layout.Item;
 import layout.ItemImpl;
 import layout.Space;
@@ -63,7 +62,13 @@ public class WorldImplTest {
                                 int bottomRightCol,
                                 Map<String, Item> items
   ) {
-    return new SpaceImpl(name, index, topLeftRow, topLeftCol, bottomRightRow, bottomRightCol, items);
+    return new SpaceImpl(name,
+            index,
+            topLeftRow,
+            topLeftCol,
+            bottomRightRow,
+            bottomRightCol,
+            items);
   }
 
   @Test

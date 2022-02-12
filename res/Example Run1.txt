@@ -10,11 +10,12 @@ of the space like name, index of the space in the world, items found and its nei
 3) Tested the functionality of finding the neighbours of a space. Here, we find the neighbours of the space "Titan" and the program returns the it as a Set of spaces.
 Here, we convert the output set to string
 
-Target Position: 
+Target Position:
 2
-The details the space: 
+The details the space:
 Name : Avengers Mansion
 Index : 2
 Items : [Mark 35]
-Visible Spaces : [Avengers Mansion, Xandar, Collector's Museum]
-The neighbours ofTitan[Nidavellir, Ego's Planet, Xandar, Midtown School, Ta Lo, New York Sanctum, Vormir]
+Visible Spaces : [Avengers Mansion, Collector's Museum, New York Sanctum]
+The neighbours ofTitan
+[Nidavellir, Ego's Planet, Xandar, Midtown School, Ta Lo, Vormir]

@@ -182,20 +182,17 @@ public class WorldImpl implements World {
     String str = input.trim();
     String[] strList = str.split("\\s+", 3);
     List<Object> validatedWorldDesc = new ArrayList<>();
-    try {
-      int rows = Integer.parseInt(strList[0]);
-      int cols = Integer.parseInt(strList[1]);
-      String name = strList[2];
-      if (rows < 1 || cols < 1) {
-        throw new IllegalArgumentException("There should be at least 1 row and col in the world!");
-      }
 
-      Collections.addAll(validatedWorldDesc, rows, cols, name);
-      return validatedWorldDesc;
-
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Invalid world description!");
+    int rows = Integer.parseInt(strList[0]);
+    int cols = Integer.parseInt(strList[1]);
+    String name = strList[2];
+    if (rows < 1 || cols < 1) {
+      throw new IllegalArgumentException("There should be at least 1 row and col in the world!");
     }
+
+    Collections.addAll(validatedWorldDesc, rows, cols, name);
+    return validatedWorldDesc;
+
   }
 
   /**
@@ -210,20 +207,15 @@ public class WorldImpl implements World {
     String[] strList = str.split("\\s+", 2);
     List<Object> validatedTargetDesc = new ArrayList<>();
 
-    try {
-      int health = Integer.parseInt(strList[0]);
-      String name = strList[1];
+    int health = Integer.parseInt(strList[0]);
+    String name = strList[1];
 
-      if (health < 0) {
-        throw new IllegalArgumentException("Target health cannot be negative!");
-      }
-
-      Collections.addAll(validatedTargetDesc, health, name);
-      return validatedTargetDesc;
-
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Invalid target description!");
+    if (health < 0) {
+      throw new IllegalArgumentException("Target health cannot be negative!");
     }
+
+    Collections.addAll(validatedTargetDesc, health, name);
+    return validatedTargetDesc;
   }
 
   /**
@@ -261,21 +253,17 @@ public class WorldImpl implements World {
     for (String input : items) {
       String str = input.trim();
       String[] strList = str.split("\\s+", 3);
-      try {
-        int spaceIdx = Integer.parseInt(strList[0]);
-        int itemDamage = Integer.parseInt(strList[1]);
-        String itemName = strList[2];
-        if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
-          Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
-          sortedItems.get(spaceIdx).put(itemName, newItem);
-        } else {
-          throw new IllegalArgumentException("Invalid item description!");
-        }
-      } catch (Exception e) {
+
+      int spaceIdx = Integer.parseInt(strList[0]);
+      int itemDamage = Integer.parseInt(strList[1]);
+      String itemName = strList[2];
+      if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
+        Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
+        sortedItems.get(spaceIdx).put(itemName, newItem);
+      } else {
         throw new IllegalArgumentException("Invalid item description!");
       }
     }
-
     return sortedItems;
   }
 
@@ -290,39 +278,36 @@ public class WorldImpl implements World {
     String str = input.trim();
     String[] strList = str.split("\\s+", 5);
 
-    try {
-      int topLeftRow = Integer.parseInt(strList[0]);
-      int topLeftCol = Integer.parseInt(strList[1]);
-      int bottomRightRow = Integer.parseInt(strList[2]);
-      int bottomRightCol = Integer.parseInt(strList[3]);
-      String spaceName = strList[4];
+    int topLeftRow = Integer.parseInt(strList[0]);
+    int topLeftCol = Integer.parseInt(strList[1]);
+    int bottomRightRow = Integer.parseInt(strList[2]);
+    int bottomRightCol = Integer.parseInt(strList[3]);
+    String spaceName = strList[4];
 
-      if ( topLeftRow < 0
-              || topLeftCol < 0
-              || bottomRightRow < 0
-              || bottomRightCol < 0
-              || topLeftRow >= noOfRows
-              || topLeftCol >= noOfColumns
-              || bottomRightRow >= noOfRows
-              || bottomRightCol >= noOfColumns
-              || topLeftRow >= bottomRightRow
-              || topLeftCol >= bottomRightCol
-      ) {
-        throw new IllegalArgumentException("Invalid space description - invalid coordinates!");
-      }
-
-      Space newSpace = new SpaceImpl(spaceName,
-              spaceIndex,
-              topLeftRow,
-              topLeftCol,
-              bottomRightRow,
-              bottomRightCol,
-              itemMap
-      );
-      return newSpace;
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Invalid space description in catch");
+    if (topLeftRow < 0
+            || topLeftCol < 0
+            || bottomRightRow < 0
+            || bottomRightCol < 0
+            || topLeftRow >= noOfRows
+            || topLeftCol >= noOfColumns
+            || bottomRightRow >= noOfRows
+            || bottomRightCol >= noOfColumns
+            || topLeftRow >= bottomRightRow
+            || topLeftCol >= bottomRightCol
+    ) {
+      throw new IllegalArgumentException("Invalid space description - invalid coordinates!");
     }
+
+    Space newSpace = new SpaceImpl(spaceName,
+            spaceIndex,
+            topLeftRow,
+            topLeftCol,
+            bottomRightRow,
+            bottomRightCol,
+            itemMap
+    );
+    return newSpace;
+
   }
 
   /**
@@ -334,8 +319,8 @@ public class WorldImpl implements World {
 
     int[][] grid = new int[noOfRows][noOfColumns];
 
-    for(int i = 0; i < noOfRows; i++) {
-      for (int j = 0; j < noOfColumns; j++){
+    for (int i = 0; i < noOfRows; i++) {
+      for (int j = 0; j < noOfColumns; j++) {
         grid[i][j] = -1;
       }
     }
