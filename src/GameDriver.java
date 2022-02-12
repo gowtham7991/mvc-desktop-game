@@ -32,7 +32,7 @@ public class GameDriver {
       System.out.println("The neighbours: \n" + neighbours.toString());
 
       WritableRenderedImage img = game.createGraphicalRepresentation();
-      File file = new File("./res/World.png");
+      File file = new File("World.png");
       ImageIO.write(img, "png", file);
     }
   }
