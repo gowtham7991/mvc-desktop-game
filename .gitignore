@@ -12,7 +12,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -223,3 +222,4 @@ $RECYCLE.BIN/
 
 .idea
 *.iml
+META-INF
