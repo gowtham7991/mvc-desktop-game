@@ -1,8 +1,6 @@
-package layout;
+package model.layout;
 
 import java.awt.image.WritableRenderedImage;
-import java.io.BufferedReader;
-import java.util.List;
 import java.util.Set;
 
 /**

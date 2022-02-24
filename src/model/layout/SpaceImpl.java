@@ -1,5 +1,6 @@
-package layout;
+package model.layout;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -35,6 +36,23 @@ public class SpaceImpl implements Space {
                    int bottomRightRow,
                    int bottomRightCol,
                    Map<String, Item> itemMap) {
+
+    if ("".equals(name) || name == null) {
+      throw new IllegalArgumentException("Invalid space name!");
+    }
+    if (index < 0
+            || topLeftRow < 0
+            || topLeftCol < 0
+            || bottomRightRow < 0
+            || bottomRightCol < 0
+            || topLeftRow >= bottomRightRow
+            || topLeftCol >= bottomRightCol) {
+      throw new IllegalArgumentException("Invalid space coordinates!");
+    }
+    if (items == null) {
+      throw new IllegalArgumentException("Invalid item map!");
+    }
+
     this.name = name;
     this.index = index;
     this.topLeftRow = topLeftRow;
@@ -56,7 +74,11 @@ public class SpaceImpl implements Space {
 
   @Override
   public Set<String> getItems() {
-    return items.keySet();
+    Set<String> set = new HashSet<>();
+    for (String str : items.keySet()) {
+      set.add(str);
+    }
+    return set;
   }
 
   @Override
@@ -93,7 +115,7 @@ public class SpaceImpl implements Space {
             && topLeftCol == s2.topLeftCol
             && bottomRightRow == s2.bottomRightRow
             && bottomRightCol == bottomRightCol
-            && name == s2.name;
+            && name.equals(s2.name);
   }
 
   @Override

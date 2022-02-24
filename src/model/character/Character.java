@@ -1,4 +1,4 @@
-package character;
+package model.character;
 
 /**
  * This class represent a character. Operations related a character

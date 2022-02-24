@@ -1,4 +1,4 @@
-package layout;
+package model.layout;
 
 import java.util.Objects;
 
@@ -21,6 +21,9 @@ public class ItemImpl implements Item {
    * @param location the space index of where the item can be found
    */
   public ItemImpl(String name, int damage, int location) {
+    if (name == null || "".equals(name) || damage < 0 || location < 0) {
+      throw new IllegalArgumentException("Invalid item description!");
+    }
     this.name = name;
     this.damage = damage;
     this.location = location;
@@ -53,6 +56,6 @@ public class ItemImpl implements Item {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, damage);
+    return Objects.hash(name, damage, location);
   }
 }

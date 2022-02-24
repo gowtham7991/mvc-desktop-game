@@ -1,4 +1,4 @@
-package layout;
+package model.layout;
 
 /**
  * The items present in a space. Every item has a name, the damage it can cause and location.

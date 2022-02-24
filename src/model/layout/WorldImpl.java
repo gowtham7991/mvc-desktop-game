@@ -1,7 +1,8 @@
-package layout;
+package model.layout;
 
-import character.Character;
-import character.Target;
+import model.character.Target;
+import model.character.Character;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -49,6 +50,25 @@ public class WorldImpl implements World {
                    List<String> spaces,
                    List<String> items) {
 
+    if ("".equals(worldDescription) || worldDescription == null ) {
+      throw new IllegalArgumentException("Invalid World description!");
+    }
+    if ("".equals(targetDescription) || targetDescription == null ) {
+      throw new IllegalArgumentException("Invalid Target description!");
+    }
+    if (noOfSpaces < 1) {
+      throw new IllegalArgumentException("There has to be at least one space in the world!");
+    }
+    if (noOfItems < 0) {
+      throw new IllegalArgumentException("No of items cannot be negative!");
+    }
+    if (spaces == null || spaces.size() == 0) {
+      throw new IllegalArgumentException("No space description provided!");
+    }
+    if (items == null || items.size() == 0) {
+      throw new IllegalArgumentException("No item description provided!");
+    }
+
     this.noOfSpaces = noOfSpaces;
     this.noOfItems = noOfItems;
 
@@ -65,8 +85,7 @@ public class WorldImpl implements World {
     Map<String, Space> spaceMap = createSpaces(spaces, items);
     this.spaceMap = spaceMap;
 
-    int[][] grid = populateGrid();
-    this.grid = grid;
+    this.grid = populateGrid();
 
     Map<String, Set<String>> neighboursMap = populateNeighboursMap();
     this.neighboursMap = neighboursMap;
@@ -77,7 +96,11 @@ public class WorldImpl implements World {
     if (! neighboursMap.containsKey(name)) {
       throw new IllegalArgumentException("Could not find the Space not found in the world!");
     }
-    return neighboursMap.get(name);
+    Set<String> set = new HashSet<>();
+    for (String str : neighboursMap.get(name)) {
+      set.add(str);
+    }
+    return set;
   }
 
   @Override
@@ -286,16 +309,11 @@ public class WorldImpl implements World {
     int bottomRightCol = Integer.parseInt(strList[3]);
     String spaceName = strList[4];
 
-    if (topLeftRow < 0
-            || topLeftCol < 0
-            || bottomRightRow < 0
-            || bottomRightCol < 0
-            || topLeftRow >= noOfRows
+    if (topLeftRow >= noOfRows
             || topLeftCol >= noOfColumns
             || bottomRightRow >= noOfRows
             || bottomRightCol >= noOfColumns
-            || topLeftRow >= bottomRightRow
-            || topLeftCol >= bottomRightCol
+
     ) {
       throw new IllegalArgumentException("Invalid space description - invalid coordinates!");
     }

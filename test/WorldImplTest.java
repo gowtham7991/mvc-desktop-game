@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import layout.Item;
-import layout.ItemImpl;
-import layout.Space;
-import layout.SpaceImpl;
-import layout.World;
-import layout.WorldImpl;
-import org.junit.Before;
+import model.layout.Item;
+import model.layout.ItemImpl;
+import model.layout.Space;
+import model.layout.SpaceImpl;
+import model.layout.World;
+import model.layout.WorldImpl;
+
 import org.junit.Test;
 
 /**
@@ -23,27 +23,21 @@ import org.junit.Test;
  */
 public class WorldImplTest {
 
-  private String validWorldDescription = "30 30 MyWorld";
-  private String validTargetDescription = "50 MyTarget";
-  private int noOfSpaces  = 7;
-  private int noOfItems = 4;
-  private List<String> spaces = new ArrayList<>(List.of("0 0 4 3 Space1",
+  private final String validWorldDescription = "30 30 MyWorld";
+  private final String validTargetDescription = "50 MyTarget";
+  private final int noOfSpaces  = 7;
+  private final int noOfItems = 4;
+  private final List<String> spaces = new ArrayList<>(List.of("0 0 4 3 Space1",
           "0 4 1 14 Space2",
           "2 4 6 7 Space3",
           "2 8 11 9 Space4",
           "2 10 19 11 Space5",
           "5 2 12 3 Space6",
           "13 0 14 9 Space7"));
-
-  private List<String> items = new ArrayList<>(List.of("0 10 Item1",
+  private final List<String> items = new ArrayList<>(List.of("0 10 Item1",
           "1 20 Item2",
           "2 30 Item3",
           "3 40 Item4"));
-
-  @Before
-  public void setUp() {
-
-  }
 
   private World createWorld(String worldDesc,
                             String targetDesc,

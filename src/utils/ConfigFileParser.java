@@ -17,11 +17,11 @@ public class ConfigFileParser {
   private List<String> spaces;
   private List<String> items;
 
-  public ConfigFileParser(String configFilePath) throws FileNotFoundException {
-    parseFile(configFilePath);
+  public ConfigFileParser(Scanner scan) {
+    parseFile(scan);
   }
 
-  private void parseFile(String configFilePath) throws FileNotFoundException {
+  private void parseFile(Scanner sc) {
     String worldDescription = "";
     String targetDescription = "";
     int noOfSpaces = -1;
@@ -29,8 +29,6 @@ public class ConfigFileParser {
     List<String> spaces = new ArrayList<>();
     List<String> items = new ArrayList<>();
 
-    File configFile = new File(configFilePath);
-    Scanner sc = new Scanner(configFile);
     int lineNo = 1;
 
     // extracts world desc, target desc, noOfSpaces
@@ -103,10 +101,18 @@ public class ConfigFileParser {
   }
 
   public List<String> getSpaces() {
-    return spaces;
+    List<String> list = new ArrayList<>();
+    for(String str : spaces) {
+      list.add(str);
+    }
+    return list;
   }
 
   public List<String> getItems() {
-    return items;
+    List<String> list = new ArrayList<>();
+    for(String str : items) {
+      list.add(str);
+    }
+    return list;
   }
 }

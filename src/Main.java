@@ -1,0 +1,31 @@
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import controller.GameConsoleController;
+import controller.GameController;
+import model.game.Model;
+import model.game.ModelImpl;
+
+public class Main {
+  public static void main(String[] args) {
+    if (args.length == 0) {
+      throw new IllegalArgumentException("File name not provided!");
+    }
+    else {
+      try {
+        String configFilePath = args[0];
+        Readable file = new FileReader(configFilePath);
+        Readable in = new InputStreamReader(System.in);
+        Model model = new ModelImpl(file);
+        GameController controller = new GameConsoleController(in, System.out);
+      }
+      catch (IOException ioe) {
+        throw new IllegalArgumentException("File not found!");
+      }
+
+    }
+
+
+  }
+}

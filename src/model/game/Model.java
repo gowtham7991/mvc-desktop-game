@@ -1,4 +1,4 @@
-package game;
+package model.game;
 
 import java.awt.image.WritableRenderedImage;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * An interface representing one of the possibilities of a World for the Game.
  */
-public interface Game {
+public interface Model {
   /**
    * Returns the graphical representation of the world with spaces.
    *

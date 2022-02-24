@@ -1,4 +1,4 @@
-package character;
+package model.character;
 
 /**
  * This is an abstract class of Character which has operations to move and get position.

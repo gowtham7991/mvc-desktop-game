@@ -1,6 +1,4 @@
-package character;
-
-import character.AbstractCharacter;
+package model.character;
 
 /**
  * This class represents a target character.
@@ -19,6 +17,13 @@ public class Target extends AbstractCharacter {
    * @param position the current position
    */
   public Target(int health, String name, int position) {
+    if (name == null || "".equals(name)) {
+      throw new IllegalArgumentException("Invalid target name!");
+    }
+    if (health < 0 || position < 0) {
+      throw new IllegalArgumentException("Invalid target details!");
+    }
+    
     this.name = name;
     this.health = health;
     this.position = position;
