@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import controller.GameController;
 import model.game.Model;
 
-public class CreateLayout implements Command {
+public class CreateLayout implements GameController.Command {
   private final Scanner scan;
   private final Appendable out;
 

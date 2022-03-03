@@ -97,4 +97,8 @@ public interface Model {
   String getItemsInCurrentSpace();
 
   String getPlayers();
+
+  String getName();
+
+  int getTotalNumberOfPlayers();
 }

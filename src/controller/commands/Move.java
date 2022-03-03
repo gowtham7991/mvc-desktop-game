@@ -3,9 +3,10 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
+import controller.GameController;
 import model.game.Model;
 
-public class Move implements Command {
+public class Move implements GameController.Command {
   private final Scanner scan;
   private final Appendable out;
 

@@ -6,7 +6,7 @@ import controller.GameConsoleController;
 import controller.GameController;
 import model.game.Model;
 import model.game.ModelImpl;
-import model.layout.RandomGeneratorImpl;
+import utils.RandomGeneratorImpl;
 
 public class Main {
   public static void main(String[] args) {

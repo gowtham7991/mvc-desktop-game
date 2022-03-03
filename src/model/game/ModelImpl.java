@@ -1,19 +1,9 @@
 package model.game;
 
 import java.awt.image.WritableRenderedImage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
 
-import model.characters.Player;
-import model.characters.PlayerImpl;
-import model.characters.PlayerType;
-import model.characters.PlayersIndex;
-import model.layout.Item;
-import model.layout.RandomGenerator;
-import model.layout.RandomGeneratorImpl;
+import utils.RandomGenerator;
 import model.layout.World;
 import model.layout.WorldImpl;
 import utils.ConfigFileParser;
@@ -114,6 +104,16 @@ public class ModelImpl implements Model {
   @Override
   public String getPlayers() {
     return world.getPlayers();
+  }
+
+  @Override
+  public String getName() {
+    return world.getName();
+  }
+
+  @Override
+  public int getTotalNumberOfPlayers() {
+    return world.getTotalNumberOfPlayers();
   }
 
   @Override

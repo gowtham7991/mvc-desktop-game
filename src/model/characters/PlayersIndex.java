@@ -31,7 +31,7 @@ public class PlayersIndex {
   public Set<String> getPlayersInSpace(String name) {
     Set<String> set = new HashSet<>();
     for (Player p: players.values()) {
-      if (p.getPosition() == name) {
+      if (name.equals(p.getPosition())) {
         set.add(p.getName());
       }
     }
@@ -43,7 +43,14 @@ public class PlayersIndex {
     StringBuilder sr = new StringBuilder();
 
     for (int id : players.keySet()) {
-      sr.append("Player").append(id).append(" : ").append(players.get(id).getName());
+      Player p = players.get(id);
+      sr.append("Player")
+              .append(id)
+              .append(" : ")
+              .append(p.getName())
+              .append("\n")
+              .append("Type - ").append(p.getPlayerType().toString()).append("\n")
+              .append("Location - ").append(p.getPosition()).append("\n\n");
     }
     sr.append("\n");
     return sr.toString();

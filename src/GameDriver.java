@@ -1,14 +1,9 @@
-import jdk.swing.interop.SwingInterOpUtils;
 import model.game.Model;
 import model.game.ModelImpl;
-import model.layout.RandomGeneratorImpl;
+import utils.RandomGeneratorImpl;
 
-import java.awt.image.WritableRenderedImage;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Set;
-import javax.imageio.ImageIO;
 
 /**
  * Driver class which acts as intermediate controller to access the model.

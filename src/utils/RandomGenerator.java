@@ -1,4 +1,4 @@
-package model.layout;
+package utils;
 
 public interface RandomGenerator {
 

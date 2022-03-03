@@ -28,4 +28,5 @@ public interface Player {
   PlayerType getPlayerType();
 
   int getItemCount();
+
 }

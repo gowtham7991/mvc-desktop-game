@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 
-import controller.commands.Command;
 import controller.commands.CreateLayout;
 import controller.commands.DisplayPlayerDescription;
 import controller.commands.GetInfoOfSpace;
@@ -20,12 +19,14 @@ public class GameConsoleController implements GameController{
   private final Scanner scan;
   private final Appendable out;
   private final int turns;
+  private int noOfTurns;
   private Map<String, BiFunction<Scanner, Appendable, Command>> availableCommands = new HashMap<>();
 
   public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
     this.scan = new Scanner(in);
     this.out = out;
     this.turns = turnsPerGame;
+    this.noOfTurns = 0;
   }
 
   @Override
@@ -36,7 +37,6 @@ public class GameConsoleController implements GameController{
 
     try {
       // Add commands in the available commands
-
       availableCommands.put("lookaround", (s, out) -> new LookAround(s, out));
       availableCommands.put("layout", (s, out) -> new CreateLayout(s, out));
       availableCommands.put("getinfo", (s, out) -> new GetInfoOfSpace(s, out));
@@ -45,7 +45,8 @@ public class GameConsoleController implements GameController{
       availableCommands.put("pickup", (s, out) -> new PickUpItem(s, out));
 
       boolean isGameStarted = false;
-
+      out.append("\n");
+      out.append("### Welcome to ").append(m.getName()).append(" ###").append("\n\n");
       out.append("### Add Players ###\n");
 
       while (!isGameStarted) {
@@ -106,18 +107,20 @@ public class GameConsoleController implements GameController{
       out.append("move - Move to the neighbouring space\n");
       out.append("pickup - Pickup an item from the current space\n\n");
 
-      while (true) {
-        out.append(m.getTurn())
-                .append(" is in turn. Select a command.")
-                .append("\n");
+      while (noOfTurns < turns) {
+        out.append(m.getTurn());
         Command c;
         String in = scan.nextLine();
+
         BiFunction<Scanner, Appendable, Command> cmd = availableCommands.getOrDefault(in, null);
         if (cmd == null) {
           out.append("Invalid command. Retry!\n");
         } else {
           c = cmd.apply(scan, out);
           c.execute(m);
+          if ("move".equals(in) || "lookaround".equals(in) || "pickup".equals(in)) {
+            noOfTurns += 1;
+          }
         }
       }
     }

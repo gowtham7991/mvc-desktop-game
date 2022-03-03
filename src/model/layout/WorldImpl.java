@@ -265,14 +265,22 @@ public class WorldImpl implements World {
 
   @Override
   public String getTurn() {
+    StringBuilder sr = new StringBuilder();
+
     Player player = players.getPlayerObj(playerInTurn);
     while (player.getPlayerType() == PlayerType.COMPUTER) {
-      controlComputerControlledPlayer();
+      sr.append(player.getName())
+              .append(" is in turn. Select a command.")
+              .append("\n");
+      String str = controlComputerControlledPlayer();
+      sr.append(str).append("\n");
       playerInTurn = (playerInTurn + 1) % noOfPlayers;
       player = players.getPlayerObj(playerInTurn);
     }
-
-    return players.getPlayerObj(playerInTurn).getName();
+    sr.append(player.getName())
+            .append(" is in turn. Select a command.")
+            .append("\n");
+    return sr.toString();
   }
 
   @Override
@@ -287,11 +295,10 @@ public class WorldImpl implements World {
     sr.append("Neighbours : \n");
     for (String n : neighbours) {
       sr.append(n).append("\n");
-      Set<String> items = spaceMap.get(currentSpace).getItems();
+      Set<String> items = spaceMap.get(n).getItems();
       sr.append("Items available : ").append(items.toString()).append("\n");
       sr.append("\n");
     }
-    sr.append("\n");
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
     return sr.toString();
@@ -312,13 +319,14 @@ public class WorldImpl implements World {
       if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
         Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
         players.getPlayerObj(playerInTurn).pickUpItem(item);
-        playerInTurn = (playerInTurn + 1) % noOfPlayers;
 
         sr.append(players.getPlayerObj(playerInTurn).getName())
                 .append(" picked up ")
                 .append(itemName)
                 .append(" from ")
-                .append(playerCurrentSpace);
+                .append(playerCurrentSpace)
+                .append("\n");
+        playerInTurn = (playerInTurn + 1) % noOfPlayers;
         return sr.toString();
       }
       else {
@@ -331,7 +339,7 @@ public class WorldImpl implements World {
   @Override
   public String getNeighboursOfPlayerCurrentSpace() {
     String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
-    String result = getNeighboursOf(playerCurrentSpace);
+    String result = String.format("%s\n", getNeighboursOf(playerCurrentSpace));
     return result;
   }
 
@@ -347,23 +355,52 @@ public class WorldImpl implements World {
     return players.toString();
   }
 
+  @Override
+  public int getTotalNumberOfPlayers() {
+    return noOfPlayers;
+  }
+
   private String controlComputerControlledPlayer() {
     Player player = players.getPlayerObj(playerInTurn);
     Random rnd = new Random();
-
     List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
-    int randomCmdIdx = rnd.nextInt(commands.size());
-    String selectedCommand = commands.get(randomCmdIdx);
+    boolean isValidCommand = false;
+    String response = "";
+    while (!isValidCommand) {
+      int randomCmdIdx = rnd.nextInt(commands.size());
+      String selectedCommand = commands.get(randomCmdIdx);
 
-    if ("move".equals(selectedCommand)) {
-      return handleMoveComputerPlayer(player);
-    } else if ("lookAround".equals(selectedCommand)) {
-      return handleLookAroundComputerPlayer(player);
-    } else if ("pickUpItem".equals(selectedCommand)) {
-      return handlePickUpItemComputerPlayer(player);
+      if ("move".equals(selectedCommand)) {
+        try {
+          response = handleMoveComputerPlayer(player);
+          isValidCommand = true;
+        }
+        catch (IllegalArgumentException e) {
+          isValidCommand = false;
+        }
+      }
+      else if ("lookAround".equals(selectedCommand)) {
+        try {
+          response =  handleLookAroundComputerPlayer(player);
+          isValidCommand = true;
+        }
+        catch (IllegalArgumentException e) {
+          isValidCommand = false;
+        }
+      }
+      else if ("pickUpItem".equals(selectedCommand)) {
+        try {
+          response = handlePickUpItemComputerPlayer(player);
+          isValidCommand = true;
+        }
+        catch (IllegalArgumentException e) {
+          isValidCommand = false;
+        }
+
+      }
     }
 
-    return "Error in executing computer player!";
+    return response;
   }
 
   private String handleMoveComputerPlayer(Player p) {
@@ -373,8 +410,7 @@ public class WorldImpl implements World {
     String[] neighbours = neighbourSet.toArray(new String[neighbourSet.size()]);
     int randomNeighbourIdx = rnd.nextInt(neighbours.length);
     String randomNeighbour = neighbours[randomNeighbourIdx];
-    move(randomNeighbour);
-    return "";
+    return move(randomNeighbour);
   }
 
   private String handlePickUpItemComputerPlayer(Player p) {
@@ -384,8 +420,7 @@ public class WorldImpl implements World {
 
     int randomItemIdx = rnd.nextInt(items.size());
     String randomItem = findNthElementOfSet(items, randomItemIdx);
-    pickUpItem(randomItem);
-    return "";
+    return pickUpItem(randomItem);
   }
 
   private String handleLookAroundComputerPlayer(Player p) {
@@ -402,6 +437,7 @@ public class WorldImpl implements World {
     }
     return null;
   }
+
   /**
    * Helper method which validates the given description of the world
    * and returns rows, cols and name of the world.
@@ -501,15 +537,17 @@ public class WorldImpl implements World {
         String itemName = strList[2];
         if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
           Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
+
           sortedItems.get(spaceIdx).put(itemName, newItem);
         } else {
           throw new IllegalArgumentException("Invalid item description!");
         }
       }
       catch (ArrayIndexOutOfBoundsException e) {
-        throw new IllegalArgumentException("Invalid item description!");
+        throw new IllegalArgumentException("Invalid item location!");
       }
     }
+
     return sortedItems;
   }
 

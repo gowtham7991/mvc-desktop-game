@@ -126,4 +126,6 @@ public interface World {
   String getItemsInCurrentSpace();
 
   String getPlayers();
+
+  int getTotalNumberOfPlayers();
 }
