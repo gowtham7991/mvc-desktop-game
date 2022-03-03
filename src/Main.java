@@ -6,6 +6,7 @@ import controller.GameConsoleController;
 import controller.GameController;
 import model.game.Model;
 import model.game.ModelImpl;
+import model.layout.RandomGeneratorImpl;
 
 public class Main {
   public static void main(String[] args) {
@@ -15,17 +16,16 @@ public class Main {
     else {
       try {
         String configFilePath = args[0];
-        Readable file = new FileReader(configFilePath);
+        int turnsPerGame = Integer.parseInt(args[1]);
+        Readable configFile = new FileReader(configFilePath);
         Readable in = new InputStreamReader(System.in);
-        Model model = new ModelImpl(file);
-        GameController controller = new GameConsoleController(in, System.out);
+        Model model = new ModelImpl(configFile, new RandomGeneratorImpl());
+        GameController controller = new GameConsoleController(in, System.out, turnsPerGame);
+        controller.start(model);
       }
       catch (IOException ioe) {
         throw new IllegalArgumentException("File not found!");
       }
-
     }
-
-
   }
 }

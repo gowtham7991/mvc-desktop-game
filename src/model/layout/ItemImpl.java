@@ -21,8 +21,14 @@ public class ItemImpl implements Item {
    * @param location the space index of where the item can be found
    */
   public ItemImpl(String name, int damage, int location) {
-    if (name == null || "".equals(name) || damage < 0 || location < 0) {
-      throw new IllegalArgumentException("Invalid item description!");
+    if (name == null || "".equals(name)) {
+      throw new IllegalArgumentException("Invalid item name!");
+    }
+    if (damage < 0 ) {
+      throw new IllegalArgumentException("Damage for an item cannot be negative!");
+    }
+    if (location < 0) {
+      throw new IllegalArgumentException("Invalid location of the item!");
     }
     this.name = name;
     this.damage = damage;

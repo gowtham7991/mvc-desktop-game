@@ -1,10 +1,10 @@
-package model.character;
+package model.characters;
 
 /**
  * This class represent a character. Operations related a character
  * including the Target is done from here
  */
-public interface Character {
+public interface Target {
 
   /**
    * Moves the position of the character from the current position.

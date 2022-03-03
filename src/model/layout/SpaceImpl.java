@@ -37,7 +37,7 @@ public class SpaceImpl implements Space {
                    int bottomRightCol,
                    Map<String, Item> itemMap) {
 
-    if ("".equals(name) || name == null) {
+    if (name.trim().length() < 1 || name == null) {
       throw new IllegalArgumentException("Invalid space name!");
     }
     if (index < 0
@@ -49,7 +49,8 @@ public class SpaceImpl implements Space {
             || topLeftCol >= bottomRightCol) {
       throw new IllegalArgumentException("Invalid space coordinates!");
     }
-    if (items == null) {
+
+    if (itemMap == null) {
       throw new IllegalArgumentException("Invalid item map!");
     }
 
@@ -79,6 +80,18 @@ public class SpaceImpl implements Space {
       set.add(str);
     }
     return set;
+  }
+
+  @Override
+  public Item removeItem(String name) {
+    Item removedItem = items.get(name);
+    items.remove(name);
+    return removedItem;
+  }
+
+  @Override
+  public void addItem(Item item) {
+    items.put(item.getName(), item);
   }
 
   @Override

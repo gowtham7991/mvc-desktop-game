@@ -1,7 +1,11 @@
 package model.layout;
 
-import model.character.Target;
-import model.character.Character;
+import model.characters.Player;
+import model.characters.PlayerImpl;
+import model.characters.PlayerType;
+import model.characters.PlayersIndex;
+import model.characters.TargetImpl;
+import model.characters.Target;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -31,11 +36,15 @@ public class WorldImpl implements World {
   private final int noOfItems;
   private Map<String, Space> spaceMap;
   private Map<String, Set<String>> neighboursMap;
-  private final Character target;
+  private final Target target;
+  private PlayersIndex players;
+  private int noOfPlayers;
+  private int noOfComputerPlayers = 0;
+  private final int maxItemsPerPlayer;
+  private int playerInTurn;
 
   /**
    * Constructs the using the specifications of the world, target and items.
-   *
    * @param worldDescription the description of the world in the format (rows, cols, name)
    * @param targetDescription the description of the target in the format (health, name)
    * @param noOfSpaces the number of spaces in the world
@@ -62,8 +71,14 @@ public class WorldImpl implements World {
     if (noOfItems < 0) {
       throw new IllegalArgumentException("No of items cannot be negative!");
     }
+    if (noOfSpaces != spaces.size()) {
+      throw new IllegalArgumentException("Sufficient description of spaces not provided!");
+    }
     if (spaces == null || spaces.size() == 0) {
       throw new IllegalArgumentException("No space description provided!");
+    }
+    if (noOfItems != items.size()) {
+      throw new IllegalArgumentException("Sufficient description of items not provided!");
     }
     if (items == null || items.size() == 0) {
       throw new IllegalArgumentException("No item description provided!");
@@ -78,7 +93,7 @@ public class WorldImpl implements World {
     this.name = (String) validatedWorldDesc.get(2);
 
     List<Object> validatedTargetDesc = validateTargetDescription(targetDescription);
-    this.target = new Target((Integer) validatedTargetDesc.get(0),
+    this.target = new TargetImpl((Integer) validatedTargetDesc.get(0),
             (String) validatedTargetDesc.get(1),
             0);
 
@@ -89,32 +104,35 @@ public class WorldImpl implements World {
 
     Map<String, Set<String>> neighboursMap = populateNeighboursMap();
     this.neighboursMap = neighboursMap;
+
+    this.noOfPlayers = 0;
+    this.noOfComputerPlayers = 0;
+    this.playerInTurn = 0;
+    this.players = new PlayersIndex();
+    this.maxItemsPerPlayer = 10; // currently, it is a fixed value for every player
   }
 
   @Override
-  public Set<String> getNeighboursOf(String name) throws IllegalArgumentException {
+  public String getNeighboursOf(String name) throws IllegalArgumentException {
     if (! neighboursMap.containsKey(name)) {
       throw new IllegalArgumentException("Could not find the Space not found in the world!");
     }
-    Set<String> set = new HashSet<>();
-    for (String str : neighboursMap.get(name)) {
-      set.add(str);
-    }
-    return set;
+
+    return neighboursMap.get(name).toString();
   }
 
   @Override
-  public String getInfoOf(String name) {
-
+  public String getInfoOfSpace(String name) {
     if (spaceMap.containsKey(name)) {
       Space spaceObj = spaceMap.get(name);
       StringBuilder str = new StringBuilder();
 
       String spaceDetails = spaceObj.toString();
-      String neighbours = String.format("Visible Spaces : %s", neighboursMap.get(name).toString());
-
+      String neighbours = String.format("Visible Spaces : %s\n", neighboursMap.get(name).toString());
+      String playersInSpace = String.format("Players in Space : %s\n", players.getPlayersInSpace(name).toString());
       str.append(spaceDetails);
       str.append(neighbours);
+      str.append(playersInSpace);
 
       return str.toString();
     }
@@ -196,6 +214,194 @@ public class WorldImpl implements World {
     return name;
   }
 
+  @Override
+  public String addPlayer(String name, String space) {
+    if (spaceMap.containsKey(space)) {
+      StringBuilder sr = new StringBuilder();
+      Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer);
+      players.addPlayer(noOfPlayers, player);
+      noOfPlayers += 1;
+
+      sr.append(name).append(" added to ").append(space);
+      return sr.toString();
+    }
+    else {
+      throw new IllegalArgumentException("Space not found!");
+    }
+  }
+
+  @Override
+  public String addComputerPlayer() {
+    StringBuilder sr = new StringBuilder();
+    String name = "Computer".concat(Integer.toString(noOfComputerPlayers+1));
+    String space = spaceMap.keySet().iterator().next();
+    Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer);
+    players.addPlayer(noOfPlayers, player);
+    noOfPlayers += 1;
+    noOfComputerPlayers += 1;
+
+    sr.append(name).append(" added to ").append(space);
+    return sr.toString();
+  }
+
+  @Override
+  public String move(String space) {
+    StringBuilder sr = new StringBuilder();
+    players.getPlayerObj(playerInTurn).moveTo(space);
+    sr.append(players.getPlayerObj(playerInTurn).getName())
+            .append(" moved to ")
+            .append(space)
+            .append("\n");
+    sr.append("Neighbours : ")
+            .append(getNeighboursOf(space))
+            .append("\n");
+    sr.append("Items available : ")
+            .append(spaceMap.get(space).getItems().toString())
+            .append("\n");
+
+    playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    return sr.toString();
+  }
+
+  @Override
+  public String getTurn() {
+    Player player = players.getPlayerObj(playerInTurn);
+    while (player.getPlayerType() == PlayerType.COMPUTER) {
+      controlComputerControlledPlayer();
+      playerInTurn = (playerInTurn + 1) % noOfPlayers;
+      player = players.getPlayerObj(playerInTurn);
+    }
+
+    return players.getPlayerObj(playerInTurn).getName();
+  }
+
+  @Override
+  public String lookAround() {
+    StringBuilder sr = new StringBuilder();
+    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    Set<String> neighbours = neighboursMap.get(currentSpace);
+
+    sr.append("Current Space : ");
+    sr.append(currentSpace);
+    sr.append("\n");
+    sr.append("Neighbours : \n");
+    for (String n : neighbours) {
+      sr.append(n).append("\n");
+      Set<String> items = spaceMap.get(currentSpace).getItems();
+      sr.append("Items available : ").append(items.toString()).append("\n");
+      sr.append("\n");
+    }
+    sr.append("\n");
+
+    playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    return sr.toString();
+  }
+
+  @Override
+  public String displayPlayerDescription(String name) {
+    int playerId = players.getIdOf(name);
+    return players.getPlayerObj(playerId).toString();
+  }
+
+  @Override
+  public String pickUpItem(String itemName) {
+    if ( players.getPlayerObj(playerInTurn).getItemCount() <= maxItemsPerPlayer) {
+      StringBuilder sr = new StringBuilder();
+      String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
+
+      if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
+        Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
+        players.getPlayerObj(playerInTurn).pickUpItem(item);
+        playerInTurn = (playerInTurn + 1) % noOfPlayers;
+
+        sr.append(players.getPlayerObj(playerInTurn).getName())
+                .append(" picked up ")
+                .append(itemName)
+                .append(" from ")
+                .append(playerCurrentSpace);
+        return sr.toString();
+      }
+      else {
+        throw new IllegalArgumentException("Item not found!");
+      }
+    }
+    throw new IllegalArgumentException("Max item limit reached");
+  }
+
+  @Override
+  public String getNeighboursOfPlayerCurrentSpace() {
+    String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    String result = getNeighboursOf(playerCurrentSpace);
+    return result;
+  }
+
+  @Override
+  public String getItemsInCurrentSpace() {
+    String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    String result = spaceMap.get(playerCurrentSpace).getItems().toString();
+    return result;
+  }
+
+  @Override
+  public String getPlayers() {
+    return players.toString();
+  }
+
+  private String controlComputerControlledPlayer() {
+    Player player = players.getPlayerObj(playerInTurn);
+    Random rnd = new Random();
+
+    List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
+    int randomCmdIdx = rnd.nextInt(commands.size());
+    String selectedCommand = commands.get(randomCmdIdx);
+
+    if ("move".equals(selectedCommand)) {
+      return handleMoveComputerPlayer(player);
+    } else if ("lookAround".equals(selectedCommand)) {
+      return handleLookAroundComputerPlayer(player);
+    } else if ("pickUpItem".equals(selectedCommand)) {
+      return handlePickUpItemComputerPlayer(player);
+    }
+
+    return "Error in executing computer player!";
+  }
+
+  private String handleMoveComputerPlayer(Player p) {
+    Random rnd = new Random();
+    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    Set<String> neighbourSet = neighboursMap.get(currentSpace);
+    String[] neighbours = neighbourSet.toArray(new String[neighbourSet.size()]);
+    int randomNeighbourIdx = rnd.nextInt(neighbours.length);
+    String randomNeighbour = neighbours[randomNeighbourIdx];
+    move(randomNeighbour);
+    return "";
+  }
+
+  private String handlePickUpItemComputerPlayer(Player p) {
+    Random rnd = new Random();
+    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    Set<String> items = spaceMap.get(currentSpace).getItems();
+
+    int randomItemIdx = rnd.nextInt(items.size());
+    String randomItem = findNthElementOfSet(items, randomItemIdx);
+    pickUpItem(randomItem);
+    return "";
+  }
+
+  private String handleLookAroundComputerPlayer(Player p) {
+    return lookAround();
+  }
+
+  private String findNthElementOfSet(Set<String> set, int n) {
+    int currIdx = 0;
+    for (String str : set) {
+      if (currIdx == n) {
+        return str;
+      }
+      currIdx++;
+    }
+    return null;
+  }
   /**
    * Helper method which validates the given description of the world
    * and returns rows, cols and name of the world.
@@ -208,14 +414,19 @@ public class WorldImpl implements World {
     String[] strList = str.split("\\s+", 3);
     List<Object> validatedWorldDesc = new ArrayList<>();
 
-    int rows = Integer.parseInt(strList[0]);
-    int cols = Integer.parseInt(strList[1]);
-    String name = strList[2];
-    if (rows < 1 || cols < 1) {
-      throw new IllegalArgumentException("There should be at least 1 row and col in the world!");
-    }
+    try {
+      int rows = Integer.parseInt(strList[0]);
+      int cols = Integer.parseInt(strList[1]);
+      String name = strList[2];
+      if (rows < 1 || cols < 1) {
+        throw new IllegalArgumentException("There should be at least 1 row and col in the world!");
+      }
 
-    Collections.addAll(validatedWorldDesc, rows, cols, name);
+      Collections.addAll(validatedWorldDesc, rows, cols, name);
+    }
+    catch (ArrayIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Invalid world description!");
+    }
     return validatedWorldDesc;
 
   }
@@ -232,14 +443,19 @@ public class WorldImpl implements World {
     String[] strList = str.split("\\s+", 2);
     List<Object> validatedTargetDesc = new ArrayList<>();
 
-    int health = Integer.parseInt(strList[0]);
-    String name = strList[1];
+    try {
+      int health = Integer.parseInt(strList[0]);
+      String name = strList[1];
 
-    if (health < 0) {
-      throw new IllegalArgumentException("Target health cannot be negative!");
+      if (health < 0) {
+        throw new IllegalArgumentException("Target health cannot be negative!");
+      }
+
+      Collections.addAll(validatedTargetDesc, health, name);
     }
-
-    Collections.addAll(validatedTargetDesc, health, name);
+    catch (ArrayIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Invalid target description!");
+    }
     return validatedTargetDesc;
   }
 
@@ -248,6 +464,7 @@ public class WorldImpl implements World {
    */
   private Map<String, Space> createSpaces(List<String> spaces, List<String> items)
           throws IllegalArgumentException {
+
     Map<String, Space> spaceMap = new TreeMap<>(); // retains the insertion order
     List<Map<String, Item>> sortedItemList = sortItemsBasedOnSpaceIndex(items);
 
@@ -278,14 +495,18 @@ public class WorldImpl implements World {
     for (String input : items) {
       String str = input.trim();
       String[] strList = str.split("\\s+", 3);
-
-      int spaceIdx = Integer.parseInt(strList[0]);
-      int itemDamage = Integer.parseInt(strList[1]);
-      String itemName = strList[2];
-      if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
-        Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
-        sortedItems.get(spaceIdx).put(itemName, newItem);
-      } else {
+      try {
+        int spaceIdx = Integer.parseInt(strList[0]);
+        int itemDamage = Integer.parseInt(strList[1]);
+        String itemName = strList[2];
+        if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
+          Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
+          sortedItems.get(spaceIdx).put(itemName, newItem);
+        } else {
+          throw new IllegalArgumentException("Invalid item description!");
+        }
+      }
+      catch (ArrayIndexOutOfBoundsException e) {
         throw new IllegalArgumentException("Invalid item description!");
       }
     }

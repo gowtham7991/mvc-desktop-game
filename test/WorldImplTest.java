@@ -27,6 +27,7 @@ public class WorldImplTest {
   private final String validTargetDescription = "50 MyTarget";
   private final int noOfSpaces  = 7;
   private final int noOfItems = 4;
+  private final int maxTurnsPerGame = 50;
   private final List<String> spaces = new ArrayList<>(List.of("0 0 4 3 Space1",
           "0 4 1 14 Space2",
           "2 4 6 7 Space3",
@@ -309,9 +310,9 @@ public class WorldImplTest {
 
   @Test
   public void getNeighboursOf() {
-    HashSet<String> expected1 = new HashSet<>(List.of("Space2, Space3, Space6"));
-    HashSet<String> expected2 = new HashSet<>(List.of("Space1", "Space4", "Space5", "Space3"));
-    HashSet<String> expected3 = new HashSet<>(List.of("Space1", "Space4", "Space2", "Space6"));
+    String expected1 = "[Space2, Space3, Space6]";
+    String expected2 = "[Space1, Space4, Space5, Space3]";
+    String expected3 = "[Space1, Space4, Space2, Space6]";
 
     World myWorld = createWorld(validWorldDescription,
             validTargetDescription,
@@ -319,7 +320,7 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    assertEquals(expected1.toString(), myWorld.getNeighboursOf("Space1").toString());
+    assertEquals(expected1, myWorld.getNeighboursOf("Space1"));
     assertEquals(expected2, myWorld.getNeighboursOf("Space2"));
     assertEquals(expected3, myWorld.getNeighboursOf("Space3"));
   }
@@ -333,11 +334,11 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    String required = myWorld.getInfoOf("Space10");
+    String required = myWorld.getInfoOfSpace("Space10");
   }
 
   @Test
-  public void getInfoOf() {
+  public void getInfoOfSpace() {
     StringBuilder str = new StringBuilder();
 
     str.append("Name : Space1\n");
@@ -352,7 +353,7 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    assertEquals(expected1, myWorld.getInfoOf("Space1"));
+    assertEquals(expected1, myWorld.getInfoOfSpace("Space1"));
   }
 
   @Test
