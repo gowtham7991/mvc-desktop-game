@@ -3,10 +3,10 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.GameController;
-import model.game.Model;
+import controller.Command;
+import model.Model;
 
-public class PickUpItem implements GameController.Command {
+public class PickUpItem implements Command {
   private final Scanner scan;
   private final Appendable out;
 
@@ -29,6 +29,7 @@ public class PickUpItem implements GameController.Command {
 
       while (!validExec) {
         try {
+          out.append("Available items : ");
           out.append(m.getItemsInCurrentSpace()).append("\n");
           out.append("Enter the item name: \n");
           itemName = scan.nextLine();

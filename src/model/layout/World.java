@@ -72,7 +72,7 @@ public interface World {
    * @param space the starting position of the player in space
    * @throws IllegalArgumentException if space is not present in the world
    */
-  String addPlayer(String name, String space);
+  String addPlayer(String name, String space, int limit);
 
 
   /**

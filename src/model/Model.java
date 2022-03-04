@@ -1,7 +1,6 @@
-package model.game;
+package model;
 
 import java.awt.image.WritableRenderedImage;
-import java.util.Set;
 
 /**
  * An interface representing one of the possibilities of a World for the Game.
@@ -34,25 +33,12 @@ public interface Model {
   String getNeighboursOf(String name);
 
   /**
-   * Moves the target character to the next possible space based on the index.
-   * Returns to the 0 index if the target is at last possible space.
-   */
-  void moveTarget();
-
-  /**
-   * Return the current position of the target.
-   *
-   * @return the position of the target
-   */
-  int getTargetPosition();
-
-  /**
    * Adds a manually controlled player to the game to the specified space.
    * @param name the name of the player
    * @param space the starting position of the player in space
    * @throws IllegalArgumentException if space is not present in the world
    */
-  String addPlayer(String name, String space);
+  String addPlayer(String name, String space, int limit);
 
   /**
    * Add a computer player with the default name of Computer(id of player).

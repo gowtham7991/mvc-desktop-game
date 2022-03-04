@@ -6,11 +6,12 @@ import java.util.Scanner;
 import controller.Command;
 import model.Model;
 
-public class Move implements Command {
+public class AddComputerPlayer implements Command {
   private final Scanner scan;
   private final Appendable out;
 
-  public Move(Scanner scan, Appendable out) {
+
+  public AddComputerPlayer (Scanner scan, Appendable out) {
     if ( scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
@@ -20,25 +21,19 @@ public class Move implements Command {
 
   @Override
   public void execute(Model m) {
-
     try {
-      String spaceName = null;
       String cmdResponse;
       boolean validExec = false;
       while (!validExec) {
         try {
-          out.append(m.getNeighboursOfPlayerCurrentSpace()).append("\n");
-          out.append("Enter the Space you wish to enter: \n");
-          spaceName = scan.nextLine();
-          cmdResponse = m.move(spaceName);
-          out.append(cmdResponse);
+          cmdResponse = m.addComputerPlayer();
+          out.append(cmdResponse).append("\n");
           validExec = true;
         }
         catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");
         }
       }
-
     }
     catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");

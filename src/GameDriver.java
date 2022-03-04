@@ -1,5 +1,5 @@
-import model.game.Model;
-import model.game.ModelImpl;
+import model.Model;
+import model.ModelImpl;
 import utils.RandomGeneratorImpl;
 
 import java.io.FileReader;
@@ -22,7 +22,7 @@ public class GameDriver {
 //          int turnsPerGame = Integer.parseInt(args[1]);
           Readable configFile = new FileReader("res/mansion.txt");
           Model game = new ModelImpl(configFile, new RandomGeneratorImpl());
-          game.addPlayer("Player1", "Drawing Room");
+          game.addPlayer("Player1", "Drawing Room", 4);
           game.pickUpItem("Letter Opener");
           System.out.println(game.displayPlayerDescription("Player1"));
 //          game.addPlayer("player1", "Drawing Room");

@@ -40,7 +40,6 @@ public class WorldImpl implements World {
   private PlayersIndex players;
   private int noOfPlayers;
   private int noOfComputerPlayers = 0;
-  private final int maxItemsPerPlayer;
   private int playerInTurn;
 
   /**
@@ -109,7 +108,6 @@ public class WorldImpl implements World {
     this.noOfComputerPlayers = 0;
     this.playerInTurn = 0;
     this.players = new PlayersIndex();
-    this.maxItemsPerPlayer = 10; // currently, it is a fixed value for every player
   }
 
   @Override
@@ -215,7 +213,7 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public String addPlayer(String name, String space) {
+  public String addPlayer(String name, String space, int maxItemsPerPlayer) {
     if (spaceMap.containsKey(space)) {
       StringBuilder sr = new StringBuilder();
       Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer);
@@ -230,11 +228,13 @@ public class WorldImpl implements World {
     }
   }
 
+  // Computer player is given a limit of 5 items
   @Override
   public String addComputerPlayer() {
     StringBuilder sr = new StringBuilder();
     String name = "Computer".concat(Integer.toString(noOfComputerPlayers+1));
     String space = spaceMap.keySet().iterator().next();
+    int maxItemsPerPlayer = 5;
     Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer);
     players.addPlayer(noOfPlayers, player);
     noOfPlayers += 1;
@@ -247,8 +247,12 @@ public class WorldImpl implements World {
   @Override
   public String move(String space) {
     StringBuilder sr = new StringBuilder();
-    players.getPlayerObj(playerInTurn).moveTo(space);
-    sr.append(players.getPlayerObj(playerInTurn).getName())
+    Player p =  players.getPlayerObj(playerInTurn);
+    if (p.getPosition().equals(space)) {
+      throw new IllegalArgumentException("You are currently in this space!");
+    }
+    p.moveTo(space);
+    sr.append(p.getName())
             .append(" moved to ")
             .append(space)
             .append("\n");
@@ -260,6 +264,7 @@ public class WorldImpl implements World {
             .append("\n");
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    moveTarget();
     return sr.toString();
   }
 
@@ -269,7 +274,10 @@ public class WorldImpl implements World {
 
     Player player = players.getPlayerObj(playerInTurn);
     while (player.getPlayerType() == PlayerType.COMPUTER) {
-      sr.append(player.getName())
+      sr.append("Player")
+              .append(playerInTurn)
+              .append(" - ")
+              .append(player.getName())
               .append(" is in turn. Select a command.")
               .append("\n");
       String str = controlComputerControlledPlayer();
@@ -277,7 +285,10 @@ public class WorldImpl implements World {
       playerInTurn = (playerInTurn + 1) % noOfPlayers;
       player = players.getPlayerObj(playerInTurn);
     }
-    sr.append(player.getName())
+    sr.append("Player")
+            .append(playerInTurn)
+            .append(" - ")
+            .append(player.getName())
             .append(" is in turn. Select a command.")
             .append("\n");
     return sr.toString();
@@ -301,6 +312,7 @@ public class WorldImpl implements World {
     }
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    moveTarget();
     return sr.toString();
   }
 
@@ -312,28 +324,27 @@ public class WorldImpl implements World {
 
   @Override
   public String pickUpItem(String itemName) {
-    if ( players.getPlayerObj(playerInTurn).getItemCount() <= maxItemsPerPlayer) {
-      StringBuilder sr = new StringBuilder();
-      String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    Player p = players.getPlayerObj(playerInTurn);
+    StringBuilder sr = new StringBuilder();
+    String playerCurrentSpace = p.getPosition();
 
-      if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
-        Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
-        players.getPlayerObj(playerInTurn).pickUpItem(item);
+    if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
+      Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
+      p.pickUpItem(item);
 
-        sr.append(players.getPlayerObj(playerInTurn).getName())
-                .append(" picked up ")
-                .append(itemName)
-                .append(" from ")
-                .append(playerCurrentSpace)
-                .append("\n");
-        playerInTurn = (playerInTurn + 1) % noOfPlayers;
-        return sr.toString();
-      }
-      else {
-        throw new IllegalArgumentException("Item not found!");
-      }
+      sr.append(p.getName())
+              .append(" picked up ")
+              .append(itemName)
+              .append(" from ")
+              .append(playerCurrentSpace)
+              .append("\n");
+      playerInTurn = (playerInTurn + 1) % noOfPlayers;
+      moveTarget();
+      return sr.toString();
     }
-    throw new IllegalArgumentException("Max item limit reached");
+    else {
+      throw new IllegalArgumentException("Item not found!");
+    }
   }
 
   @Override

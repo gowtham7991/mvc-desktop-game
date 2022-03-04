@@ -5,17 +5,25 @@ import java.util.Random;
 public class RandomGeneratorImpl implements RandomGenerator {
 
   private final Random r;
+  private int count = 0;
+  private boolean isRandom;
 
   public RandomGeneratorImpl () {
     this.r = new Random();
+    isRandom = true;
   }
 
-  public RandomGeneratorImpl (int... ran) {
+  public RandomGeneratorImpl (int... rand) {
     this.r = new Random();
+    isRandom = false;
+    count++;
   }
-
 
   public int getRandomInt() {
-    return r.nextInt(10);
+    if (isRandom) {
+      return r.nextInt();
+    }
+    count++;
+    return count;
   }
 }

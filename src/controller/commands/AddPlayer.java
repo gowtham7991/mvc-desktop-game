@@ -6,11 +6,12 @@ import java.util.Scanner;
 import controller.Command;
 import model.Model;
 
-public class Move implements Command {
+public class AddPlayer implements Command {
   private final Scanner scan;
   private final Appendable out;
 
-  public Move(Scanner scan, Appendable out) {
+
+  public AddPlayer(Scanner scan, Appendable out) {
     if ( scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
@@ -22,23 +23,39 @@ public class Move implements Command {
   public void execute(Model m) {
 
     try {
-      String spaceName = null;
+      String name;
+      String spaceName;
+      String itemLimitStr = null;
+      Integer itemLimit = null;
       String cmdResponse;
       boolean validExec = false;
       while (!validExec) {
         try {
-          out.append(m.getNeighboursOfPlayerCurrentSpace()).append("\n");
+          out.append("Enter your name: \n");
+          name = scan.nextLine();
           out.append("Enter the Space you wish to enter: \n");
           spaceName = scan.nextLine();
-          cmdResponse = m.move(spaceName);
-          out.append(cmdResponse);
+
+          while (itemLimit == null) {
+            out.append("Enter the item limit: \n");
+            itemLimitStr = scan.nextLine();
+            try {
+              itemLimit = Integer.parseInt(itemLimitStr);
+            }
+            catch (NumberFormatException e) {
+              out.append("Invalid item limit!\n");
+              itemLimit = null;
+            }
+          }
+
+          cmdResponse = m.addPlayer(name, spaceName, itemLimit);
+          out.append(cmdResponse).append("\n");
           validExec = true;
         }
         catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");
         }
       }
-
     }
     catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");

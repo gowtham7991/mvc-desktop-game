@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import controller.GameController;
-import model.game.Model;
+import controller.Command;
+import model.Model;
 
-public class CreateLayout implements GameController.Command {
+public class CreateLayout implements Command {
   private final Scanner scan;
   private final Appendable out;
 
@@ -34,7 +34,9 @@ public class CreateLayout implements GameController.Command {
           WritableRenderedImage img = m.createGraphicalRepresentation();
           File file = new File("WorldRepresentation.png");
           ImageIO.write(img, "png", file);
+          cmdResponse = "Layout created!\n";
           validExec = true;
+          out.append(cmdResponse);
         }
         catch (IllegalArgumentException e) {
           out.append("Could not create a layout!\n");

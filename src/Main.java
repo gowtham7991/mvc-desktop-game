@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 
 import controller.GameConsoleController;
 import controller.GameController;
-import model.game.Model;
-import model.game.ModelImpl;
+import model.Model;
+import model.ModelImpl;
 import utils.RandomGeneratorImpl;
 
 public class Main {

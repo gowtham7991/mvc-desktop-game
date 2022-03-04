@@ -3,10 +3,10 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.GameController;
-import model.game.Model;
+import controller.Command;
+import model.Model;
 
-public class DisplayPlayerDescription implements GameController.Command {
+public class DisplayPlayerDescription implements Command {
   private final Scanner scan;
   private final Appendable out;
 

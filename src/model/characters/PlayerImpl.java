@@ -45,6 +45,10 @@ public class PlayerImpl implements Player {
 
   @Override
   public void pickUpItem(Item item) {
+    if (noOfItems == maxItems) {
+      throw new IllegalArgumentException("Max limit reached!");
+    }
+
     itemsCarrying.add(item);
     noOfItems += 1;
   }

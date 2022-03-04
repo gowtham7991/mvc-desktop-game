@@ -50,4 +50,14 @@ public class TargetImpl implements Target{
   public int getPosition() {
     return position;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sr = new StringBuilder();
+    sr.append("Name : ").append(name).append("\n");
+    sr.append("Health : ").append(health).append("\n");
+    sr.append("Position : ").append(position).append("\n");
+
+    return sr.toString();
+  }
 }

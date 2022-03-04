@@ -1,3 +1,5 @@
+package modeltest;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,4 +21,9 @@ public class ItemImplTest {
   @Test
   public void testItemWithInvalidLocation() {}
 
+  @Test
+  public void testEquals() {}
+
+  @Test
+  public void testHashCode() {}
 }

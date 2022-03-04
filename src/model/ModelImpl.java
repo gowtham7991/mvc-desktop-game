@@ -1,4 +1,4 @@
-package model.game;
+package model;
 
 import java.awt.image.WritableRenderedImage;
 import java.util.Scanner;
@@ -51,18 +51,8 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public void moveTarget() {
-    world.moveTarget();
-  }
-
-  @Override
-  public int getTargetPosition() {
-    return world.getTargetPosition();
-  }
-
-  @Override
-  public String addPlayer(String name, String space) throws IllegalArgumentException {
-    return world.addPlayer(name, space);
+  public String addPlayer(String name, String space, int limit) throws IllegalArgumentException {
+    return world.addPlayer(name, space, limit);
   }
 
   @Override
@@ -78,7 +68,6 @@ public class ModelImpl implements Model {
   @Override
   public String getTurn() {
     return world.getTurn();
-
   }
 
   @Override
