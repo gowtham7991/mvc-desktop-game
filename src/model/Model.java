@@ -86,5 +86,5 @@ public interface Model {
 
   String getName();
 
-  int getTotalNumberOfPlayers();
+  int getTotalNumberOfHumanPlayers();
 }

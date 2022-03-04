@@ -251,6 +251,7 @@ public class WorldImpl implements World {
     if (p.getPosition().equals(space)) {
       throw new IllegalArgumentException("You are currently in this space!");
     }
+
     p.moveTo(space);
     sr.append(p.getName())
             .append(" moved to ")
@@ -367,8 +368,8 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public int getTotalNumberOfPlayers() {
-    return noOfPlayers;
+  public int getTotalNumberOfHumanPlayers() {
+    return noOfPlayers - noOfComputerPlayers;
   }
 
   private String controlComputerControlledPlayer() {

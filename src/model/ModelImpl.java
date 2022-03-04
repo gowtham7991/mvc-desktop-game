@@ -101,8 +101,8 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public int getTotalNumberOfPlayers() {
-    return world.getTotalNumberOfPlayers();
+  public int getTotalNumberOfHumanPlayers() {
+    return world.getTotalNumberOfHumanPlayers();
   }
 
   @Override

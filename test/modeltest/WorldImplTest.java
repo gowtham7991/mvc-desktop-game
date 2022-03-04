@@ -1,20 +1,10 @@
 package modeltest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import model.layout.Item;
-import model.layout.ItemImpl;
-import model.layout.Space;
-import model.layout.SpaceImpl;
 import model.layout.World;
 import model.layout.WorldImpl;
 
@@ -335,7 +325,7 @@ public class WorldImplTest {
     String s2 = w.addPlayer("Player2", "Space2", 5);
     String s3 = w.addPlayer("Player3", "Space3", 5);
     sr.append(s1).append("\n").append(s2).append("\n").append(s3).append("\n");
-    assertEquals(3, w.getTotalNumberOfPlayers());
+    assertEquals(3, w.getTotalNumberOfHumanPlayers());
     assertEquals("", w.getPlayers());
     assertEquals("", sr.toString());
   }
@@ -349,7 +339,7 @@ public class WorldImplTest {
             items);
     w.addPlayer("Player1", "Space1", 5);
     w.addPlayer("Player2", "Space1", 5);
-    assertEquals(2, w.getTotalNumberOfPlayers());
+    assertEquals(2, w.getTotalNumberOfHumanPlayers());
   }
 
   @Test (expected = IllegalArgumentException.class)

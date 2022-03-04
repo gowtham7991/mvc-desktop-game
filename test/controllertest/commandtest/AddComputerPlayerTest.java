@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import controller.Command;
 import controller.commands.AddComputerPlayer;
-import controllertest.MockModel;
+import controllertest.mocks.MockModel;
 import model.Model;
 
 import static org.junit.Assert.assertEquals;

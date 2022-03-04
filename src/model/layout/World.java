@@ -127,5 +127,5 @@ public interface World {
 
   String getPlayers();
 
-  int getTotalNumberOfPlayers();
+  int getTotalNumberOfHumanPlayers();
 }

@@ -14,7 +14,7 @@ import controller.commands.GetInfoOfSpace;
 import controller.commands.LookAround;
 import controller.commands.Move;
 import controller.commands.PickUpItem;
-import controllertest.MockModel;
+import controllertest.mocks.MockModel;
 import model.Model;
 import model.ModelImpl;
 
@@ -44,7 +44,6 @@ public class GameConsoleController implements GameController{
       gameConfigCommands.put("addplayer", (s, out) -> new AddPlayer(s, out));
       gameConfigCommands.put("addcomputerplayer", (s, out) -> new AddComputerPlayer(s, out));
 
-
       // Add game commands in the game execution commands
       gameExecutionCommands.put("lookaround", (s, out) -> new LookAround(s, out));
       gameExecutionCommands.put("layout", (s, out) -> new CreateLayout(s, out));
@@ -60,16 +59,14 @@ public class GameConsoleController implements GameController{
       out.append("addplayer - to add a new human player\n" +
               "addcomputerplayer - to add a new computer player\n" +
               "start - to start the game\n");
-      while (!isGameStarted) {
-
+      while (scan.hasNextLine()) {
         String in = scan.nextLine().trim();
         if ("start".equalsIgnoreCase(in)) {
-          if (m.getTotalNumberOfPlayers() > 0) {
-            isGameStarted = true;
+          if (m.getTotalNumberOfHumanPlayers() > 0) {
+            break;
           }
           out.append("Cannot start the game. Minimum no of players not added!\n");
         }
-
         else {
           Command c;
           BiFunction<Scanner, Appendable, Command> cmd = gameConfigCommands.getOrDefault(in, null);
@@ -94,11 +91,15 @@ public class GameConsoleController implements GameController{
       out.append("pickup - Pickup an item from the current space\n");
       out.append("quit - quit the game\n\n");
 
-      while (noOfTurns < turns) {
+      out.append(m.getTurn());
+      while (scan.hasNextLine()) {
         out.append(m.getTurn());
         Command c;
         String in = scan.nextLine().trim();
 
+        if (noOfTurns == turns) {
+          break;
+        }
         if ("quit".equals(in)) {
           break;
         }
@@ -113,19 +114,21 @@ public class GameConsoleController implements GameController{
             noOfTurns += 1;
           }
         }
+
+        out.append(m.getTurn());
       }
 
       if (noOfTurns == turns) {
         out.append("### Max turns in the reached ###\n");
-        out.append("GAME HAS ENDED!");
+        out.append("GAME HAS ENDED!\n");
       }
       else {
         out.append("### User quit the game ###\n");
-        out.append("GAME HAS ENDED!");
+        out.append("GAME HAS ENDED!\n");
       }
     }
     catch (IOException ioe) {
-      throw new IllegalStateException("Append failed!");
+      throw new IllegalStateException("Append failed!\n");
     }
   }
 }
