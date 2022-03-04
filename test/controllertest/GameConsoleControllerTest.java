@@ -6,6 +6,7 @@ import java.io.StringReader;
 
 import controller.GameConsoleController;
 import controller.GameController;
+import controllertest.mocks.FailingAppendable;
 import controllertest.mocks.MockModel;
 import model.Model;
 

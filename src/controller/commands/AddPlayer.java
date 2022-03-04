@@ -38,7 +38,7 @@ public class AddPlayer implements Command {
 
           while (itemLimit == null) {
             out.append("Enter the item limit: \n");
-            itemLimitStr = scan.nextLine();
+            itemLimitStr = scan.nextLine().trim();
             try {
               itemLimit = Integer.parseInt(itemLimitStr);
             }

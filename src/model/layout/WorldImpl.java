@@ -77,6 +77,8 @@ public class WorldImpl implements World {
       throw new IllegalArgumentException("No space description provided!");
     }
     if (noOfItems != items.size()) {
+      System.out.println(noOfItems);
+      System.out.println(items.size());
       throw new IllegalArgumentException("Sufficient description of items not provided!");
     }
     if (items == null || items.size() == 0) {
@@ -216,7 +218,7 @@ public class WorldImpl implements World {
   public String addPlayer(String name, String space, int maxItemsPerPlayer) {
     if (spaceMap.containsKey(space)) {
       StringBuilder sr = new StringBuilder();
-      Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer);
+      Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer, noOfPlayers);
       players.addPlayer(noOfPlayers, player);
       noOfPlayers += 1;
 
@@ -235,7 +237,7 @@ public class WorldImpl implements World {
     String name = "Computer".concat(Integer.toString(noOfComputerPlayers+1));
     String space = spaceMap.keySet().iterator().next();
     int maxItemsPerPlayer = 5;
-    Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer);
+    Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer, noOfPlayers);
     players.addPlayer(noOfPlayers, player);
     noOfPlayers += 1;
     noOfComputerPlayers += 1;
@@ -265,6 +267,7 @@ public class WorldImpl implements World {
             .append("\n");
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
+
     moveTarget();
     return sr.toString();
   }
@@ -283,7 +286,6 @@ public class WorldImpl implements World {
               .append("\n");
       String str = controlComputerControlledPlayer();
       sr.append(str).append("\n");
-      playerInTurn = (playerInTurn + 1) % noOfPlayers;
       player = players.getPlayerObj(playerInTurn);
     }
     sr.append("Player")
@@ -300,16 +302,22 @@ public class WorldImpl implements World {
     StringBuilder sr = new StringBuilder();
     String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
     Set<String> neighbours = neighboursMap.get(currentSpace);
-
+    System.out.println();
     sr.append("Current Space : ");
     sr.append(currentSpace);
     sr.append("\n");
-    sr.append("Neighbours : \n");
-    for (String n : neighbours) {
-      sr.append(n).append("\n");
-      Set<String> items = spaceMap.get(n).getItems();
-      sr.append("Items available : ").append(items.toString()).append("\n");
-      sr.append("\n");
+    if (neighbours == null || neighbours.size() == 0) {
+      sr.append("No neighbours for this space.\n");
+    }
+    else {
+      sr.append("Neighbours : \n");
+      for (String n : neighbours) {
+        sr.append(n).append("\n");
+        Set<String> items = spaceMap.get(n).getItems();
+        sr.append("Items available : ").append(items.toString()).append("\n");
+        sr.append("\n");
+      }
+
     }
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
@@ -320,7 +328,12 @@ public class WorldImpl implements World {
   @Override
   public String displayPlayerDescription(String name) {
     int playerId = players.getIdOf(name);
+    if (playerId == -1) {
+      throw new IllegalArgumentException("Player not found!");
+    }
     return players.getPlayerObj(playerId).toString();
+
+
   }
 
   @Override

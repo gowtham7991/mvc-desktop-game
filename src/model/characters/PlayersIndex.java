@@ -17,7 +17,7 @@ public class PlayersIndex {
 
   public int getIdOf(String name) {
     for (int id : players.keySet()) {
-      if (players.get(id).getName() == name) {
+      if (players.get(id).getName().equals(name)) {
         return id;
       }
     }
@@ -31,6 +31,7 @@ public class PlayersIndex {
   public Set<String> getPlayersInSpace(String name) {
     Set<String> set = new HashSet<>();
     for (Player p: players.values()) {
+
       if (name.equals(p.getPosition())) {
         set.add(p.getName());
       }

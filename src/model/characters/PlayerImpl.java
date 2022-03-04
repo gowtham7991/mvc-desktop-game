@@ -2,18 +2,35 @@ package model.characters;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import model.layout.Item;
 
+/**
+ * This is the concrete class of the player. The class always a player to move and pickup items.
+ * Every player has a set limit on the items which he can carry.
+ */
 public class PlayerImpl implements Player {
   private final String name;
   private String position;
   private final PlayerType type;
   private final int maxItems;
   private int noOfItems;
+  private final int id;
   private List<Item> itemsCarrying = new ArrayList<>();
 
-  public PlayerImpl(String name, String position, PlayerType type, int maxItems) {
+  /**
+   * Constructs the player class when given the required details.
+   *
+   * @param name the player name
+   * @param position the starting position
+   * @param type the player type human or computer
+   * @param maxItems the item limit of the player
+   * @param id the player id
+   * @throws IllegalArgumentException if name is null or invalid
+   * @throws IllegalArgumentException if position or type is null
+   * @throws IllegalArgumentException if maxItems is negative
+   *
+   */
+  public PlayerImpl(String name, String position, PlayerType type, int maxItems, int id) {
     if (name == null || name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid player name!");
     }
@@ -31,6 +48,7 @@ public class PlayerImpl implements Player {
     this.type = type;
     this.maxItems = maxItems;
     this.noOfItems = 0;
+    this.id = id;
   }
 
   @Override
@@ -80,13 +98,13 @@ public class PlayerImpl implements Player {
 
     PlayerImpl that = (PlayerImpl) o;
 
-    return this.name == that.name;
+    return this.id == that.id;
 
   }
 
   @Override
   public int hashCode() {
-    return name.hashCode();
+    return Integer.hashCode(id);
   }
 
   @Override

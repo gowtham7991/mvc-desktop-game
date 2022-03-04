@@ -1,4 +1,4 @@
-package controllertest;
+package controllertest.mocks;
 
 import java.io.IOException;
 

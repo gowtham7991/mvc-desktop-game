@@ -35,7 +35,7 @@ public class GameDriver {
 //          System.out.println(game.lookAround());
 //          System.out.println(game.getTurn());
 //
-//          System.out.println(game.displayPlayerDescription("player1"));
+//          System.out.println(game.displayPlayerDecription("player1"));
 //          game.moveTarget();
 //          game.moveTarget();
 //          System.out.println("Target Position: \n" + game.getTargetPosition());

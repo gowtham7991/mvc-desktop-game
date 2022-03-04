@@ -25,8 +25,8 @@ public class WorldImplTest {
 
   private final String validWorldDescription = "30 30 MyWorld";
   private final String validTargetDescription = "50 MyTarget";
-  private final int noOfSpaces  = 7;
-  private final int noOfItems = 4;
+  private final int noOfSpaces  = 9;
+  private final int noOfItems = 5;
   private final int maxTurnsPerGame = 50;
 
   private final List<String> spaces = new ArrayList<>(List.of(
@@ -36,7 +36,9 @@ public class WorldImplTest {
           "2 8 11 9 Space4",
           "2 10 19 11 Space5",
           "5 2 12 3 Space6",
-          "13 0 14 9 Space7"));
+          "13 0 14 9 Space7",
+          "16 3 17 5 Space8",
+          "15 7 17 8 Space9"));
 
   private final List<String> items = new ArrayList<>(List.of(
           "0 10 Item1",
@@ -59,8 +61,8 @@ public class WorldImplTest {
             noOfItems, spaces,
             items);
     assertEquals("MyWorld", myWorld.getName());
-    assertEquals(7, myWorld.getTotalNumberOfSpaces());
-    assertEquals(4, myWorld.getTotalNumberOfItems());
+    assertEquals(9, myWorld.getTotalNumberOfSpaces());
+    assertEquals(5, myWorld.getTotalNumberOfItems());
     assertEquals("MyWorld", myWorld.getName());
   }
 
@@ -262,13 +264,13 @@ public class WorldImplTest {
 
   @Test
   public void getInfoOfSpace() {
-    StringBuilder str = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
 
-    str.append("Name : Space1\n");
-    str.append("Index : 0\n");
-    str.append("Items : [Item1]\n");
-    str.append("Visible Spaces : [Space2, Space3, Space6]");
-    String expected1 = str.toString();
+    String expected = "Name : Space1\n" +
+            "Index : 0\n" +
+            "Items : [Item1, Item111]\n" +
+            "Visible Spaces : [Space2, Space3, Space6]\n" +
+            "Players in Space : []\n";
 
     World myWorld = createWorld(validWorldDescription,
             validTargetDescription,
@@ -276,7 +278,7 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    assertEquals(expected1, myWorld.getInfoOfSpace("Space1"));
+    assertEquals(expected, myWorld.getInfoOfSpace("Space1"));
   }
 
   @Test
@@ -324,10 +326,23 @@ public class WorldImplTest {
     String s1 = w.addPlayer("Player1", "Space1", 5);
     String s2 = w.addPlayer("Player2", "Space2", 5);
     String s3 = w.addPlayer("Player3", "Space3", 5);
+    String expected = "Player0 : Player1\n" +
+            "Type - MANUAL\n" +
+            "Location - Space1\n" +
+            "\n" +
+            "Player1 : Player2\n" +
+            "Type - MANUAL\n" +
+            "Location - Space2\n" +
+            "\n" +
+            "Player2 : Player3\n" +
+            "Type - MANUAL\n" +
+            "Location - Space3\n" +
+            "\n" +
+            "\n";
     sr.append(s1).append("\n").append(s2).append("\n").append(s3).append("\n");
     assertEquals(3, w.getTotalNumberOfHumanPlayers());
-    assertEquals("", w.getPlayers());
-    assertEquals("", sr.toString());
+    assertEquals(expected, w.getPlayers());
+
   }
 
   @Test
@@ -361,7 +376,15 @@ public class WorldImplTest {
             items);
     w.addPlayer("Player1", "Space3", 5);
     w.addPlayer("Player1", "Space4", 5);
-    assertEquals("", w.getPlayers());
+    assertEquals("Player0 : Player1\n" +
+            "Type - MANUAL\n" +
+            "Location - Space3\n" +
+            "\n" +
+            "Player1 : Player1\n" +
+            "Type - MANUAL\n" +
+            "Location - Space4\n" +
+            "\n" +
+            "\n", w.getPlayers());
   }
 
   @Test
@@ -374,7 +397,7 @@ public class WorldImplTest {
             items);
 
     String response = w.addComputerPlayer();
-    assertEquals("", response);
+    assertEquals("Computer1 added to Space1", response);
   }
 
   @Test
@@ -388,7 +411,19 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 5);
     w.addComputerPlayer();
     w.addPlayer("Player2", "Space4", 5);
-    assertEquals("", w.getPlayers());
+    assertEquals("Player0 : Player1\n" +
+            "Type - MANUAL\n" +
+            "Location - Space1\n" +
+            "\n" +
+            "Player1 : Computer1\n" +
+            "Type - COMPUTER\n" +
+            "Location - Space1\n" +
+            "\n" +
+            "Player2 : Player2\n" +
+            "Type - MANUAL\n" +
+            "Location - Space4\n" +
+            "\n" +
+            "\n", w.getPlayers());
   }
 
   @Test
@@ -401,8 +436,9 @@ public class WorldImplTest {
             items);
     w.addPlayer("Player1", "Space1", 5);
     String response = w.move("Space2");
-    assertEquals("", response);
-    assertEquals("", w.getTurn());
+    assertEquals("Player1 moved to Space2\n" +
+            "Neighbours : [Space1, Space4, Space5, Space3]\n" +
+            "Items available : [Item2]\n", response);
   }
 
   @Test
@@ -413,10 +449,12 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 5);
-    String response = w.move("Space2");
-    assertEquals("", response);
-    assertEquals("", w.getTurn());
+    w.addPlayer("Player1", "Space9", 5);
+    String response = w.move("Space7");
+    String expected = "Player1 moved to Space7\n" +
+            "Neighbours : [Space5, Space9, Space6]\n" +
+            "Items available : []\n";
+    assertEquals(expected, response);
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -456,7 +494,7 @@ public class WorldImplTest {
     w.move("Space7s");
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void testMovePlayerWithZeroNeighbours() {
     World w = createWorld(validWorldDescription,
             validTargetDescription,
@@ -480,8 +518,8 @@ public class WorldImplTest {
     w.addPlayer("Player2", "Space4", 5);
     w.addPlayer("Player3", "Space2", 5);
     String response = w.pickUpItem("Item1");
-    assertEquals("", response);
-    assertEquals("", w.getTurn());
+    String expected = "Player1 picked up Item1 from Space1\n";
+    assertEquals(expected, response);
   }
 
   @Test
@@ -497,7 +535,9 @@ public class WorldImplTest {
     w.addPlayer("Player3", "Space2", 5);
     w.pickUpItem("Item1");
     String response = w.displayPlayerDescription("Player1");
-    assertEquals("", response);
+    String expected = "Name : Player1\n" +
+            "Items : [Item1]";
+    assertEquals(expected, response);
   }
 
   @Test
@@ -512,7 +552,8 @@ public class WorldImplTest {
     w.addPlayer("Player2", "Space3", 5);
     w.addPlayer("Player3", "Space5", 5);
     String response = w.pickUpItem("Item2");
-    assertEquals("", response);
+    String expected = "Player1 picked up Item2 from Space2\n";
+    assertEquals(expected, response);
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -604,8 +645,18 @@ public class WorldImplTest {
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space3", 1);
     String s = w.lookAround();
-    assertEquals("", s);
-    assertEquals("", w.getTurn());
+    assertEquals("Current Space : Space1\n" +
+            "Neighbours : \n" +
+            "Space2\n" +
+            "Items available : [Item2]\n" +
+            "\n" +
+            "Space3\n" +
+            "Items available : [Item3]\n" +
+            "\n" +
+            "Space6\n" +
+            "Items available : []\n" +
+            "\n", s);
+    assertEquals("Player1 - Player2 is in turn. Select a command.\n", w.getTurn());
   }
 
   @Test
@@ -618,11 +669,12 @@ public class WorldImplTest {
             items);
     w.addPlayer("Player1", "Space1", 1);
     w.addPlayer("Player2", "Space2", 1);
-    w.addPlayer("Player3", "Space7", 1);
+    w.addPlayer("Player3", "Space8", 1);
     w.move("Space2");
     w.move("Space3");
     String s = w.lookAround();
-    assertEquals("", s);
+    assertEquals("Current Space : Space8\n" +
+            "No neighbours for this space.\n", s);
     assertEquals("", w.getTurn());
   }
 
@@ -634,12 +686,16 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player1", "Space9", 1);
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space7", 1);
     String s = w.lookAround();
-    assertEquals("", s);
-    assertEquals("", w.getTurn());
+    String expected = "Current Space : Space9\n" +
+            "Neighbours : \n" +
+            "Space7\n" +
+            "Items available : []\n" +
+            "\n";
+    assertEquals(expected, s);
   }
 
   @Test
@@ -655,7 +711,9 @@ public class WorldImplTest {
     w.addPlayer("Player3", "Space7", 1);
     w.pickUpItem("Item1");
     String response = w.displayPlayerDescription("Player1");
-    assertEquals("", response);
+    String expected = "Name : Player1\n" +
+            "Items : [Item1]";
+    assertEquals(expected, response);
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -683,7 +741,8 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 1);
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space7", 1);
-    String expected = "";
+    String expected = "Name : Player1\n" +
+            "Items : []";
     String response = w.displayPlayerDescription("Player1");
     assertEquals(expected, response);
   }
@@ -700,7 +759,8 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 1);
     w.addComputerPlayer();
     w.addPlayer("Player2", "Space7", 1);
-    String expected = "";
+    String expected = "Name : Computer1\n" +
+            "Items : []";
     String response = w.displayPlayerDescription("Computer1");
     assertEquals(expected, response);
   }
@@ -713,10 +773,10 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Dr.Strange", "Space1", 1);
     w.addComputerPlayer();
-    w.addPlayer("Player2", "Space7", 1);
-    String expected = "";
+    w.addPlayer("Thor", "Space7", 1);
+    String expected = "Player0 - Dr.Strange is in turn. Select a command.\n";
     assertEquals(expected, w.getTurn());
   }
 
@@ -728,14 +788,12 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 1);
-    w.addComputerPlayer();
-    w.addPlayer("Player2", "Space7", 1);
-    w.addPlayer("Player3", "Space7", 1);
-    w.addComputerPlayer();
+    w.addPlayer("Batman", "Space1", 1);
+    w.addPlayer("Superman", "Space7", 1);
+    w.addPlayer("Ironman", "Space7", 1);
     w.move("Space4");
     w.move("Space3");
-    String expected = "";
+    String expected = "Player2 - Ironman is in turn. Select a command.\n";
     assertEquals(expected, w.getTurn());
   }
 
@@ -747,15 +805,13 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 1);
-    w.addComputerPlayer();
-    w.addPlayer("Player2", "Space7", 1);
-    w.addPlayer("Player3", "Space7", 1);
-    w.addComputerPlayer();
+    w.addPlayer("Batman", "Space1", 1);
+    w.addPlayer("Superman", "Space7", 1);
+    w.addPlayer("Ironman", "Space7", 1);
     w.move("Space4");
     w.move("Space3");
     w.move("Space1");
-    String expected = "";
+    String expected = "Player0 - Batman is in turn. Select a command.\n";
     assertEquals(expected, w.getTurn());
   }
 
@@ -767,11 +823,23 @@ public class WorldImplTest {
             noOfItems,
             spaces,
             items);
-    w.addPlayer("Player1", "Space1", 1);
+
     w.addComputerPlayer();
-    w.addPlayer("Player2", "Space7", 1);
-    w.move("Space4");
-    String expected = "";
+    w.addPlayer("Gowtham", "Space1", 5 );
+    String expected = "Player0 - Computer1 is in turn. Select a command.\n" +
+            "Current Space : Space1\n" +
+            "Neighbours : \n" +
+            "Space2\n" +
+            "Items available : [Item2]\n" +
+            "\n" +
+            "Space3\n" +
+            "Items available : [Item3]\n" +
+            "\n" +
+            "Space6\n" +
+            "Items available : []\n" +
+            "\n" +
+            "\n" +
+            "Player1 - Gowtham is in turn. Select a command.\n";
     assertEquals(expected, w.getTurn());
   }
 }

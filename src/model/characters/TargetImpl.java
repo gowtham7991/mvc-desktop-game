@@ -17,7 +17,7 @@ public class TargetImpl implements Target{
    * @param position the current position
    */
   public TargetImpl(int health, String name, int position) {
-    if (name == null || "".equals(name)) {
+    if (name == null || name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid target name!");
     }
     if (health < 1) {

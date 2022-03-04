@@ -2,22 +2,46 @@ package modeltest;
 
 import org.junit.Test;
 
+import model.characters.Target;
+import model.characters.TargetImpl;
+
 import static org.junit.Assert.*;
 
 public class TargetImplTest {
 
-  @Test
-  public void testValidTargetCreation() {}
+  private Target createTarget(int health, String name, int location) {
+    return new TargetImpl(health, name, location);
+  }
 
   @Test
-  public void testTargetCreationWithNullName() {}
+  public void testValidTargetCreation() {
+    Target t = createTarget(50, "Target", 0);
+    assertEquals(0, t.getPosition());
+    StringBuilder str = new StringBuilder();
+    String expected = str.append("Name : Target\n")
+            .append("Health : 50\n")
+            .append("Position : 0\n")
+            .toString();
+    assertEquals(expected, t.toString());
+  }
 
-  @Test
-  public void testTargetCreationWithInvalidName() {}
+  @Test (expected = IllegalArgumentException.class)
+  public void testTargetCreationWithNullName() {
+    Target t = createTarget(50, null, 0);
+  }
 
-  @Test
-  public void testTargetCreationWithInvalidHealth() {}
+  @Test (expected = IllegalArgumentException.class)
+  public void testTargetCreationWithInvalidName() {
+    Target t = createTarget(50, "  ", 0);
+  }
 
-  @Test
-  public void testTargetCreationWithInvalidPosition() {}
+  @Test (expected = IllegalArgumentException.class)
+  public void testTargetCreationWithInvalidHealth() {
+    Target t = createTarget(-10, "Target1", 0);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testTargetCreationWithInvalidPosition() {
+    Target t = createTarget(50, "TargetX", -1);
+  }
 }

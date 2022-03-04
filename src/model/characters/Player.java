@@ -2,6 +2,10 @@ package model.characters;
 
 import model.layout.Item;
 
+/**
+ * Represents a player in the game. Allows operations like move a player to new space
+ * and picking up an item from the space.
+ */
 public interface Player {
 
   /**
@@ -13,12 +17,12 @@ public interface Player {
 
   /**
    * Returns the current position of the player.
-   * @return
+   * @return the position
    */
   String getPosition();
 
   /**
-   * Adds an item from a space to the player item list
+   * Adds an item from a space to the player item list.
    * @param item the item object
    */
   void pickUpItem(Item item);

@@ -35,7 +35,7 @@ public class DisplayPlayerDescription implements Command {
           validExec = true;
         }
         catch (IllegalArgumentException e) {
-          out.append("Could not add a player! Retry.\n");
+          out.append("Could not find the player! Retry.\n");
         }
       }
     }

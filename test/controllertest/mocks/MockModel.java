@@ -59,7 +59,7 @@ public class MockModel implements Model {
               .append(space)
               .append("\n")
               .append("Max items limit : ")
-              .append((char) limit)
+              .append(Integer.toString(limit))
               .append(".\n");
     }
     catch (IOException ioe) {

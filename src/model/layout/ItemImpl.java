@@ -21,7 +21,7 @@ public class ItemImpl implements Item {
    * @param location the space index of where the item can be found
    */
   public ItemImpl(String name, int damage, int location) {
-    if (name == null || "".equals(name)) {
+    if (name == null || name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid item name!");
     }
     if (damage < 0 ) {
@@ -51,17 +51,25 @@ public class ItemImpl implements Item {
       return true;
     }
 
-    if (! (o instanceof Space)) {
+    if (! (o instanceof Item)) {
       return false;
     }
     ItemImpl s2 = (ItemImpl) o;
-    return name == s2.name
-            && damage == s2.damage
-            && location == s2.location;
+    return name.equals(s2.name) && (location == s2.location);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, damage, location);
+    return Objects.hash(name, location);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sr = new StringBuilder();
+    sr.append("Name : ").append(name).append("\n")
+            .append("Damage : ").append(damage).append("\n")
+            .append("Location : ").append(location).append("\n");
+
+    return sr.toString();
   }
 }

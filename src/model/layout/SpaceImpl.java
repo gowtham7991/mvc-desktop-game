@@ -37,7 +37,10 @@ public class SpaceImpl implements Space {
                    int bottomRightCol,
                    Map<String, Item> itemMap) {
 
-    if (name.trim().length() < 1 || name == null) {
+    if (name == null) {
+      throw new IllegalArgumentException("Invalid space name!");
+    }
+    if (name.trim().length() < 1 ) {
       throw new IllegalArgumentException("Invalid space name!");
     }
     if (index < 0
