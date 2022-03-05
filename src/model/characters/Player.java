@@ -4,7 +4,8 @@ import model.layout.Item;
 
 /**
  * Represents a player in the game. Allows operations like move a player to new space
- * and picking up an item from the space.
+ * and picking up an item from the space. The player has a location and has a set max limit of items
+ * one can carry.
  */
 public interface Player {
 

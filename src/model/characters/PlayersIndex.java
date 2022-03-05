@@ -11,8 +11,11 @@ import java.util.TreeMap;
  */
 public class PlayersIndex {
 
-  private final Map<Integer, Player> players = new TreeMap<>();
+  private final Map<Integer, Player> players;
 
+  public PlayersIndex() {
+    players = new TreeMap<>();
+  }
   /**
    * Adds a player to based on their id.
    * @param playerId the id
@@ -42,7 +45,8 @@ public class PlayersIndex {
    * @return the player object
    */
   public Player getPlayerObj(int id) {
-    return players.get(id);
+    Player p = players.get(id);
+    return new PlayerImpl(p.getName(), p.getPosition(), p.getPlayerType(), p.getMaxItemCount(), id);
   }
 
   /**
