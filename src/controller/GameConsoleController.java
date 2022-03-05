@@ -15,14 +15,26 @@ import java.util.Scanner;
 import java.util.function.BiFunction;
 import model.Model;
 
+/**
+ * Concrete class of the game controller which creates the controller for the model.
+ */
 public class GameConsoleController implements GameController {
   private final Scanner scan;
   private final Appendable out;
   private final int turns;
-  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands = new HashMap<>();
-  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands = new HashMap<>();
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands =
+      new HashMap<>();
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands =
+      new HashMap<>();
   private int noOfTurns;
 
+  /**
+   * Constructs the controller by taking a readable object,
+   * appendable to write the data and max turns.
+   * @param in the readable to read data
+   * @param out the appendable to write the data
+   * @param turnsPerGame the max turns of the game
+   */
   public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
     this.scan = new Scanner(in);
     this.out = out;
@@ -53,7 +65,9 @@ public class GameConsoleController implements GameController {
       out.append("\n");
       out.append("### Welcome to ").append(m.getName()).append(" ###").append("\n\n");
       out.append("### Add Players ###\n\n");
-      out.append("addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n");
+      out.append("addplayer - to add a new human player\n");
+      out.append("addcomputerplayer - to add a new computer player\n");
+      out.append("start - to start the game\n");
 
       while (scan.hasNextLine()) {
         String in = scan.nextLine().trim();
@@ -81,8 +95,7 @@ public class GameConsoleController implements GameController {
       out.append("layout - generate a layout of the game\n");
       out.append("playerdesc - Displays the description of a player\n");
       out.append("getinfo - Displays information about a space\n");
-      out.append(
-          "lookaround - Displays the details of a specific space the player currently is in\n");
+      out.append("lookaround - Displays the details of a specific space the player currently is in\n");
       out.append("move - Move to the neighbouring space\n");
       out.append("pickup - Pickup an item from the current space\n");
       out.append("quit - quit the game\n\n");

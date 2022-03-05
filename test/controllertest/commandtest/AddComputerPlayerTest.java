@@ -10,6 +10,9 @@ import java.util.Scanner;
 import model.Model;
 import org.junit.Test;
 
+/**
+ * Test suite for the add computer player command.
+ */
 public class AddComputerPlayerTest {
 
   @Test

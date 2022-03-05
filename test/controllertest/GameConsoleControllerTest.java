@@ -10,6 +10,10 @@ import java.io.StringReader;
 import model.Model;
 import org.junit.Test;
 
+/**
+ * Test suite for the game console controller. The controller tests the functionality using the
+ * mock model. The commands from the controller are tested using the output from mock.
+ */
 public class GameConsoleControllerTest {
 
   @Test
@@ -23,7 +27,34 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -52,6 +83,37 @@ public class GameConsoleControllerTest {
 
   @Test
   public void testMovePlayer() {
+    StringBuilder outBuilder = new StringBuilder();
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456123456\n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("123456123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall\n");
     StringBuilder log = new StringBuilder();
@@ -59,15 +121,44 @@ public class GameConsoleControllerTest {
     Model model = new MockModel(log, "123456");
     GameController controller = new GameConsoleController(in, out, maxTurns);
     controller.start(model);
-
-    StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456123456\n" + "Enter the Space you wish to enter: \n" + "123456123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
 
   @Test
   public void testPickUpItem() {
+    StringBuilder outBuilder = new StringBuilder();
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456Available items : 123456\n");
+    outBuilder.append("Enter the item name: \n");
+    outBuilder.append("123456123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\npickup\nRevolver\n");
     StringBuilder log = new StringBuilder();
@@ -75,9 +166,7 @@ public class GameConsoleControllerTest {
     Model model = new MockModel(log, "123456");
     GameController controller = new GameConsoleController(in, out, maxTurns);
     controller.start(model);
-
-    StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456Available items : 123456\n" + "Enter the item name: \n" + "123456123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -93,7 +182,35 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456123456123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456123456123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -101,8 +218,10 @@ public class GameConsoleControllerTest {
   @Test
   public void testDisplayPlayerDescription() {
     StringBuffer out = new StringBuffer();
-    Readable in = new StringReader(
-        "addplayer\nGowtham\nArmory\n5\naddplayer\nGowtham1\nArmory\n5\nstart\nplayerdesc\nGowtham1\n");
+    StringBuilder inBuilder = new StringBuilder();
+    inBuilder.append("addplayer\nGowtham\nArmory\n5\naddplayer");
+    inBuilder.append("\nGowtham1\nArmory\n5\nstart\nplayerdesc\nGowtham1\n");
+    Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
     int maxTurns = 10;
     Model model = new MockModel(log, "123456");
@@ -110,7 +229,40 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456Enter a player's name: \n" + "123456123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456Enter a player's name: \n");
+    outBuilder.append("123456123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -118,8 +270,10 @@ public class GameConsoleControllerTest {
   @Test
   public void testGetInfoOfSpace() {
     StringBuffer out = new StringBuffer();
-    Readable in = new StringReader(
-        "addplayer\nGowtham\nArmory\n5\naddplayer\nGowtham1\nArmory\n5\nstart\ngetinfo\nArmory\n");
+    StringBuilder inBuilder = new StringBuilder();
+    inBuilder.append("addplayer\nGowtham\nArmory\n5\naddplayer");
+    inBuilder.append("\nGowtham1\nArmory\n5\nstart\ngetinfo\nArmory\n");
+    Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
     int maxTurns = 10;
     Model model = new MockModel(log, "123456");
@@ -127,7 +281,40 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456Enter the name of the space: \n" + "123456123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456Enter the name of the space: \n");
+    outBuilder.append("123456123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -144,7 +331,39 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -160,7 +379,33 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "123456\n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456### User quit the game ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("123456\n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456### User quit the game ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }
@@ -168,8 +413,10 @@ public class GameConsoleControllerTest {
   @Test
   public void testMoveAfterMaxTurns() {
     StringBuffer out = new StringBuffer();
-    Readable in = new StringReader(
-        "addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall\nmove\nDrawing Room\nmove\nLilac Room\nmove\nBilliard Room\n");
+    StringBuilder inBuilder = new StringBuilder();
+    inBuilder.append("addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall");
+    inBuilder.append("\nmove\nDrawing Room\nmove\nLilac Room\nmove\nBilliard Room\n");
+    Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
     int maxTurns = 3;
     Model model = new MockModel(log, "123456");
@@ -177,7 +424,41 @@ public class GameConsoleControllerTest {
     controller.start(model);
 
     StringBuilder outBuilder = new StringBuilder();
-    String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n" + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n" + "Enter your name: \n" + "Enter the Space you wish to enter: \n" + "Enter the item limit: \n" + "123456\n" + "### Game has started ###\n" + "\n" + "Players : \n" + "123456--- Available Commands ---\n" + "\n" + "layout - generate a layout of the game\n" + "playerdesc - Displays the description of a player\n" + "getinfo - Displays information about a space\n" + "lookaround - Displays the details of a specific space the player currently is in\n" + "move - Move to the neighbouring space\n" + "pickup - Pickup an item from the current space\n" + "quit - quit the game\n" + "\n" + "123456123456\n" + "Enter the Space you wish to enter: \n" + "123456123456123456\n" + "Enter the Space you wish to enter: \n" + "123456123456123456\n" + "Enter the Space you wish to enter: \n" + "123456123456### Max turns in the reached ###\n" + "GAME HAS ENDED!\n";
+    outBuilder.append("\n");
+    outBuilder.append("### Welcome to 123456 ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("### Add Players ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("addplayer - to add a new human player\n");
+    outBuilder.append("addcomputerplayer - to add a new computer player\n");
+    outBuilder.append("start - to start the game\n");
+    outBuilder.append("Enter your name: \n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("Enter the item limit: \n");
+    outBuilder.append("123456\n");
+    outBuilder.append("### Game has started ###\n");
+    outBuilder.append("\n");
+    outBuilder.append("Players : \n");
+    outBuilder.append("123456--- Available Commands ---\n");
+    outBuilder.append("\n");
+    outBuilder.append("layout - generate a layout of the game\n");
+    outBuilder.append("playerdesc - Displays the description of a player\n");
+    outBuilder.append("getinfo - Displays information about a space\n");
+    outBuilder.append("lookaround - Displays the details of a ");
+    outBuilder.append("specific space the player currently is in\n");
+    outBuilder.append("move - Move to the neighbouring space\n");
+    outBuilder.append("pickup - Pickup an item from the current space\n");
+    outBuilder.append("quit - quit the game\n");
+    outBuilder.append("\n");
+    outBuilder.append("123456123456\n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("123456123456123456\n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("123456123456123456\n");
+    outBuilder.append("Enter the Space you wish to enter: \n");
+    outBuilder.append("123456123456### Max turns in the reached ###\n");
+    outBuilder.append("GAME HAS ENDED!\n");
+    String outExpected = outBuilder.toString();
 
     assertEquals(outExpected, out.toString());
   }

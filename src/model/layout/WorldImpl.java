@@ -1,6 +1,8 @@
 package model.layout;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class WorldImpl implements World {
    * @param noOfItems         the total number of items in the world
    * @param spaces            the list of spaces as a string
    * @param items             the list of items as a string
+   * @param rand              the random generator
    */
   public WorldImpl(String worldDescription, String targetDescription, int noOfSpaces, int noOfItems,
       List<String> spaces, List<String> items, RandomGenerator rand) {
@@ -226,7 +229,6 @@ public class WorldImpl implements World {
   // Computer player is given a limit of 5 items
   @Override
   public String addComputerPlayer() {
-    StringBuilder sr = new StringBuilder();
     String name = "Computer".concat(Integer.toString(noOfComputerPlayers + 1));
     String space = spaceMap.keySet().iterator().next();
     int maxItemsPerPlayer = 5;
@@ -236,6 +238,7 @@ public class WorldImpl implements World {
     noOfPlayers += 1;
     noOfComputerPlayers += 1;
 
+    StringBuilder sr = new StringBuilder();
     sr.append(name).append(" added to ").append(space);
     return sr.toString();
   }
@@ -247,23 +250,22 @@ public class WorldImpl implements World {
 
     if (p.getPosition().equals(space)) {
       sr.append("You are currently in this space. Your turn is up!\n");
-    }
-    else {
+    } else {
       if (! spaceMap.keySet().contains(space)) {
         sr.append("Space not found in the world. Your turn is up!\n");
-      }
-      else {
+      } else {
         if (getNeighboursOf(p.getPosition()).length() == 0) {
           sr.append("No neighbours found. Your turn is up!\n");
-        }
-        else {
+        } else {
           if (getNeighboursOf(p.getPosition()).contains(space)) {
             p.moveTo(space);
             sr.append(p.getName()).append(" moved to ").append(space).append("\n");
             sr.append("Neighbours : ").append(getNeighboursOf(space)).append("\n");
-            sr.append("Items available : ").append(spaceMap.get(space).getItems().toString()).append("\n");
-          }
-          else {
+            sr.append("Items available : ")
+                .append(spaceMap.get(space)
+                    .getItems().toString())
+                .append("\n");
+          } else {
             sr.append("Space is not a neighbour. Your turn is up!\n");
           }
         }
@@ -296,11 +298,11 @@ public class WorldImpl implements World {
   public String lookAround() {
     StringBuilder sr = new StringBuilder();
     String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
-    Set<String> neighbours = neighboursMap.get(currentSpace);
     System.out.println();
     sr.append("Current Space : ");
     sr.append(currentSpace);
     sr.append("\n");
+    Set<String> neighbours = neighboursMap.get(currentSpace);
     if (neighbours == null || neighbours.size() == 0) {
       sr.append("No neighbours for this space.\n");
     } else {
@@ -337,8 +339,7 @@ public class WorldImpl implements World {
 
     if (spaceMap.get(playerCurrentSpace).getItems().size() == 0) {
       sr.append("No items found. Your turn is up!\n");
-    }
-    else {
+    } else {
       if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
         if (p.getItemCount() < p.getMaxItemCount()) {
           Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
@@ -348,13 +349,11 @@ public class WorldImpl implements World {
               .append(playerCurrentSpace).append("\n");
           playerInTurn = (playerInTurn + 1) % noOfPlayers;
           moveTarget();
-        }
-        else {
+        } else {
           sr.append("Max item limit reached. Cannot pick up the item!\n");
         }
 
-      }
-      else {
+      } else {
         sr.append("Item not found. Your turn is up!\n");
       }
     }
@@ -585,7 +584,10 @@ public class WorldImpl implements World {
     int bottomRightCol = Integer.parseInt(strList[3]);
     String spaceName = strList[4];
 
-    if (topLeftRow >= noOfRows || topLeftCol >= noOfColumns || bottomRightRow >= noOfRows || bottomRightCol >= noOfColumns
+    if (topLeftRow >= noOfRows
+        || topLeftCol >= noOfColumns
+        || bottomRightRow >= noOfRows
+        || bottomRightCol >= noOfColumns
 
     ) {
       throw new IllegalArgumentException("Invalid space description - invalid coordinates!");
@@ -613,8 +615,12 @@ public class WorldImpl implements World {
     }
 
     for (Space space : spaceMap.values()) {
-      for (int i = space.getTopLeftRow(); i < (space.getBottomRightRow() - space.getTopLeftRow()) + space.getTopLeftRow() + 1; i++) {
-        for (int j = space.getTopLeftCol(); j < (space.getBottomRightCol() - space.getTopLeftCol()) + space.getTopLeftCol() + 1; j++) {
+      for (int i = space.getTopLeftRow();
+           i < (space.getBottomRightRow() - space.getTopLeftRow()) + space.getTopLeftRow() + 1;
+           i++) {
+        for (int j = space.getTopLeftCol();
+             j < (space.getBottomRightCol() - space.getTopLeftCol()) + space.getTopLeftCol() + 1;
+             j++) {
           if (grid[i][j] != -1) {
             throw new IllegalArgumentException("Overlapping spaces not allowed!");
           }

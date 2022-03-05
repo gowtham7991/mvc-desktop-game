@@ -6,6 +6,9 @@ import model.characters.Target;
 import model.characters.TargetImpl;
 import org.junit.Test;
 
+/**
+ * Test suite for the target class. Test the validation of parameters.
+ */
 public class TargetImplTest {
 
   private Target createTarget(int health, String name, int location) {

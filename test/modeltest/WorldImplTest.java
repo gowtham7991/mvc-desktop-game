@@ -98,16 +98,28 @@ public class WorldImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceDescriptionWithSameSpaceName() {
-    createWorld(validWorldDescription, validTargetDescription, 2, noOfItems, new ArrayList<>(
+    createWorld(validWorldDescription,
+        validTargetDescription,
+        2,
+        noOfItems,
+        new ArrayList<>(
         List.of("0 0 10 10 Space1", "0 11 10 20 Space1", "11 10 20 10 Space3",
-            "21 10 30 10 Space4")), items, rand);
+            "21 10 30 10 Space4")),
+        items,
+        rand);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceDescriptionWithTopRowGreaterThanBottomRow() {
-    createWorld(validWorldDescription, validTargetDescription, 2, noOfItems, new ArrayList<>(
-            List.of("0 0 10 10 Space1", "0 11 9 0 Space1", "15 10 11 10 Space3", "21 10 30 10 Space4")),
-        items, rand);
+    createWorld(validWorldDescription,
+        validTargetDescription,
+        2,
+        noOfItems,
+        new ArrayList<>(
+            List.of("0 0 10 10 Space1",
+                "0 11 9 0 Space1", "15 10 11 10 Space3", "21 10 30 10 Space4")),
+        items,
+        rand);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -159,10 +171,14 @@ public class WorldImplTest {
   public void getInfoOfSpace() {
     StringBuilder sb = new StringBuilder();
 
-    String expected = "Name : Space1\n" + "Index : 0\n" + "Items : [Item1, Item111]\n" + "Visible Spaces : [Space2, Space3, Space6]\n" + "Players in Space : []\n";
+    sb.append("Name : Space1\n");
+    sb.append("Index : 0\n");
+    sb.append("Items : [Item1, Item111]\n");
+    sb.append("Visible Spaces : [Space2, Space3, Space6]\n");
+    sb.append("Players in Space : []\n");
 
     World myWorld = validWorld;
-    assertEquals(expected, myWorld.getInfoOfSpace("Space1"));
+    assertEquals(sb.toString(), myWorld.getInfoOfSpace("Space1"));
   }
 
   @Test
@@ -191,15 +207,26 @@ public class WorldImplTest {
 
   @Test
   public void testValidAdditionOfPlayer() {
-    StringBuilder sr = new StringBuilder();
     World w = validWorld;
-    String s1 = w.addPlayer("Player1", "Space1", 5);
-    String s2 = w.addPlayer("Player2", "Space2", 5);
-    String s3 = w.addPlayer("Player3", "Space3", 5);
-    String expected = "Player0 : Player1\n" + "Type - MANUAL\n" + "Location - Space1\n" + "\n" + "Player1 : Player2\n" + "Type - MANUAL\n" + "Location - Space2\n" + "\n" + "Player2 : Player3\n" + "Type - MANUAL\n" + "Location - Space3\n" + "\n" + "\n";
-    sr.append(s1).append("\n").append(s2).append("\n").append(s3).append("\n");
+    w.addPlayer("Player1", "Space1", 5);
+    w.addPlayer("Player2", "Space2", 5);
+    w.addPlayer("Player3", "Space3", 5);
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 : Player1\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space1\n");
+    sb.append("\n");
+    sb.append("Player1 : Player2\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space2\n");
+    sb.append("\n");
+    sb.append("Player2 : Player3\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space3\n");
+    sb.append("\n");
+    sb.append("\n");
     assertEquals(3, w.getTotalNumberOfHumanPlayers());
-    assertEquals(expected, w.getPlayers());
+    assertEquals(sb.toString(), w.getPlayers());
 
   }
 
@@ -222,9 +249,17 @@ public class WorldImplTest {
     World w = validWorld;
     w.addPlayer("Player1", "Space3", 5);
     w.addPlayer("Player1", "Space4", 5);
-    assertEquals(
-        "Player0 : Player1\n" + "Type - MANUAL\n" + "Location - Space3\n" + "\n" + "Player1 : Player1\n" + "Type - MANUAL\n" + "Location - Space4\n" + "\n" + "\n",
-        w.getPlayers());
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 : Player1\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space3\n");
+    sb.append("\n");
+    sb.append("Player1 : Player1\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space4\n");
+    sb.append("\n");
+    sb.append("\n");
+    assertEquals(sb.toString(), w.getPlayers());
   }
 
   @Test
@@ -241,28 +276,47 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 5);
     w.addComputerPlayer();
     w.addPlayer("Player2", "Space4", 5);
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 : Player1\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space1\n");
+    sb.append("\n");
+    sb.append("Player1 : Computer1\n");
+    sb.append("Type - COMPUTER\n");
+    sb.append("Location - Space1\n");
+    sb.append("\n");
+    sb.append("Player2 : Player2\n");
+    sb.append("Type - MANUAL\n");
+    sb.append("Location - Space4\n");
+    sb.append("\n");
+    sb.append("\n");
     assertEquals(
-        "Player0 : Player1\n" + "Type - MANUAL\n" + "Location - Space1\n" + "\n" + "Player1 : Computer1\n" + "Type - COMPUTER\n" + "Location - Space1\n" + "\n" + "Player2 : Player2\n" + "Type - MANUAL\n" + "Location - Space4\n" + "\n" + "\n",
+        sb.toString(),
         w.getPlayers());
   }
 
   @Test
   public void testMovePlayerToValidSpace() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player1 moved to Space2\n");
+    sb.append("Neighbours : [Space1, Space4, Space5, Space3]\n");
+    sb.append("Items available : [Item2]\n");
     World w = validWorld;
     w.addPlayer("Player1", "Space1", 5);
     String response = w.move("Space2");
-    assertEquals(
-        "Player1 moved to Space2\n" + "Neighbours : [Space1, Space4, Space5, Space3]\n" + "Items available : [Item2]\n",
-        response);
+    assertEquals(sb.toString(), response);
   }
 
   @Test
   public void testMovePlayerWithOneNeighbour() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player1 moved to Space7\n");
+    sb.append("Neighbours : [Space5, Space9, Space6]\n");
+    sb.append("Items available : []\n");
     World w = validWorld;
     w.addPlayer("Player1", "Space9", 5);
     String response = w.move("Space7");
-    String expected = "Player1 moved to Space7\n" + "Neighbours : [Space5, Space9, Space6]\n" + "Items available : []\n";
-    assertEquals(expected, response);
+    assertEquals(sb.toString(), response);
   }
 
   @Test
@@ -393,13 +447,26 @@ public class WorldImplTest {
 
   @Test
   public void testLookAround() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Current Space : Space1\n");
+    sb.append("Neighbours : \n");
+    sb.append("Space2\n");
+    sb.append("Items available : [Item2]\n");
+    sb.append("\n");
+    sb.append("Space3\n");
+    sb.append("Items available : [Item3]\n");
+    sb.append("\n");
+    sb.append("Space6\n");
+    sb.append("Items available : []\n");
+    sb.append("\n");
     World w = validWorld;
     w.addPlayer("Player1", "Space1", 1);
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space3", 1);
     String s = w.lookAround();
+
     assertEquals(
-        "Current Space : Space1\n" + "Neighbours : \n" + "Space2\n" + "Items available : [Item2]\n" + "\n" + "Space3\n" + "Items available : [Item3]\n" + "\n" + "Space6\n" + "Items available : []\n" + "\n",
+        sb.toString(),
         s);
     assertEquals("Player1 - Player2 is in turn. Select a command.\n", w.getTurn());
   }
@@ -413,18 +480,27 @@ public class WorldImplTest {
     w.move("Space2");
     w.move("Space3");
     String s = w.lookAround();
-    assertEquals("Current Space : Space8\n" + "No neighbours for this space.\n", s);
+    StringBuilder sb = new StringBuilder();
+    sb.append("Current Space : Space8\n");
+    sb.append("No neighbours for this space.\n");
+    assertEquals(sb.toString(), s);
   }
 
   @Test
   public void testLookAroundWithOneNeighbour() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Current Space : Space9\n");
+    sb.append("Neighbours : \n");
+    sb.append("Space7\n");
+    sb.append("Items available : []\n");
+    sb.append("\n");
     World w = validWorld;
     w.addPlayer("Player1", "Space9", 1);
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space7", 1);
     String s = w.lookAround();
-    String expected = "Current Space : Space9\n" + "Neighbours : \n" + "Space7\n" + "Items available : []\n" + "\n";
-    assertEquals(expected, s);
+
+    assertEquals(sb.toString(), s);
   }
 
   @Test
@@ -435,7 +511,10 @@ public class WorldImplTest {
     w.addPlayer("Player3", "Space7", 1);
     w.pickUpItem("Item1");
     String response = w.displayPlayerDescription("Player1");
-    String expected = "Name : Player1\n" + "Items : [Item1]";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Name : Player1\n");
+    sb.append("Items : [Item1]");
+    String expected = sb.toString();
     assertEquals(expected, response);
   }
 
@@ -454,7 +533,10 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 1);
     w.addPlayer("Player2", "Space2", 1);
     w.addPlayer("Player3", "Space7", 1);
-    String expected = "Name : Player1\n" + "Items : []";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Name : Player1\n");
+    sb.append("Items : []");
+    String expected = sb.toString();
     String response = w.displayPlayerDescription("Player1");
     assertEquals(expected, response);
   }
@@ -465,7 +547,10 @@ public class WorldImplTest {
     w.addPlayer("Player1", "Space1", 1);
     w.addComputerPlayer();
     w.addPlayer("Player2", "Space7", 1);
-    String expected = "Name : Computer1\n" + "Items : []";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Name : Computer1\n");
+    sb.append("Items : []");
+    String expected = sb.toString();
     String response = w.displayPlayerDescription("Computer1");
     assertEquals(expected, response);
   }
@@ -506,55 +591,157 @@ public class WorldImplTest {
   }
 
   @Test
-  public void testGetTurnForAComputerPlayer() {
+  public void testGetTurnForaComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(1);
-    World w = createWorld(validWorldDescription, validTargetDescription, noOfSpaces, noOfItems, spaces,
-        items, rand);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces, noOfItems,
+        spaces,
+        items,
+        rand);
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space1", 5);
-    String expected = "Player0 - Computer1 is in turn. Select a command.\n" + "Current Space : Space1\n" + "Neighbours : \n" + "Space2\n" + "Items available : [Item2]\n" + "\n" + "Space3\n" + "Items available : [Item3]\n" + "\n" + "Space6\n" + "Items available : []\n" + "\n" + "\n" + "Player1 - Gowtham is in turn. Select a command.\n";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 - Computer1 is in turn. Select a command.\n");
+    sb.append("Current Space : Space1\n");
+    sb.append("Neighbours : \n");
+    sb.append("Space2\n");
+    sb.append("Items available : [Item2]\n");
+    sb.append("\n");
+    sb.append("Space3\n");
+    sb.append("Items available : [Item3]\n");
+    sb.append("\n");
+    sb.append("Space6\n");
+    sb.append("Items available : []\n");
+    sb.append("\n");
+    sb.append("\n");
+    sb.append("Player1 - Gowtham is in turn. Select a command.\n");
+    String expected = sb.toString();
     assertEquals(expected, w.getTurn());
   }
 
   @Test
   public void testMoveForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(0, 1);
-    World w = createWorld(validWorldDescription, validTargetDescription, noOfSpaces, noOfItems, spaces,
-        items, rand);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces,
+        noOfItems,
+        spaces,
+        items,
+        rand);
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
-    String expected = "Player0 - Computer1 is in turn. Select a command.\n" + "Computer1 moved to Space3\n" + "Neighbours : [Space1, Space4, Space2, Space6]\n" + "Items available : [Item3]\n" + "\n" + "Player1 - Gowtham is in turn. Select a command.\n";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 - Computer1 is in turn. Select a command.\n");
+    sb.append("Computer1 moved to Space3\n");
+    sb.append("Neighbours : [Space1, Space4, Space2, Space6]\n");
+    sb.append("Items available : [Item3]\n");
+    sb.append("\n");
+    sb.append("Player1 - Gowtham is in turn. Select a command.\n");
+    String expected = sb.toString();
     assertEquals(expected, w.getTurn());
   }
 
   @Test
   public void testLookAroundForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(1);
-    World w = createWorld(validWorldDescription, validTargetDescription, noOfSpaces, noOfItems, spaces,
-        items, rand);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces,
+        noOfItems,
+        spaces,
+        items,
+        rand);
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
-    String expected = "Player0 - Computer1 is in turn. Select a command.\n" + "Current Space : Space1\n" + "Neighbours : \n" + "Space2\n" + "Items available : [Item2]\n" + "\n" + "Space3\n" + "Items available : [Item3]\n" + "\n" + "Space6\n" + "Items available : []\n" + "\n" + "\n" + "Player1 - Gowtham is in turn. Select a command.\n";
-    assertEquals(expected, w.getTurn());
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 - Computer1 is in turn. Select a command.\n");
+    sb.append("Current Space : Space1\n");
+    sb.append("Neighbours : \n");
+    sb.append("Space2\n");
+    sb.append("Items available : [Item2]\n");
+    sb.append("\n");
+    sb.append("Space3\n");
+    sb.append("Items available : [Item3]\n");
+    sb.append("\n");
+    sb.append("Space6\n");
+    sb.append("Items available : []\n");
+    sb.append("\n");
+    sb.append("\n");
+    sb.append("Player1 - Gowtham is in turn. Select a command.\n");
+
+    assertEquals(sb.toString(), w.getTurn());
   }
 
   @Test
   public void testPickUpItemForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(2, 1);
-    World w = createWorld(validWorldDescription, validTargetDescription, noOfSpaces, noOfItems, spaces,
-        items, rand);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces,
+        noOfItems,
+        spaces,
+        items,
+        rand);
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
-    String expected = "Player0 - Computer1 is in turn. Select a command.\n" + "Computer1 picked up Item111 from Space1\n" + "\n" + "Player1 - Gowtham is in turn. Select a command.\n";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Player0 - Computer1 is in turn. Select a command.\n");
+    sb.append("Computer1 picked up Item111 from Space1\n");
+    sb.append("\n");
+    sb.append("Player1 - Gowtham is in turn. Select a command.\n");
+    String expected = sb.toString();
     assertEquals(expected, w.getTurn());
   }
 
   @Test
-  public void checkTargetPositionAfterMove () {
+  public void checkTargetPositionAfterMove() {
+    RandomGenerator rand = new RandomGeneratorMock(2, 1);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces,
+        noOfItems,
+        spaces,
+        items,
+        rand);
 
+    w.addComputerPlayer();
+    w.addPlayer("Player1", "Space1", 5);
+    w.addPlayer("Player2", "Space1", 5);
+    w.move("Space2");
+    w.move("Space2");
+    assertEquals(2, w.getTargetPosition());
   }
+
+  @Test
+  public void checkSpaceDescriptionAfterItemPickUp() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Name : Space1\n");
+    sb.append("Index : 0\n");
+    sb.append("Items : [Item111]\n");
+    sb.append("Visible Spaces : [Space2, Space3, Space6]\n");
+    sb.append("Players in Space : [Player2, Player1, Computer1]\n");
+    RandomGenerator rand = new RandomGeneratorMock(2, 1);
+    World w = createWorld(validWorldDescription,
+        validTargetDescription,
+        noOfSpaces,
+        noOfItems,
+        spaces,
+        items,
+        rand);
+
+    w.addComputerPlayer();
+    w.addPlayer("Player1", "Space1", 5);
+    w.addPlayer("Player2", "Space1", 5);
+    w.pickUpItem("Item1");
+    String result = w.getInfoOfSpace("Space1");
+
+    assertEquals(sb.toString(), result);
+  }
+
 }

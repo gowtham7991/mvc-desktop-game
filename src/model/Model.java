@@ -37,6 +37,8 @@ public interface Model {
    *
    * @param name  the name of the player
    * @param space the starting position of the player in space
+   * @param limit the max items the player can carry
+   * @return the details of the addition of the player
    * @throws IllegalArgumentException if space is not present in the world
    */
   String addPlayer(String name, String space, int limit);
@@ -44,6 +46,7 @@ public interface Model {
   /**
    * Add a computer player with the default name of Computer(id of player).
    * The player is added to the first space by default.
+   * @return the details of the addition of the computer player
    */
   String addComputerPlayer();
 
@@ -51,20 +54,21 @@ public interface Model {
    * Moves a player to the chosen neighbouring space from the current space.
    *
    * @param space the space to move into
+   * @return the details of the move of a player to a space
    */
   String move(String space);
 
   /**
-   * Returns the name of the player currently in turn
+   * Returns the name of the player currently in turn.
    *
-   * @return the name of the player
+   * @return the name of the current player in turn
    */
   String getTurn();
 
   /**
    * Return the details of the current space and neighbouring spaces.
    *
-   * @return
+   * @return the details of the current space
    */
   String lookAround();
 
@@ -80,6 +84,7 @@ public interface Model {
    * Picks up an item for the player in turn from the current space the player is in.
    *
    * @param item the name of the item
+   * @return the details of the pickup
    */
   String pickUpItem(String item);
 

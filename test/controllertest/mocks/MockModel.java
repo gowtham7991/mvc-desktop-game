@@ -4,6 +4,9 @@ import java.awt.image.WritableRenderedImage;
 import java.io.IOException;
 import model.Model;
 
+/**
+ * Mock model used for testing the model.
+ */
 public class MockModel implements Model {
 
   private final String code;

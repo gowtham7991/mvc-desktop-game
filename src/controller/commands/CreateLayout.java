@@ -8,10 +8,18 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import model.Model;
 
+/**
+ * Command to create a layout of the game.
+ */
 public class CreateLayout implements Command {
   private final Scanner scan;
   private final Appendable out;
 
+  /**
+   * Constructs the command to create a layout.
+   * @param scan the scanner to read input
+   * @param out the output buffer to write the data
+   */
   public CreateLayout(Scanner scan, Appendable out) {
     if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");

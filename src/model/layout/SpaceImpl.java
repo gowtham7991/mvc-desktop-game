@@ -39,7 +39,13 @@ public class SpaceImpl implements Space {
     if (name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid space name!");
     }
-    if (index < 0 || topLeftRow < 0 || topLeftCol < 0 || bottomRightRow < 0 || bottomRightCol < 0 || topLeftRow >= bottomRightRow || topLeftCol >= bottomRightCol) {
+    if (index < 0
+        || topLeftRow < 0
+        || topLeftCol < 0
+        || bottomRightRow < 0
+        || bottomRightCol < 0
+        || topLeftRow >= bottomRightRow
+        || topLeftCol >= bottomRightCol) {
       throw new IllegalArgumentException("Invalid space coordinates!");
     }
 
@@ -117,7 +123,11 @@ public class SpaceImpl implements Space {
       return false;
     }
     SpaceImpl s2 = (SpaceImpl) o;
-    return topLeftRow == s2.topLeftRow && topLeftCol == s2.topLeftCol && bottomRightRow == s2.bottomRightRow && bottomRightCol == bottomRightCol && name.equals(
+    return topLeftRow == s2.topLeftRow
+        && topLeftCol == s2.topLeftCol
+        && bottomRightRow == s2.bottomRightRow
+        && bottomRightCol == bottomRightCol
+        && name.equals(
         s2.name);
   }
 

@@ -5,10 +5,18 @@ import java.io.IOException;
 import java.util.Scanner;
 import model.Model;
 
+/**
+ * Command to pick up an item from the current place.
+ */
 public class PickUpItem implements Command {
   private final Scanner scan;
   private final Appendable out;
 
+  /**
+   * Constructs the command to pick up item from the space.
+   * @param scan the scanner to read input
+   * @param out the output buffer to write the data
+   */
   public PickUpItem(Scanner scan, Appendable out) {
     if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");

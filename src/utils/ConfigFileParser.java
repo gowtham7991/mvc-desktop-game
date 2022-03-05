@@ -15,10 +15,18 @@ public class ConfigFileParser {
   private List<String> spaces;
   private List<String> items;
 
+  /**
+   * Constructs the config file parser. The data is read from the scanner object.
+   * @param scan the scanner to read data
+   */
   public ConfigFileParser(Scanner scan) {
     parseFile(scan);
   }
 
+  /**
+   * Helper method to parse the input file.
+   * @param sc the scanner object
+   */
   private void parseFile(Scanner sc) {
     String worldDescription = "";
     String targetDescription = "";
@@ -81,22 +89,42 @@ public class ConfigFileParser {
     this.items = items;
   }
 
+  /**
+   * Returns the world description extracted from the file.
+   * @return the world description
+   */
   public String getWorldDescription() {
     return worldDescription;
   }
 
+  /**
+   * Returns the target description extracted from the file.
+   * @return the target description
+   */
   public String getTargetDescription() {
     return targetDescription;
   }
 
+  /**
+   * Returns the total number of spaces defined.
+   * @return the total spaces
+   */
   public int getNoOfSpaces() {
     return noOfSpaces;
   }
 
+  /**
+   * Returns the number of items in the world.
+   * @return the total items
+   */
   public int getNoOfItems() {
     return noOfItems;
   }
 
+  /**
+   * Returns the list of space descriptions.
+   * @return the list of strings
+   */
   public List<String> getSpaces() {
     List<String> list = new ArrayList<>();
     for (String str : spaces) {
@@ -105,6 +133,10 @@ public class ConfigFileParser {
     return list;
   }
 
+  /**
+   * Returns the list of item description present in the world.
+   * @return the list string
+   */
   public List<String> getItems() {
     List<String> list = new ArrayList<>();
     for (String str : items) {

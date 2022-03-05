@@ -7,7 +7,15 @@ import model.Model;
 import model.ModelImpl;
 import utils.RandomGeneratorImpl;
 
+/**
+ * The driver function which instantiates the model, controller
+ * and hands over the execution of the game to the controller.
+ */
 public class Main {
+  /**
+   * The main function which runs when the game begins.
+   * @param args the command line arguments.
+   */
   public static void main(String[] args) {
     if (args.length == 0) {
       throw new IllegalArgumentException("File name not provided!");

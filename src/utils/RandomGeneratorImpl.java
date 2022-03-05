@@ -2,15 +2,18 @@ package utils;
 
 import java.util.Random;
 
+/**
+ * Concrete class which implements the random generator.
+ */
 public class RandomGeneratorImpl implements RandomGenerator {
 
-  private final Random r;
+  private final Random rand;
 
   public RandomGeneratorImpl() {
-    this.r = new Random();
+    this.rand = new Random();
   }
 
   public int getRandomInt() {
-    return Math.abs(r.nextInt());
+    return Math.abs(rand.nextInt());
   }
 }

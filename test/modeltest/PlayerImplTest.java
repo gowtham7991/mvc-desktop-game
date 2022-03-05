@@ -9,6 +9,9 @@ import model.characters.PlayerImpl;
 import model.characters.PlayerType;
 import org.junit.Test;
 
+/**
+ * Test suite for the player class. Test the validation of parameters.
+ */
 public class PlayerImplTest {
 
   private Player createPlayer(String name, String location, PlayerType type, int itemLimit,
@@ -52,7 +55,7 @@ public class PlayerImplTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testPlayerWithInvalidPLayerType() {
+  public void testPlayerWithInvalidPlayerType() {
     Player p = createPlayer("Player1", "Dining Hall", null, 0, 0);
   }
 

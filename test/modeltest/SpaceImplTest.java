@@ -14,6 +14,9 @@ import model.layout.Space;
 import model.layout.SpaceImpl;
 import org.junit.Test;
 
+/**
+ * Test suite for the space class. Test the validation of parameters.
+ */
 public class SpaceImplTest {
 
   private SpaceImpl createSpace(String name, int index, int topLeftRow, int topLeftCol,

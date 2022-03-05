@@ -73,13 +73,15 @@ public interface World {
    *
    * @param name  the name of the player
    * @param space the starting position of the player in space
-   * @throws IllegalArgumentException if space is not present in the world
+   * @param limit the max items the player can carry
+   * @return the response of the addition of player
    */
   String addPlayer(String name, String space, int limit);
 
   /**
    * Add a computer player with the default name of Computer(id of player).
    * The player is added to the first space by default.
+   * @return the response of the addition of computer player
    */
   String addComputerPlayer();
 
@@ -87,20 +89,22 @@ public interface World {
    * Moves a player to the chosen neighbouring space from the current space.
    *
    * @param space the space to move into
+   * @return the response of the move of player
    */
   String move(String space);
 
   /**
-   * Returns the name of the player currently in turn
+   * Returns the name of the player currently in turn.
    *
-   * @return the name of the player
+   * @return player who is currently in turn,
+   *        if a computer player is next, the next normal player is prompted
    */
   String getTurn();
 
   /**
    * Return the details of the current space and neighbouring spaces.
    *
-   * @return
+   * @return the details of the current space and neighbouring spaces of a player
    */
   String lookAround();
 
@@ -116,6 +120,7 @@ public interface World {
    * Picks up an item for the player in turn from the current space the player is in.
    *
    * @param item the name of the item
+   * @return the details of the pick up item.
    */
   String pickUpItem(String item);
 

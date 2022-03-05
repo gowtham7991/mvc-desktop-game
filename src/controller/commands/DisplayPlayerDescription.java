@@ -5,10 +5,18 @@ import java.io.IOException;
 import java.util.Scanner;
 import model.Model;
 
+/**
+ * Command to display the information of a player.
+ */
 public class DisplayPlayerDescription implements Command {
   private final Scanner scan;
   private final Appendable out;
 
+  /**
+   * Constructs the command to display the description of a player.
+   * @param scan the scanner to read input
+   * @param out the output buffer to write the data
+   */
   public DisplayPlayerDescription(Scanner scan, Appendable out) {
     if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");

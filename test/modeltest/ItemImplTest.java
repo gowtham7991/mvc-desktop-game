@@ -10,6 +10,9 @@ import model.layout.Item;
 import model.layout.ItemImpl;
 import org.junit.Test;
 
+/**
+ * Test suite for the concrete item class. Test the validation of parameters.
+ */
 public class ItemImplTest {
 
   private Item createItem(String name, int damage, int location) {

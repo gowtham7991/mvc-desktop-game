@@ -33,6 +33,7 @@ public interface Space {
    * Remove a specified item from the space.
    *
    * @param name the name of the item
+   * @return the item object removed
    */
   Item removeItem(String name);
 

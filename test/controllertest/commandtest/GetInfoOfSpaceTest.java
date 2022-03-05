@@ -10,6 +10,9 @@ import java.util.Scanner;
 import model.Model;
 import org.junit.Test;
 
+/**
+ * Test suite for the get info command.
+ */
 public class GetInfoOfSpaceTest {
 
   @Test

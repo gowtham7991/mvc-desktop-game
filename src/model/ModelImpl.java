@@ -18,6 +18,7 @@ public class ModelImpl implements Model {
    * Creates the game based on the given configuration file.
    *
    * @param in the readable object of the file provided
+   * @param rand the random generator class object
    */
   public ModelImpl(Readable in, RandomGenerator rand) {
 
