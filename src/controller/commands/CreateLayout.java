@@ -33,18 +33,15 @@ public class CreateLayout implements Command {
 
     try {
       String cmdResponse;
-      boolean validExec = false;
-      while (!validExec) {
-        try {
-          WritableRenderedImage img = m.createGraphicalRepresentation();
-          File file = new File("WorldRepresentation.png");
-          ImageIO.write(img, "png", file);
-          cmdResponse = "Layout created!\n";
-          validExec = true;
-          out.append(cmdResponse);
-        } catch (IllegalArgumentException e) {
-          out.append("Could not create a layout!\n");
-        }
+
+      try {
+        WritableRenderedImage img = m.createGraphicalRepresentation();
+        File file = new File("WorldRepresentation.png");
+        ImageIO.write(img, "png", file);
+        cmdResponse = "Layout created!\n";
+        out.append(cmdResponse);
+      } catch (IllegalArgumentException e) {
+        out.append("Could not create a layout!\n");
       }
 
     } catch (IOException ioe) {
