@@ -5,11 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import model.characters.Player;
-
 public class PlayersIndex {
 
-  private Map<Integer, Player> players = new TreeMap<>();
+  private final Map<Integer, Player> players = new TreeMap<>();
 
   public void addPlayer(int playerId, Player player) {
     players.put(playerId, player);
@@ -30,7 +28,7 @@ public class PlayersIndex {
 
   public Set<String> getPlayersInSpace(String name) {
     Set<String> set = new HashSet<>();
-    for (Player p: players.values()) {
+    for (Player p : players.values()) {
 
       if (name.equals(p.getPosition())) {
         set.add(p.getName());
@@ -45,13 +43,9 @@ public class PlayersIndex {
 
     for (int id : players.keySet()) {
       Player p = players.get(id);
-      sr.append("Player")
-              .append(id)
-              .append(" : ")
-              .append(p.getName())
-              .append("\n")
-              .append("Type - ").append(p.getPlayerType().toString()).append("\n")
-              .append("Location - ").append(p.getPosition()).append("\n\n");
+      sr.append("Player").append(id).append(" : ").append(p.getName()).append("\n")
+          .append("Type - ").append(p.getPlayerType().toString()).append("\n").append("Location - ")
+          .append(p.getPosition()).append("\n\n");
     }
     sr.append("\n");
     return sr.toString();

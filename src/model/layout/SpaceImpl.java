@@ -10,46 +10,36 @@ import java.util.Set;
  * index and also the items found in the space.
  */
 public class SpaceImpl implements Space {
-  private String name;
-  private int index;
   private final int topLeftRow;
   private final int topLeftCol;
   private final int bottomRightRow;
   private final int bottomRightCol;
-  private Map<String, Item> items;
+  private final String name;
+  private final int index;
+  private final Map<String, Item> items;
 
   /**
    * creates a space in the given world when a name, row and col of the top left and bottom right
    * corner and the list of items are provided.
-   * @param name the name of the space
-   * @param index the index of the space in the given list of spaces
-   * @param topLeftRow the top left row of the space
-   * @param topLeftCol the top left column of the space
+   *
+   * @param name           the name of the space
+   * @param index          the index of the space in the given list of spaces
+   * @param topLeftRow     the top left row of the space
+   * @param topLeftCol     the top left column of the space
    * @param bottomRightRow the bottom right row of the space
    * @param bottomRightCol the bottom right column of the space
-   * @param itemMap the map of items and its name
+   * @param itemMap        the map of items and its name
    */
-  public SpaceImpl(String name,
-                   int index,
-                   int topLeftRow,
-                   int topLeftCol,
-                   int bottomRightRow,
-                   int bottomRightCol,
-                   Map<String, Item> itemMap) {
+  public SpaceImpl(String name, int index, int topLeftRow, int topLeftCol, int bottomRightRow,
+      int bottomRightCol, Map<String, Item> itemMap) {
 
     if (name == null) {
       throw new IllegalArgumentException("Invalid space name!");
     }
-    if (name.trim().length() < 1 ) {
+    if (name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid space name!");
     }
-    if (index < 0
-            || topLeftRow < 0
-            || topLeftCol < 0
-            || bottomRightRow < 0
-            || bottomRightCol < 0
-            || topLeftRow >= bottomRightRow
-            || topLeftCol >= bottomRightCol) {
+    if (index < 0 || topLeftRow < 0 || topLeftCol < 0 || bottomRightRow < 0 || bottomRightCol < 0 || topLeftRow >= bottomRightRow || topLeftCol >= bottomRightCol) {
       throw new IllegalArgumentException("Invalid space coordinates!");
     }
 
@@ -123,15 +113,12 @@ public class SpaceImpl implements Space {
       return true;
     }
 
-    if (! (o instanceof Space)) {
+    if (!(o instanceof Space)) {
       return false;
     }
     SpaceImpl s2 = (SpaceImpl) o;
-    return topLeftRow == s2.topLeftRow
-            && topLeftCol == s2.topLeftCol
-            && bottomRightRow == s2.bottomRightRow
-            && bottomRightCol == bottomRightCol
-            && name.equals(s2.name);
+    return topLeftRow == s2.topLeftRow && topLeftCol == s2.topLeftCol && bottomRightRow == s2.bottomRightRow && bottomRightCol == bottomRightCol && name.equals(
+        s2.name);
   }
 
   @Override

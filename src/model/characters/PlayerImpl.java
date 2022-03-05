@@ -10,25 +10,24 @@ import model.layout.Item;
  */
 public class PlayerImpl implements Player {
   private final String name;
-  private String position;
   private final PlayerType type;
   private final int maxItems;
-  private int noOfItems;
   private final int id;
-  private List<Item> itemsCarrying = new ArrayList<>();
+  private String position;
+  private int noOfItems;
+  private final List<Item> itemsCarrying = new ArrayList<>();
 
   /**
    * Constructs the player class when given the required details.
    *
-   * @param name the player name
+   * @param name     the player name
    * @param position the starting position
-   * @param type the player type human or computer
+   * @param type     the player type human or computer
    * @param maxItems the item limit of the player
-   * @param id the player id
+   * @param id       the player id
    * @throws IllegalArgumentException if name is null or invalid
    * @throws IllegalArgumentException if position or type is null
    * @throws IllegalArgumentException if maxItems is negative
-   *
    */
   public PlayerImpl(String name, String position, PlayerType type, int maxItems, int id) {
     if (name == null || name.trim().length() < 1) {
@@ -37,7 +36,7 @@ public class PlayerImpl implements Player {
     if (position == null) {
       throw new IllegalArgumentException("Invalid Player location!");
     }
-    if ( type == null) {
+    if (type == null) {
       throw new IllegalArgumentException("Invalid Player type!");
     }
     if (maxItems < 0) {
@@ -82,6 +81,11 @@ public class PlayerImpl implements Player {
   }
 
   @Override
+  public int getMaxItemCount() {
+    return maxItems;
+  }
+
+  @Override
   public PlayerType getPlayerType() {
     return type;
   }
@@ -92,7 +96,7 @@ public class PlayerImpl implements Player {
       return true;
     }
 
-    if (! (o instanceof Player) ) {
+    if (!(o instanceof Player)) {
       return false;
     }
 

@@ -1,18 +1,16 @@
 package controller.commands;
 
+import controller.Command;
 import java.io.IOException;
 import java.util.Scanner;
-
-import controller.Command;
 import model.Model;
 
 public class AddPlayer implements Command {
   private final Scanner scan;
   private final Appendable out;
 
-
   public AddPlayer(Scanner scan, Appendable out) {
-    if ( scan == null || out == null) {
+    if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
     this.scan = scan;
@@ -41,8 +39,7 @@ public class AddPlayer implements Command {
             itemLimitStr = scan.nextLine().trim();
             try {
               itemLimit = Integer.parseInt(itemLimitStr);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
               out.append("Invalid item limit!\n");
               itemLimit = null;
             }
@@ -51,13 +48,11 @@ public class AddPlayer implements Command {
           cmdResponse = m.addPlayer(name, spaceName, itemLimit);
           out.append(cmdResponse).append("\n");
           validExec = true;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");
         }
       }
-    }
-    catch (IOException ioe) {
+    } catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");
     }
   }

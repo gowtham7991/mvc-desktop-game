@@ -34,7 +34,8 @@ public interface Model {
 
   /**
    * Adds a manually controlled player to the game to the specified space.
-   * @param name the name of the player
+   *
+   * @param name  the name of the player
    * @param space the starting position of the player in space
    * @throws IllegalArgumentException if space is not present in the world
    */
@@ -48,18 +49,21 @@ public interface Model {
 
   /**
    * Moves a player to the chosen neighbouring space from the current space.
+   *
    * @param space the space to move into
    */
   String move(String space);
 
   /**
    * Returns the name of the player currently in turn
+   *
    * @return the name of the player
    */
   String getTurn();
 
   /**
    * Return the details of the current space and neighbouring spaces.
+   *
    * @return
    */
   String lookAround();
@@ -74,6 +78,7 @@ public interface Model {
 
   /**
    * Picks up an item for the player in turn from the current space the player is in.
+   *
    * @param item the name of the item
    */
   String pickUpItem(String item);

@@ -1,7 +1,5 @@
 package utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -59,7 +57,7 @@ public class ConfigFileParser {
         String givenNofItems = sc.nextLine();
         try {
           noOfItems = Integer.parseInt(givenNofItems);
-          if (noOfItems < 0)  {
+          if (noOfItems < 0) {
             throw new IllegalArgumentException("No of items cannot be negative!");
           }
 
@@ -87,7 +85,6 @@ public class ConfigFileParser {
     return worldDescription;
   }
 
-
   public String getTargetDescription() {
     return targetDescription;
   }
@@ -102,7 +99,7 @@ public class ConfigFileParser {
 
   public List<String> getSpaces() {
     List<String> list = new ArrayList<>();
-    for(String str : spaces) {
+    for (String str : spaces) {
       list.add(str);
     }
     return list;
@@ -110,7 +107,7 @@ public class ConfigFileParser {
 
   public List<String> getItems() {
     List<String> list = new ArrayList<>();
-    for(String str : items) {
+    for (String str : items) {
       list.add(str);
     }
     return list;

@@ -17,12 +17,14 @@ public interface Player {
 
   /**
    * Returns the current position of the player.
+   *
    * @return the position
    */
   String getPosition();
 
   /**
    * Adds an item from a space to the player item list.
+   *
    * @param item the item object
    */
   void pickUpItem(Item item);
@@ -33,4 +35,5 @@ public interface Player {
 
   int getItemCount();
 
+  int getMaxItemCount();
 }

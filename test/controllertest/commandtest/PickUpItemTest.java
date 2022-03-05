@@ -1,21 +1,19 @@
 package controllertest.commandtest;
 
-import org.junit.Test;
-
-import java.io.StringReader;
-import java.util.Scanner;
+import static org.junit.Assert.assertEquals;
 
 import controller.Command;
 import controller.commands.PickUpItem;
 import controllertest.mocks.MockModel;
+import java.io.StringReader;
+import java.util.Scanner;
 import model.Model;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class PickUpItemTest {
 
   @Test
-  public void testPickUpItem () {
+  public void testPickUpItem() {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("Gowtham\nArmory\n");
     StringBuilder log = new StringBuilder();
@@ -28,12 +26,9 @@ public class PickUpItemTest {
     StringBuilder outBuilder = new StringBuilder();
 
     String logExpected = logBuilder.append("Displaying the items in current space\n")
-            .append("Player has picked up the item.\n")
-            .toString();
+        .append("Player has picked up the item.\n").toString();
     String outExpected = outBuilder.append("Available items : 123456789\n")
-            .append("Enter the item name: \n")
-            .append("123456789")
-            .toString();
+        .append("Enter the item name: \n").append("123456789").toString();
 
     assertEquals(logExpected, log.toString());
     assertEquals(outExpected, out.toString());

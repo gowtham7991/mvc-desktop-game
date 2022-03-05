@@ -2,11 +2,10 @@ package model;
 
 import java.awt.image.WritableRenderedImage;
 import java.util.Scanner;
-
-import utils.RandomGenerator;
 import model.layout.World;
 import model.layout.WorldImpl;
 import utils.ConfigFileParser;
+import utils.RandomGenerator;
 
 /**
  * This is the implementation the game.
@@ -25,12 +24,9 @@ public class ModelImpl implements Model {
     Scanner scan = new Scanner(in);
     ConfigFileParser parsedData = new ConfigFileParser(scan);
 
-    World world = new WorldImpl(parsedData.getWorldDescription(),
-                                parsedData.getTargetDescription(),
-                                parsedData.getNoOfSpaces(),
-                                parsedData.getNoOfItems(),
-                                parsedData.getSpaces(),
-                                parsedData.getItems());
+    World world = new WorldImpl(parsedData.getWorldDescription(), parsedData.getTargetDescription(),
+        parsedData.getNoOfSpaces(), parsedData.getNoOfItems(), parsedData.getSpaces(),
+        parsedData.getItems(), rand);
     this.world = world;
     this.rg = rand;
   }
@@ -47,7 +43,7 @@ public class ModelImpl implements Model {
 
   @Override
   public String getNeighboursOf(String name) {
-    return world.getNeighboursOf(name).toString();
+    return world.getNeighboursOf(name);
   }
 
   @Override

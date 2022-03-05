@@ -1,21 +1,19 @@
 package controllertest.commandtest;
 
-import org.junit.Test;
-
-import java.io.StringReader;
-import java.util.Scanner;
+import static org.junit.Assert.assertEquals;
 
 import controller.Command;
 import controller.commands.AddComputerPlayer;
 import controllertest.mocks.MockModel;
+import java.io.StringReader;
+import java.util.Scanner;
 import model.Model;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class AddComputerPlayerTest {
 
   @Test
-  public void testAddComputerPlayer () {
+  public void testAddComputerPlayer() {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("Gowtham\nArmory\n");
     StringBuilder log = new StringBuilder();

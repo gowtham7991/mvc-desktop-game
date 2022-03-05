@@ -1,6 +1,5 @@
 package model.characters;
 
 public enum PlayerType {
-  COMPUTER,
-  MANUAL
+  COMPUTER, MANUAL
 }

@@ -1,21 +1,19 @@
 package controllertest.commandtest;
 
-import org.junit.Test;
-
-import java.io.StringReader;
-import java.util.Scanner;
+import static org.junit.Assert.assertEquals;
 
 import controller.Command;
 import controller.commands.LookAround;
 import controllertest.mocks.MockModel;
+import java.io.StringReader;
+import java.util.Scanner;
 import model.Model;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class LookAroundTest {
 
   @Test
-  public void testLookAround () {
+  public void testLookAround() {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("");
     StringBuilder log = new StringBuilder();

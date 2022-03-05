@@ -1,11 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.function.BiFunction;
-
 import controller.commands.AddComputerPlayer;
 import controller.commands.AddPlayer;
 import controller.commands.CreateLayout;
@@ -14,17 +8,20 @@ import controller.commands.GetInfoOfSpace;
 import controller.commands.LookAround;
 import controller.commands.Move;
 import controller.commands.PickUpItem;
-import controllertest.mocks.MockModel;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.function.BiFunction;
 import model.Model;
-import model.ModelImpl;
 
-public class GameConsoleController implements GameController{
+public class GameConsoleController implements GameController {
   private final Scanner scan;
   private final Appendable out;
   private final int turns;
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands = new HashMap<>();
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands = new HashMap<>();
   private int noOfTurns;
-  private Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands = new HashMap<>();
-  private Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands = new HashMap<>();
 
   public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
     this.scan = new Scanner(in);
@@ -35,7 +32,7 @@ public class GameConsoleController implements GameController{
 
   @Override
   public void start(Model m) {
-    if (!(m instanceof ModelImpl || m instanceof MockModel)) {
+    if (m == null) {
       throw new IllegalArgumentException("Model cannot be null object");
     }
 
@@ -56,9 +53,8 @@ public class GameConsoleController implements GameController{
       out.append("\n");
       out.append("### Welcome to ").append(m.getName()).append(" ###").append("\n\n");
       out.append("### Add Players ###\n\n");
-      out.append("addplayer - to add a new human player\n" +
-              "addcomputerplayer - to add a new computer player\n" +
-              "start - to start the game\n");
+      out.append("addplayer - to add a new human player\n" + "addcomputerplayer - to add a new computer player\n" + "start - to start the game\n");
+
       while (scan.hasNextLine()) {
         String in = scan.nextLine().trim();
         if ("start".equalsIgnoreCase(in)) {
@@ -66,8 +62,7 @@ public class GameConsoleController implements GameController{
             break;
           }
           out.append("Cannot start the game. Minimum no of players not added!\n");
-        }
-        else {
+        } else {
           Command c;
           BiFunction<Scanner, Appendable, Command> cmd = gameConfigCommands.getOrDefault(in, null);
           if (cmd == null) {
@@ -86,14 +81,14 @@ public class GameConsoleController implements GameController{
       out.append("layout - generate a layout of the game\n");
       out.append("playerdesc - Displays the description of a player\n");
       out.append("getinfo - Displays information about a space\n");
-      out.append("lookaround - Displays the details of a specific space the player currently is in\n");
+      out.append(
+          "lookaround - Displays the details of a specific space the player currently is in\n");
       out.append("move - Move to the neighbouring space\n");
       out.append("pickup - Pickup an item from the current space\n");
       out.append("quit - quit the game\n\n");
 
       out.append(m.getTurn());
       while (scan.hasNextLine()) {
-        out.append(m.getTurn());
         Command c;
         String in = scan.nextLine().trim();
 
@@ -121,13 +116,11 @@ public class GameConsoleController implements GameController{
       if (noOfTurns == turns) {
         out.append("### Max turns in the reached ###\n");
         out.append("GAME HAS ENDED!\n");
-      }
-      else {
+      } else {
         out.append("### User quit the game ###\n");
         out.append("GAME HAS ENDED!\n");
       }
-    }
-    catch (IOException ioe) {
+    } catch (IOException ioe) {
       throw new IllegalStateException("Append failed!\n");
     }
   }

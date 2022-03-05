@@ -1,8 +1,6 @@
 package model.layout;
 
 import java.awt.image.WritableRenderedImage;
-import java.util.List;
-import java.util.Set;
 
 /**
  * A world is one of the possible layout of a game. The world comprises a number of spaces.
@@ -32,6 +30,7 @@ public interface World {
 
   /**
    * Creates the graphical representation of the world.
+   *
    * @return the buffered image of the world which has spaces.
    */
   WritableRenderedImage getBufferedImage();
@@ -50,30 +49,33 @@ public interface World {
 
   /**
    * Returns the total no of spaces in the world.
+   *
    * @return the count of spaces
    */
   int getTotalNumberOfSpaces();
 
   /**
    * Returns the total no of items in the world.
+   *
    * @return the count of items
    */
   int getTotalNumberOfItems();
 
   /**
    * Returns the name of the world.
+   *
    * @return the name
    */
   String getName();
 
   /**
    * Adds a manually controlled player to the game to the specified space.
-   * @param name the name of the player
+   *
+   * @param name  the name of the player
    * @param space the starting position of the player in space
    * @throws IllegalArgumentException if space is not present in the world
    */
   String addPlayer(String name, String space, int limit);
-
 
   /**
    * Add a computer player with the default name of Computer(id of player).
@@ -83,18 +85,21 @@ public interface World {
 
   /**
    * Moves a player to the chosen neighbouring space from the current space.
+   *
    * @param space the space to move into
    */
   String move(String space);
 
   /**
    * Returns the name of the player currently in turn
+   *
    * @return the name of the player
    */
   String getTurn();
 
   /**
    * Return the details of the current space and neighbouring spaces.
+   *
    * @return
    */
   String lookAround();
@@ -109,18 +114,21 @@ public interface World {
 
   /**
    * Picks up an item for the player in turn from the current space the player is in.
+   *
    * @param item the name of the item
    */
   String pickUpItem(String item);
 
   /**
    * Returns the neighbours of a space the player currently in space.
+   *
    * @return the neighbours of current space
    */
   String getNeighboursOfPlayerCurrentSpace();
 
   /**
    * Returns the items in the current space of a player currently is in.
+   *
    * @return the items in a space
    */
   String getItemsInCurrentSpace();

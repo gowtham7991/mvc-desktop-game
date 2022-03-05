@@ -5,15 +5,16 @@ package model.characters;
  * The target has attributes like name, current position (space index) and health.
  * The class also allows the target to move.
  */
-public class TargetImpl implements Target{
+public class TargetImpl implements Target {
   private final String name;
-  private int position;
   private final int health;
+  private int position;
 
   /**
    * Constructs the target character given the health of the target, name and start position.
-   * @param health the health of the target
-   * @param name the target name
+   *
+   * @param health   the health of the target
+   * @param name     the target name
    * @param position the current position
    */
   public TargetImpl(int health, String name, int position) {

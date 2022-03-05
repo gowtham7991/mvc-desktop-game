@@ -6,7 +6,7 @@ public class RandomGeneratorImpl implements RandomGenerator {
 
   private final Random r;
 
-  public RandomGeneratorImpl () {
+  public RandomGeneratorImpl() {
     this.r = new Random();
   }
 

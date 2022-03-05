@@ -1,22 +1,19 @@
 package controller.commands;
 
+import controller.Command;
 import java.awt.image.WritableRenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
-
-import controller.Command;
 import model.Model;
 
 public class CreateLayout implements Command {
   private final Scanner scan;
   private final Appendable out;
 
-
   public CreateLayout(Scanner scan, Appendable out) {
-    if ( scan == null || out == null) {
+    if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
     this.scan = scan;
@@ -37,14 +34,12 @@ public class CreateLayout implements Command {
           cmdResponse = "Layout created!\n";
           validExec = true;
           out.append(cmdResponse);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           out.append("Could not create a layout!\n");
         }
       }
 
-    }
-    catch (IOException ioe) {
+    } catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");
     }
   }

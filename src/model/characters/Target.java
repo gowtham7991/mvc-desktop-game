@@ -8,6 +8,7 @@ public interface Target {
 
   /**
    * Moves the position of the character from the current position.
+   *
    * @param position the updated position
    */
   void moveTo(int position);

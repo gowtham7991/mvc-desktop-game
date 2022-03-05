@@ -1,15 +1,6 @@
 package model.layout;
 
-import model.characters.Player;
-import model.characters.PlayerImpl;
-import model.characters.PlayerType;
-import model.characters.PlayersIndex;
-import model.characters.TargetImpl;
-import model.characters.Target;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
@@ -18,10 +9,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
-
+import model.characters.Player;
+import model.characters.PlayerImpl;
+import model.characters.PlayerType;
+import model.characters.PlayersIndex;
+import model.characters.Target;
+import model.characters.TargetImpl;
+import utils.RandomGenerator;
 
 /**
  * This represents the board of the game where all the spaces reside and also initlializes the grid
@@ -34,34 +30,32 @@ public class WorldImpl implements World {
   private final int noOfColumns;
   private final int noOfSpaces;
   private final int noOfItems;
-  private Map<String, Space> spaceMap;
-  private Map<String, Set<String>> neighboursMap;
+  private final RandomGenerator randGen;
   private final Target target;
-  private PlayersIndex players;
+  private final Map<String, Space> spaceMap;
+  private final Map<String, Set<String>> neighboursMap;
+  private final PlayersIndex players;
   private int noOfPlayers;
   private int noOfComputerPlayers = 0;
   private int playerInTurn;
 
   /**
    * Constructs the using the specifications of the world, target and items.
-   * @param worldDescription the description of the world in the format (rows, cols, name)
+   *
+   * @param worldDescription  the description of the world in the format (rows, cols, name)
    * @param targetDescription the description of the target in the format (health, name)
-   * @param noOfSpaces the number of spaces in the world
-   * @param noOfItems the total number of items in the world
-   * @param spaces the list of spaces as a string
-   * @param items the list of items as a string
+   * @param noOfSpaces        the number of spaces in the world
+   * @param noOfItems         the total number of items in the world
+   * @param spaces            the list of spaces as a string
+   * @param items             the list of items as a string
    */
-  public WorldImpl(String worldDescription,
-                   String targetDescription,
-                   int noOfSpaces,
-                   int noOfItems,
-                   List<String> spaces,
-                   List<String> items) {
+  public WorldImpl(String worldDescription, String targetDescription, int noOfSpaces, int noOfItems,
+      List<String> spaces, List<String> items, RandomGenerator rand) {
 
-    if ("".equals(worldDescription) || worldDescription == null ) {
+    if ("".equals(worldDescription) || worldDescription == null) {
       throw new IllegalArgumentException("Invalid World description!");
     }
-    if ("".equals(targetDescription) || targetDescription == null ) {
+    if ("".equals(targetDescription) || targetDescription == null) {
       throw new IllegalArgumentException("Invalid Target description!");
     }
     if (noOfSpaces < 1) {
@@ -95,8 +89,7 @@ public class WorldImpl implements World {
 
     List<Object> validatedTargetDesc = validateTargetDescription(targetDescription);
     this.target = new TargetImpl((Integer) validatedTargetDesc.get(0),
-            (String) validatedTargetDesc.get(1),
-            0);
+        (String) validatedTargetDesc.get(1), 0);
 
     Map<String, Space> spaceMap = createSpaces(spaces, items);
     this.spaceMap = spaceMap;
@@ -110,11 +103,12 @@ public class WorldImpl implements World {
     this.noOfComputerPlayers = 0;
     this.playerInTurn = 0;
     this.players = new PlayersIndex();
+    this.randGen = rand;
   }
 
   @Override
   public String getNeighboursOf(String name) throws IllegalArgumentException {
-    if (! neighboursMap.containsKey(name)) {
+    if (!neighboursMap.containsKey(name)) {
       throw new IllegalArgumentException("Could not find the Space not found in the world!");
     }
 
@@ -128,8 +122,10 @@ public class WorldImpl implements World {
       StringBuilder str = new StringBuilder();
 
       String spaceDetails = spaceObj.toString();
-      String neighbours = String.format("Visible Spaces : %s\n", neighboursMap.get(name).toString());
-      String playersInSpace = String.format("Players in Space : %s\n", players.getPlayersInSpace(name).toString());
+      String neighbours = String.format("Visible Spaces : %s\n",
+          neighboursMap.get(name).toString());
+      String playersInSpace = String.format("Players in Space : %s\n",
+          players.getPlayersInSpace(name).toString());
       str.append(spaceDetails);
       str.append(neighbours);
       str.append(playersInSpace);
@@ -172,10 +168,7 @@ public class WorldImpl implements World {
 
       String spaceName = s.getName();
 
-      g.drawRect(x,
-              y,
-              spaceWidth,
-              spaceHeight);
+      g.drawRect(x, y, spaceWidth, spaceHeight);
 
       g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
       g.drawString(spaceName, x + 5, y + 10);
@@ -218,14 +211,14 @@ public class WorldImpl implements World {
   public String addPlayer(String name, String space, int maxItemsPerPlayer) {
     if (spaceMap.containsKey(space)) {
       StringBuilder sr = new StringBuilder();
-      Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer, noOfPlayers);
+      Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer,
+          noOfPlayers);
       players.addPlayer(noOfPlayers, player);
       noOfPlayers += 1;
 
       sr.append(name).append(" added to ").append(space);
       return sr.toString();
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Space not found!");
     }
   }
@@ -234,10 +227,11 @@ public class WorldImpl implements World {
   @Override
   public String addComputerPlayer() {
     StringBuilder sr = new StringBuilder();
-    String name = "Computer".concat(Integer.toString(noOfComputerPlayers+1));
+    String name = "Computer".concat(Integer.toString(noOfComputerPlayers + 1));
     String space = spaceMap.keySet().iterator().next();
     int maxItemsPerPlayer = 5;
-    Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer, noOfPlayers);
+    Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer,
+        noOfPlayers);
     players.addPlayer(noOfPlayers, player);
     noOfPlayers += 1;
     noOfComputerPlayers += 1;
@@ -249,25 +243,34 @@ public class WorldImpl implements World {
   @Override
   public String move(String space) {
     StringBuilder sr = new StringBuilder();
-    Player p =  players.getPlayerObj(playerInTurn);
+    Player p = players.getPlayerObj(playerInTurn);
+
     if (p.getPosition().equals(space)) {
-      throw new IllegalArgumentException("You are currently in this space!");
+      sr.append("You are currently in this space. Your turn is up!\n");
+    }
+    else {
+      if (! spaceMap.keySet().contains(space)) {
+        sr.append("Space not found in the world. Your turn is up!\n");
+      }
+      else {
+        if (getNeighboursOf(p.getPosition()).length() == 0) {
+          sr.append("No neighbours found. Your turn is up!\n");
+        }
+        else {
+          if (getNeighboursOf(p.getPosition()).contains(space)) {
+            p.moveTo(space);
+            sr.append(p.getName()).append(" moved to ").append(space).append("\n");
+            sr.append("Neighbours : ").append(getNeighboursOf(space)).append("\n");
+            sr.append("Items available : ").append(spaceMap.get(space).getItems().toString()).append("\n");
+          }
+          else {
+            sr.append("Space is not a neighbour. Your turn is up!\n");
+          }
+        }
+      }
     }
 
-    p.moveTo(space);
-    sr.append(p.getName())
-            .append(" moved to ")
-            .append(space)
-            .append("\n");
-    sr.append("Neighbours : ")
-            .append(getNeighboursOf(space))
-            .append("\n");
-    sr.append("Items available : ")
-            .append(spaceMap.get(space).getItems().toString())
-            .append("\n");
-
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
-
     moveTarget();
     return sr.toString();
   }
@@ -278,22 +281,14 @@ public class WorldImpl implements World {
 
     Player player = players.getPlayerObj(playerInTurn);
     while (player.getPlayerType() == PlayerType.COMPUTER) {
-      sr.append("Player")
-              .append(playerInTurn)
-              .append(" - ")
-              .append(player.getName())
-              .append(" is in turn. Select a command.")
-              .append("\n");
+      sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
+          .append(" is in turn. Select a command.").append("\n");
       String str = controlComputerControlledPlayer();
       sr.append(str).append("\n");
       player = players.getPlayerObj(playerInTurn);
     }
-    sr.append("Player")
-            .append(playerInTurn)
-            .append(" - ")
-            .append(player.getName())
-            .append(" is in turn. Select a command.")
-            .append("\n");
+    sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
+        .append(" is in turn. Select a command.").append("\n");
     return sr.toString();
   }
 
@@ -308,8 +303,7 @@ public class WorldImpl implements World {
     sr.append("\n");
     if (neighbours == null || neighbours.size() == 0) {
       sr.append("No neighbours for this space.\n");
-    }
-    else {
+    } else {
       sr.append("Neighbours : \n");
       for (String n : neighbours) {
         sr.append(n).append("\n");
@@ -333,7 +327,6 @@ public class WorldImpl implements World {
     }
     return players.getPlayerObj(playerId).toString();
 
-
   }
 
   @Override
@@ -342,23 +335,31 @@ public class WorldImpl implements World {
     StringBuilder sr = new StringBuilder();
     String playerCurrentSpace = p.getPosition();
 
-    if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
-      Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
-      p.pickUpItem(item);
-
-      sr.append(p.getName())
-              .append(" picked up ")
-              .append(itemName)
-              .append(" from ")
-              .append(playerCurrentSpace)
-              .append("\n");
-      playerInTurn = (playerInTurn + 1) % noOfPlayers;
-      moveTarget();
-      return sr.toString();
+    if (spaceMap.get(playerCurrentSpace).getItems().size() == 0) {
+      sr.append("No items found. Your turn is up!\n");
     }
     else {
-      throw new IllegalArgumentException("Item not found!");
+      if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
+        if (p.getItemCount() < p.getMaxItemCount()) {
+          Item item = spaceMap.get(playerCurrentSpace).removeItem(itemName);
+          p.pickUpItem(item);
+
+          sr.append(p.getName()).append(" picked up ").append(itemName).append(" from ")
+              .append(playerCurrentSpace).append("\n");
+          playerInTurn = (playerInTurn + 1) % noOfPlayers;
+          moveTarget();
+        }
+        else {
+          sr.append("Max item limit reached. Cannot pick up the item!\n");
+        }
+
+      }
+      else {
+        sr.append("Item not found. Your turn is up!\n");
+      }
     }
+
+    return sr.toString();
   }
 
   @Override
@@ -387,38 +388,32 @@ public class WorldImpl implements World {
 
   private String controlComputerControlledPlayer() {
     Player player = players.getPlayerObj(playerInTurn);
-    Random rnd = new Random();
     List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
     boolean isValidCommand = false;
     String response = "";
     while (!isValidCommand) {
-      int randomCmdIdx = rnd.nextInt(commands.size());
+      int randomCmdIdx = randGen.getRandomInt() % commands.size();
       String selectedCommand = commands.get(randomCmdIdx);
 
       if ("move".equals(selectedCommand)) {
         try {
           response = handleMoveComputerPlayer(player);
           isValidCommand = true;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           isValidCommand = false;
         }
-      }
-      else if ("lookAround".equals(selectedCommand)) {
+      } else if ("lookAround".equals(selectedCommand)) {
         try {
-          response =  handleLookAroundComputerPlayer(player);
+          response = handleLookAroundComputerPlayer(player);
           isValidCommand = true;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           isValidCommand = false;
         }
-      }
-      else if ("pickUpItem".equals(selectedCommand)) {
+      } else if ("pickUpItem".equals(selectedCommand)) {
         try {
           response = handlePickUpItemComputerPlayer(player);
           isValidCommand = true;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           isValidCommand = false;
         }
 
@@ -429,21 +424,19 @@ public class WorldImpl implements World {
   }
 
   private String handleMoveComputerPlayer(Player p) {
-    Random rnd = new Random();
     String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
     Set<String> neighbourSet = neighboursMap.get(currentSpace);
     String[] neighbours = neighbourSet.toArray(new String[neighbourSet.size()]);
-    int randomNeighbourIdx = rnd.nextInt(neighbours.length);
+    int randomNeighbourIdx = randGen.getRandomInt() % neighbours.length;
     String randomNeighbour = neighbours[randomNeighbourIdx];
     return move(randomNeighbour);
   }
 
   private String handlePickUpItemComputerPlayer(Player p) {
-    Random rnd = new Random();
     String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
     Set<String> items = spaceMap.get(currentSpace).getItems();
 
-    int randomItemIdx = rnd.nextInt(items.size());
+    int randomItemIdx = randGen.getRandomInt() % items.size();
     String randomItem = findNthElementOfSet(items, randomItemIdx);
     return pickUpItem(randomItem);
   }
@@ -466,6 +459,7 @@ public class WorldImpl implements World {
   /**
    * Helper method which validates the given description of the world
    * and returns rows, cols and name of the world.
+   *
    * @param input the description of the world as a string
    * @return the no of rows, cols and name
    * @throws IllegalArgumentException - if the rows/cols is negative
@@ -484,8 +478,7 @@ public class WorldImpl implements World {
       }
 
       Collections.addAll(validatedWorldDesc, rows, cols, name);
-    }
-    catch (ArrayIndexOutOfBoundsException e) {
+    } catch (ArrayIndexOutOfBoundsException e) {
       throw new IllegalArgumentException("Invalid world description!");
     }
     return validatedWorldDesc;
@@ -513,8 +506,7 @@ public class WorldImpl implements World {
       }
 
       Collections.addAll(validatedTargetDesc, health, name);
-    }
-    catch (ArrayIndexOutOfBoundsException e) {
+    } catch (ArrayIndexOutOfBoundsException e) {
       throw new IllegalArgumentException("Invalid target description!");
     }
     return validatedTargetDesc;
@@ -524,7 +516,7 @@ public class WorldImpl implements World {
    * Helper method which parses the config file data and updates the space map.
    */
   private Map<String, Space> createSpaces(List<String> spaces, List<String> items)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
 
     Map<String, Space> spaceMap = new TreeMap<>(); // retains the insertion order
     List<Map<String, Item>> sortedItemList = sortItemsBasedOnSpaceIndex(items);
@@ -547,7 +539,7 @@ public class WorldImpl implements World {
    * @return the ordered list of items a map
    */
   private List<Map<String, Item>> sortItemsBasedOnSpaceIndex(List<String> items)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     List<Map<String, Item>> sortedItems = new ArrayList<>();
     for (int i = 0; i < noOfSpaces; i++) {
       sortedItems.add(new HashMap<>());
@@ -567,8 +559,7 @@ public class WorldImpl implements World {
         } else {
           throw new IllegalArgumentException("Invalid item description!");
         }
-      }
-      catch (ArrayIndexOutOfBoundsException e) {
+      } catch (ArrayIndexOutOfBoundsException e) {
         throw new IllegalArgumentException("Invalid item location!");
       }
     }
@@ -578,12 +569,13 @@ public class WorldImpl implements World {
 
   /**
    * Helper method which checks if the given space description valid and updates the space mapping.
-   *  @param input the space description from the config file
+   *
+   * @param input      the space description from the config file
    * @param spaceIndex the 0-indexed value of the space
-   * @param itemMap the mapping of items with respect to the space index
+   * @param itemMap    the mapping of items with respect to the space index
    */
   private Space checkIfValidSpace(String input, int spaceIndex, Map<String, Item> itemMap)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     String str = input.trim();
     String[] strList = str.split("\\s+", 5);
 
@@ -593,23 +585,14 @@ public class WorldImpl implements World {
     int bottomRightCol = Integer.parseInt(strList[3]);
     String spaceName = strList[4];
 
-    if (topLeftRow >= noOfRows
-            || topLeftCol >= noOfColumns
-            || bottomRightRow >= noOfRows
-            || bottomRightCol >= noOfColumns
+    if (topLeftRow >= noOfRows || topLeftCol >= noOfColumns || bottomRightRow >= noOfRows || bottomRightCol >= noOfColumns
 
     ) {
       throw new IllegalArgumentException("Invalid space description - invalid coordinates!");
     }
 
-    Space newSpace = new SpaceImpl(spaceName,
-            spaceIndex,
-            topLeftRow,
-            topLeftCol,
-            bottomRightRow,
-            bottomRightCol,
-            itemMap
-    );
+    Space newSpace = new SpaceImpl(spaceName, spaceIndex, topLeftRow, topLeftCol, bottomRightRow,
+        bottomRightCol, itemMap);
     return newSpace;
 
   }
@@ -630,12 +613,8 @@ public class WorldImpl implements World {
     }
 
     for (Space space : spaceMap.values()) {
-      for (int i = space.getTopLeftRow();
-           i < (space.getBottomRightRow() - space.getTopLeftRow()) + space.getTopLeftRow() + 1;
-           i++) {
-        for (int j = space.getTopLeftCol();
-             j < (space.getBottomRightCol() - space.getTopLeftCol()) + space.getTopLeftCol() + 1;
-             j++) {
+      for (int i = space.getTopLeftRow(); i < (space.getBottomRightRow() - space.getTopLeftRow()) + space.getTopLeftRow() + 1; i++) {
+        for (int j = space.getTopLeftCol(); j < (space.getBottomRightCol() - space.getTopLeftCol()) + space.getTopLeftCol() + 1; j++) {
           if (grid[i][j] != -1) {
             throw new IllegalArgumentException("Overlapping spaces not allowed!");
           }
@@ -658,6 +637,10 @@ public class WorldImpl implements World {
   private Map<String, Set<String>> populateNeighboursMap() {
     Map<String, Set<String>> map = new HashMap();
 
+    for (String spaceName : spaceMap.keySet()) {
+      map.put(spaceName, new HashSet<>());
+    }
+
     for (int row = 0; row < noOfRows; row++) {
       for (int col = 0; col < noOfColumns; col++) {
         int spaceIndex = grid[row][col];
@@ -676,17 +659,15 @@ public class WorldImpl implements World {
 
   /**
    * Helper method which adds a neighbour to a set for a specific space.
-   *  @param row the row in the grid
-   * @param col the column in the grid
+   *
+   * @param row  the row in the grid
+   * @param col  the column in the grid
    * @param name the name of the specified space in the world
-   * @param map the neighbour map with space name and set of spaces
+   * @param map  the neighbour map with space name and set of spaces
    */
-  private Map<String, Set<String>> addNeighbour(int row,
-                                                int col,
-                                                String name,
-                                                Map<String,
-                                                        Set<String>> map) {
-    if (! (row < 0 || row >= noOfRows || col < 0 || col >= noOfColumns)) {
+  private Map<String, Set<String>> addNeighbour(int row, int col, String name,
+      Map<String, Set<String>> map) {
+    if (!(row < 0 || row >= noOfRows || col < 0 || col >= noOfColumns)) {
       int neighbourIndex = grid[row][col];
       if (neighbourIndex != -1 && neighbourIndex != spaceMap.get(name).getIndex()) {
         String neighbourName = (String) spaceMap.keySet().toArray()[neighbourIndex];

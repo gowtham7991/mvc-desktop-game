@@ -1,18 +1,16 @@
 package controller.commands;
 
+import controller.Command;
 import java.io.IOException;
 import java.util.Scanner;
-
-import controller.Command;
 import model.Model;
 
 public class GetInfoOfSpace implements Command {
   private final Scanner scan;
   private final Appendable out;
 
-
   public GetInfoOfSpace(Scanner scan, Appendable out) {
-    if ( scan == null || out == null) {
+    if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
     this.scan = scan;
@@ -33,14 +31,12 @@ public class GetInfoOfSpace implements Command {
           cmdResponse = m.getInfoOfSpace(spaceName);
           out.append(cmdResponse);
           validExec = true;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");
         }
       }
 
-    }
-    catch (IOException ioe) {
+    } catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");
     }
   }

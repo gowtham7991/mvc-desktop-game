@@ -1,13 +1,14 @@
 package modeltest;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Objects;
-
 import model.layout.Item;
 import model.layout.ItemImpl;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ItemImplTest {
 
@@ -22,25 +23,25 @@ public class ItemImplTest {
     assertEquals("Item1", i.getName());
     assertEquals(10, i.getDamage());
     sb.append("Name : Item1\n").append("Damage : 10\n").append("Location : 0\n");
-    assertEquals(  sb.toString(), i.toString());
+    assertEquals(sb.toString(), i.toString());
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testItemWithInvalidItemName() {
     Item i = createItem("  ", 10, 0);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testItemWithNullName() {
     Item i = createItem(null, 10, 0);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testItemWithNegativeDamage() {
     Item i = createItem("Item1", -10, 0);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testItemWithInvalidLocation() {
     Item i = createItem("Item1", 10, -1);
   }

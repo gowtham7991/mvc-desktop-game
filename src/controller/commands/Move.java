@@ -1,9 +1,8 @@
 package controller.commands;
 
+import controller.Command;
 import java.io.IOException;
 import java.util.Scanner;
-
-import controller.Command;
 import model.Model;
 
 public class Move implements Command {
@@ -11,7 +10,7 @@ public class Move implements Command {
   private final Appendable out;
 
   public Move(Scanner scan, Appendable out) {
-    if ( scan == null || out == null) {
+    if (scan == null || out == null) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
     this.scan = scan;
@@ -33,14 +32,12 @@ public class Move implements Command {
           cmdResponse = m.move(spaceName);
           out.append(cmdResponse);
           validExec = true;
-        }
-        catch (IllegalArgumentException e) {
-          out.append("Could not add a player! Retry.\n");
+        } catch (IllegalArgumentException e) {
+          out.append("Could not move! Retry.\n");
         }
       }
 
-    }
-    catch (IOException ioe) {
+    } catch (IOException ioe) {
       throw new IllegalArgumentException("Append failed");
     }
   }
