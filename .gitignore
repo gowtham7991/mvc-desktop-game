@@ -224,3 +224,7 @@ $RECYCLE.BIN/
 *.iml
 META-INF
 *.MF
+
+#Ignore META-INF
+META-INF
+*/META-INF/*

@@ -95,7 +95,8 @@ public class GameConsoleController implements GameController {
       out.append("layout - generate a layout of the game\n");
       out.append("playerdesc - Displays the description of a player\n");
       out.append("getinfo - Displays information about a space\n");
-      out.append("lookaround - Displays the details of a specific space the player currently is in\n");
+      out.append("lookaround - Displays the details of a ");
+      out.append("specific space the player currently is in\n");
       out.append("move - Move to the neighbouring space\n");
       out.append("pickup - Pickup an item from the current space\n");
       out.append("quit - quit the game\n\n");

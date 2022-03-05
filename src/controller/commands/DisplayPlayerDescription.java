@@ -14,8 +14,9 @@ public class DisplayPlayerDescription implements Command {
 
   /**
    * Constructs the command to display the description of a player.
+   *
    * @param scan the scanner to read input
-   * @param out the output buffer to write the data
+   * @param out  the output buffer to write the data
    */
   public DisplayPlayerDescription(Scanner scan, Appendable out) {
     if (scan == null || out == null) {

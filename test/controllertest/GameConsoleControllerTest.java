@@ -47,7 +47,8 @@ public class GameConsoleControllerTest {
     outBuilder.append("layout - generate a layout of the game\n");
     outBuilder.append("playerdesc - Displays the description of a player\n");
     outBuilder.append("getinfo - Displays information about a space\n");
-    outBuilder.append("lookaround - Displays the details of a specific space the player currently is in\n");
+    outBuilder.append("lookaround - Displays the details of a");
+    outBuilder.append(" specific space the player currently is in\n");
     outBuilder.append("move - Move to the neighbouring space\n");
     outBuilder.append("pickup - Pickup an item from the current space\n");
     outBuilder.append("quit - quit the game\n");
