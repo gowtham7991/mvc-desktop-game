@@ -81,20 +81,47 @@ public interface Model {
   String displayPlayerDescription(String name);
 
   /**
-   * Picks up an item for the player in turn from the current space the player is in.
+   * Removes an item from the current space the player is in and adds it to the players item
+   * inventory.
    *
    * @param item the name of the item
    * @return the details of the pickup
    */
   String pickUpItem(String item);
 
+  /**
+   * Returns the neighbours of the current players space.
+   * @return the list of neighbours
+   */
   String getNeighboursOfPlayerCurrentSpace();
 
+  /**
+   * Returns the list of items in the current player's space as a string.
+   * @return the list of items
+   */
   String getItemsInCurrentSpace();
 
+  /**
+   * Returns all the players in the game as a string.
+   * @return the list of players
+   */
   String getPlayers();
 
+  /**
+   * Returns the name of the game.
+   * @return the name
+   */
   String getName();
 
+  /**
+   * Returns the number of normal players added to the game.
+   * @return the count of normal players
+   */
   int getTotalNumberOfHumanPlayers();
+
+  /**
+   * Returns all the spaces in the world.
+   * @return the list of spaces
+   */
+  String getAllSpaces();
 }

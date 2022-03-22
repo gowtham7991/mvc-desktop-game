@@ -25,7 +25,7 @@ Thg program can display the information of a specified space.
 The program can display the number spaces visible or neighbours of a specified space.
 The program can move the target around the world.
 The program lets user add a normal player
-The programm lets user to add a computer controlled player
+The program lets user to add a computer controlled player
 The program allows the user to move around the world.
 The program allows the user to pick up an item from the current space.
 The program allows the user to look around the current space.
@@ -100,7 +100,8 @@ Milestone2
 - If no neighbours and players makes a move, then the turn is up.
 - If no items are found in the space and the user picksup, the turn is completed.
 - The user cannot move to the same space he is in currently.
-
+- The lookaround is for the current player in turn and displays information only about the current space. It includes the neighbours information and the items in the particular neighbour.
+- Max turns is implemented in the controller.
 
 ### Limitations
 

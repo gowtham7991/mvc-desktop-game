@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import model.layout.World;
 import model.layout.WorldImpl;
+import org.junit.Before;
 import org.junit.Test;
 import utils.RandomGenerator;
 
@@ -15,20 +16,31 @@ import utils.RandomGenerator;
  * Test suite for the World Implementation, spaces and items.
  */
 public class WorldImplTest {
-  private final String validWorldDescription = "30 30 MyWorld";
-  private final String validTargetDescription = "50 MyTarget";
-  private final int noOfSpaces = 9;
-  private final int noOfItems = 5;
-  private final int maxTurnsPerGame = 50;
-  private final RandomGenerator rand = new RandomGeneratorMock();
-  private final List<String> spaces = new ArrayList<>(
-      List.of("0 0 4 3 Space1", "0 4 1 14 Space2", "2 4 6 7 Space3", "2 8 11 9 Space4",
-          "2 10 19 11 Space5", "5 2 12 3 Space6", "13 0 14 9 Space7", "16 3 17 5 Space8",
-          "15 7 17 8 Space9"));
-  private final List<String> items = new ArrayList<>(
-      List.of("0 10 Item1", "0 10 Item111", "1 20 Item2", "2 30 Item3", "3 40 Item4"));
-  private final World validWorld = createWorld(validWorldDescription, validTargetDescription,
-      noOfSpaces, noOfItems, spaces, items, rand);
+
+  private final String validWorldDescription;
+  private final String validTargetDescription;
+  private final int noOfSpaces;
+  private final int noOfItems;
+  private final RandomGenerator rand;
+  private final List<String> spaces;
+  private final List<String> items;
+  private final World validWorld;
+
+  public WorldImplTest() {
+    this.validWorldDescription = "30 30 MyWorld";
+    this.validTargetDescription = "50 MyTarget";
+    this.noOfSpaces = 9;
+    this.noOfItems = 5;
+    this.rand = new RandomGeneratorMock();
+    this.spaces = new ArrayList<>(
+        List.of("0 0 4 3 Space1", "0 4 1 14 Space2", "2 4 6 7 Space3", "2 8 11 9 Space4",
+            "2 10 19 11 Space5", "5 2 12 3 Space6", "13 0 14 9 Space7", "16 3 17 5 Space8",
+            "15 7 17 8 Space9"));
+    this.items = new ArrayList<>(
+        List.of("0 10 Item1", "0 10 Item111", "1 20 Item2", "2 30 Item3", "3 40 Item4"));
+    this.validWorld = createWorld(validWorldDescription, validTargetDescription,
+        noOfSpaces, noOfItems, spaces, items, rand);
+  }
 
   private World createWorld(String worldDesc, String targetDesc, int noOfSpaces, int noOfItems,
       List<String> spaces, List<String> items, RandomGenerator rand) {

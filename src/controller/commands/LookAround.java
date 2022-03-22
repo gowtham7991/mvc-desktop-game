@@ -28,7 +28,9 @@ public class LookAround implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String cmdResponse;
       boolean validExec = false;

@@ -132,13 +132,28 @@ public interface World {
   String getNeighboursOfPlayerCurrentSpace();
 
   /**
-   * Returns the items in the current space of a player currently is in.
+   * Returns the list of items in the current space occupied by the player currently in turn.
    *
    * @return the items in a space
    */
   String getItemsInCurrentSpace();
 
+  /**
+   * Returns all the players in the game as a string
+   * @return the list of players
+   */
   String getPlayers();
 
+  /**
+   * Returns the number of normal players added to the game
+   * @return the count of normal players
+   */
   int getTotalNumberOfHumanPlayers();
+
+  /**
+   * Returns all the spaces in the world
+   * @return the list of spaces
+   */
+  String getSpaces();
+
 }

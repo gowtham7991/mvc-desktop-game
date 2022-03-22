@@ -27,7 +27,9 @@ public class PickUpItem implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String itemName = null;
       String cmdResponse;
@@ -38,7 +40,7 @@ public class PickUpItem implements Command {
           out.append("Available items : ");
           out.append(m.getItemsInCurrentSpace()).append("\n");
           out.append("Enter the item name: \n");
-          itemName = scan.nextLine();
+          itemName = scan.nextLine().trim();
           cmdResponse = m.pickUpItem(itemName);
           out.append(cmdResponse);
           validExec = true;

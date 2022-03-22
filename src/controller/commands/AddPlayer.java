@@ -27,7 +27,9 @@ public class AddPlayer implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String name;
       String spaceName;
@@ -38,9 +40,11 @@ public class AddPlayer implements Command {
       while (!validExec) {
         try {
           out.append("Enter your name: \n");
-          name = scan.nextLine();
+          name = scan.nextLine().trim();
+          out.append("# List of available spaces #\n");
+          out.append(m.getAllSpaces());
           out.append("Enter the Space you wish to enter: \n");
-          spaceName = scan.nextLine();
+          spaceName = scan.nextLine().trim();
 
           while (itemLimit == null) {
             out.append("Enter the item limit: \n");

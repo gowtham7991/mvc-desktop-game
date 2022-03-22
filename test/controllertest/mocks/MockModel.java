@@ -174,4 +174,9 @@ public class MockModel implements Model {
   public int getTotalNumberOfHumanPlayers() {
     return 5;
   }
+
+  @Override
+  public String getAllSpaces() {
+    return "List of spaces";
+  }
 }

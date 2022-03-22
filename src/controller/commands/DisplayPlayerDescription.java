@@ -28,7 +28,9 @@ public class DisplayPlayerDescription implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String playerName = null;
       String cmdResponse;
@@ -36,7 +38,7 @@ public class DisplayPlayerDescription implements Command {
       while (!validExec) {
         try {
           out.append("Enter a player's name: \n");
-          playerName = scan.nextLine();
+          playerName = scan.nextLine().trim();
           cmdResponse = m.displayPlayerDescription(playerName);
           out.append(cmdResponse);
           validExec = true;

@@ -22,6 +22,10 @@ public class ModelImpl implements Model {
    */
   public ModelImpl(Readable in, RandomGenerator rand) {
 
+    if (in == null || rand == null) {
+      throw new IllegalArgumentException("Invalid values passed!");
+    }
+
     Scanner scan = new Scanner(in);
     ConfigFileParser parsedData = new ConfigFileParser(scan);
 
@@ -100,6 +104,11 @@ public class ModelImpl implements Model {
   @Override
   public int getTotalNumberOfHumanPlayers() {
     return world.getTotalNumberOfHumanPlayers();
+  }
+
+  @Override
+  public String getAllSpaces() {
+    return world.getSpaces();
   }
 
   @Override

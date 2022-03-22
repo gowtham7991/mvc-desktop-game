@@ -22,10 +22,8 @@ public class GameConsoleController implements GameController {
   private final Scanner scan;
   private final Appendable out;
   private final int turns;
-  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands =
-      new HashMap<>();
-  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands =
-      new HashMap<>();
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands;
+  private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands;
   private int noOfTurns;
 
   /**
@@ -36,10 +34,17 @@ public class GameConsoleController implements GameController {
    * @param turnsPerGame the max turns of the game
    */
   public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
+
+    if (in == null || out == null) {
+      throw new IllegalArgumentException("Invalid values passed!");
+    }
+
     this.scan = new Scanner(in);
     this.out = out;
     this.turns = turnsPerGame;
     this.noOfTurns = 0;
+    this.gameConfigCommands = new HashMap<>();
+    this.gameExecutionCommands = new HashMap<>();
   }
 
   @Override

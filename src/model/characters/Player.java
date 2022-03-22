@@ -30,11 +30,27 @@ public interface Player {
    */
   void pickUpItem(Item item);
 
+  /**
+   * Returns the name of the player.
+   * @return
+   */
   String getName();
 
+  /**
+   * Returns the type of the player (Computer / Manual).
+   * @return
+   */
   PlayerType getPlayerType();
 
+  /**
+   * Returns the no of items currently in player's possession.
+   * @return
+   */
   int getItemCount();
 
+  /**
+   * Returns the maximum no of items a player can carry.
+   * @return
+   */
   int getMaxItemCount();
 }

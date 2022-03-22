@@ -38,7 +38,7 @@ public class WorldImpl implements World {
   private final Map<String, Set<String>> neighboursMap;
   private final PlayersIndex players;
   private int noOfPlayers;
-  private int noOfComputerPlayers = 0;
+  private int noOfComputerPlayers;
   private int playerInTurn;
 
   /**
@@ -385,6 +385,16 @@ public class WorldImpl implements World {
     return noOfPlayers - noOfComputerPlayers;
   }
 
+  @Override
+  public String getSpaces() {
+    StringBuilder sb = new StringBuilder();
+    for (String s : spaceMap.keySet()) {
+      sb.append(s);
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+
   private String controlComputerControlledPlayer() {
     Player player = players.getPlayerObj(playerInTurn);
     List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
@@ -496,18 +506,18 @@ public class WorldImpl implements World {
     String[] strList = str.split("\\s+", 2);
     List<Object> validatedTargetDesc = new ArrayList<>();
 
-    try {
-      int health = Integer.parseInt(strList[0]);
-      String name = strList[1];
-
-      if (health < 0) {
-        throw new IllegalArgumentException("Target health cannot be negative!");
-      }
-
-      Collections.addAll(validatedTargetDesc, health, name);
-    } catch (ArrayIndexOutOfBoundsException e) {
+    if (strList.length != 2) {
       throw new IllegalArgumentException("Invalid target description!");
     }
+
+    int health = Integer.parseInt(strList[0]);
+    String name = strList[1];
+
+    if (health < 0) {
+      throw new IllegalArgumentException("Target health cannot be negative!");
+    }
+    Collections.addAll(validatedTargetDesc, health, name);
+
     return validatedTargetDesc;
   }
 
@@ -547,19 +557,19 @@ public class WorldImpl implements World {
     for (String input : items) {
       String str = input.trim();
       String[] strList = str.split("\\s+", 3);
-      try {
-        int spaceIdx = Integer.parseInt(strList[0]);
-        int itemDamage = Integer.parseInt(strList[1]);
-        String itemName = strList[2];
-        if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
-          Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
+      if (strList.length != 3) {
+        throw new IllegalArgumentException("Invalid item description!");
+      }
 
-          sortedItems.get(spaceIdx).put(itemName, newItem);
-        } else {
-          throw new IllegalArgumentException("Invalid item description!");
-        }
-      } catch (ArrayIndexOutOfBoundsException e) {
-        throw new IllegalArgumentException("Invalid item location!");
+      int spaceIdx = Integer.parseInt(strList[0]);
+      int itemDamage = Integer.parseInt(strList[1]);
+      String itemName = strList[2];
+      if ((spaceIdx >= 0 || spaceIdx < noOfSpaces) || itemDamage >= 0) {
+        Item newItem = new ItemImpl(itemName, itemDamage, spaceIdx);
+
+        sortedItems.get(spaceIdx).put(itemName, newItem);
+      } else {
+        throw new IllegalArgumentException("Invalid item description!");
       }
     }
 

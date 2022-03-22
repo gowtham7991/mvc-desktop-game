@@ -27,7 +27,9 @@ public class GetInfoOfSpace implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String spaceName = null;
       String cmdResponse;
@@ -35,7 +37,7 @@ public class GetInfoOfSpace implements Command {
       while (!validExec) {
         try {
           out.append("Enter the name of the space: \n");
-          spaceName = scan.nextLine();
+          spaceName = scan.nextLine().trim();
           cmdResponse = m.getInfoOfSpace(spaceName);
           out.append(cmdResponse);
           validExec = true;

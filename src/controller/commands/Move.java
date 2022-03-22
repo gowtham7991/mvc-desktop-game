@@ -27,7 +27,9 @@ public class Move implements Command {
 
   @Override
   public void execute(Model m) {
-
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid parameters passed!");
+    }
     try {
       String spaceName = null;
       String cmdResponse;
@@ -36,7 +38,7 @@ public class Move implements Command {
         try {
           out.append(m.getNeighboursOfPlayerCurrentSpace()).append("\n");
           out.append("Enter the Space you wish to enter: \n");
-          spaceName = scan.nextLine();
+          spaceName = scan.nextLine().trim();
           cmdResponse = m.move(spaceName);
           out.append(cmdResponse);
           validExec = true;

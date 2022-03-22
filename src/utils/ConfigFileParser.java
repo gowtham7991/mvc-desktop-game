@@ -20,6 +20,9 @@ public class ConfigFileParser {
    * @param scan the scanner to read data
    */
   public ConfigFileParser(Scanner scan) {
+    if (scan == null) {
+      throw new IllegalArgumentException("Invalid values passed!");
+    }
     parseFile(scan);
   }
 
@@ -34,6 +37,10 @@ public class ConfigFileParser {
     int noOfItems = -1;
     List<String> spaces = new ArrayList<>();
     List<String> items = new ArrayList<>();
+    int worldDescLine = 1;
+    int targetDescLine = 2;
+    int petDescLine = 3;
+    int spaceCount = 4;
 
     int lineNo = 1;
 

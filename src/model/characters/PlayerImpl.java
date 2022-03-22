@@ -14,6 +14,7 @@ public class PlayerImpl implements Player {
   private final int maxItems;
   private final int id;
   private String position;
+  private final String startingPosition;
   private int noOfItems;
   private final List<Item> itemsCarrying = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class PlayerImpl implements Player {
     }
     this.name = name;
     this.position = position;
+    this.startingPosition = position;
     this.type = type;
     this.maxItems = maxItems;
     this.noOfItems = 0;
@@ -52,6 +54,9 @@ public class PlayerImpl implements Player {
 
   @Override
   public void moveTo(String newPosition) {
+    if (newPosition == null) {
+      throw new IllegalArgumentException("Invalid position!");
+    }
     position = newPosition;
   }
 
@@ -62,6 +67,10 @@ public class PlayerImpl implements Player {
 
   @Override
   public void pickUpItem(Item item) {
+    if (item == null) {
+      throw new IllegalArgumentException("Invalid item!");
+    }
+
     if (noOfItems == maxItems) {
       throw new IllegalArgumentException("Max limit reached!");
     }

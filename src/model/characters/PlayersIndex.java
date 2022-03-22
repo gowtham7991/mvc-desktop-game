@@ -6,16 +6,20 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Class which stores the player objects referenced with their id.
+ * This Class stores the player objects referenced with their id based on their insertion order.
  * Allows operations to add players, find players in a space, get name based on id.
  */
 public class PlayersIndex {
 
   private final Map<Integer, Player> players;
 
+  /**
+   * Constructs an empty players index class which can be used to store the players data.
+   */
   public PlayersIndex() {
     players = new TreeMap<>();
   }
+
   /**
    * Adds a player to based on their id.
    * @param playerId the id

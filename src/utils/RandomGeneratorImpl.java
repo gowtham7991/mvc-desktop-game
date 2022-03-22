@@ -9,6 +9,9 @@ public class RandomGeneratorImpl implements RandomGenerator {
 
   private final Random rand;
 
+  /**
+   * Constructs the random generator class.
+   */
   public RandomGeneratorImpl() {
     this.rand = new Random();
   }
