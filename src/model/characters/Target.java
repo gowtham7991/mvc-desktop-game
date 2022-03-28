@@ -11,12 +11,25 @@ public interface Target {
    *
    * @param position the updated position
    */
-  void moveTo(int position);
+  void moveTo(String position);
 
   /**
    * Return the current position of the character.
    *
    * @return the position (space index) of the character.
    */
-  int getPosition();
+  String getPosition();
+
+  /**
+   * Returns the current target health.
+   * @return the health of the target
+   */
+  int getTargetHealth();
+
+  /**
+   * Decrease the target health by the damage caused by the item.
+   *
+   * @param damage the damage caused by the item
+   */
+  void reduceHealth(int damage);
 }

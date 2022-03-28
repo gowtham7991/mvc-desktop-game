@@ -39,7 +39,7 @@ public class GetInfoOfSpace implements Command {
           out.append("Enter the name of the space: \n");
           spaceName = scan.nextLine().trim();
           cmdResponse = m.getInfoOfSpace(spaceName);
-          out.append(cmdResponse);
+          out.append(cmdResponse).append("\n");
           validExec = true;
         } catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");

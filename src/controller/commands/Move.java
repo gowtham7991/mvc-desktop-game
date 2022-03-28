@@ -36,11 +36,12 @@ public class Move implements Command {
       boolean validExec = false;
       while (!validExec) {
         try {
+          out.append("Neighbouring spaces : ").append("\n");
           out.append(m.getNeighboursOfPlayerCurrentSpace()).append("\n");
           out.append("Enter the Space you wish to enter: \n");
           spaceName = scan.nextLine().trim();
           cmdResponse = m.move(spaceName);
-          out.append(cmdResponse);
+          out.append(cmdResponse).append("\n");
           validExec = true;
         } catch (IllegalArgumentException e) {
           out.append("Could not move! Retry.\n");

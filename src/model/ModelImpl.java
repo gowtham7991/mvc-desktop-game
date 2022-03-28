@@ -13,6 +13,8 @@ import utils.RandomGenerator;
 public class ModelImpl implements Model {
   private final World world;
   private final RandomGenerator rg;
+  private final int maxTurns;
+  private int turns;
 
   /**
    * Creates the game based on the given configuration file.
@@ -20,7 +22,7 @@ public class ModelImpl implements Model {
    * @param in the readable object of the file provided
    * @param rand the random generator class object
    */
-  public ModelImpl(Readable in, RandomGenerator rand) {
+  public ModelImpl(Readable in, RandomGenerator rand, int maxTurns) {
 
     if (in == null || rand == null) {
       throw new IllegalArgumentException("Invalid values passed!");
@@ -30,10 +32,11 @@ public class ModelImpl implements Model {
     ConfigFileParser parsedData = new ConfigFileParser(scan);
 
     World world = new WorldImpl(parsedData.getWorldDescription(), parsedData.getTargetDescription(),
-        parsedData.getNoOfSpaces(), parsedData.getNoOfItems(), parsedData.getSpaces(),
-        parsedData.getItems(), rand);
+        parsedData.getPetDescription(), parsedData.getNoOfSpaces(), parsedData.getNoOfItems(),
+        parsedData.getSpaces(), parsedData.getItems(), rand);
     this.world = world;
     this.rg = rand;
+    this.maxTurns = maxTurns;
   }
 
   @Override
@@ -48,7 +51,7 @@ public class ModelImpl implements Model {
 
   @Override
   public String getNeighboursOf(String name) {
-    return world.getNeighboursOf(name);
+    return world.getNeighboursOf(name).toString();
   }
 
   @Override
@@ -63,7 +66,13 @@ public class ModelImpl implements Model {
 
   @Override
   public String move(String space) {
+    turns += 1;
     return world.move(space);
+  }
+
+  @Override
+  public String movePet(String space) {
+    return world.movePet(space);
   }
 
   @Override
@@ -73,11 +82,13 @@ public class ModelImpl implements Model {
 
   @Override
   public String lookAround() {
+    turns += 1;
     return world.lookAround();
   }
 
   @Override
   public String pickUpItem(String itemName) {
+    turns += 1;
     return world.pickUpItem(itemName);
   }
 
@@ -89,6 +100,11 @@ public class ModelImpl implements Model {
   @Override
   public String getItemsInCurrentSpace() {
     return world.getItemsInCurrentSpace();
+  }
+
+  @Override
+  public String getItemsOfPlayerInTurn() {
+    return world.getItemsOfPlayerInTurn();
   }
 
   @Override
@@ -109,6 +125,38 @@ public class ModelImpl implements Model {
   @Override
   public String getAllSpaces() {
     return world.getSpaces();
+  }
+
+  @Override
+  public String getCluesForTurn() {
+    return world.getClues();
+  }
+
+  @Override
+  public boolean isGameOver() {
+    return turns >= maxTurns || world.getWinner() != null;
+  }
+
+  @Override
+  public String getWinner() {
+    StringBuilder sb = new StringBuilder();
+    if (world.getWinner() == null) {
+      sb.append("Game is tied!\n");
+    } else {
+      sb.append(world.getWinner()).append(" has won the game!\n");
+    }
+
+    return sb.toString();
+  }
+
+  @Override
+  public String attack(String itemName) {
+    return world.attack(itemName);
+  }
+
+  @Override
+  public String attack() {
+    return world.attack();
   }
 
   @Override

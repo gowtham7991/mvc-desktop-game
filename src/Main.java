@@ -26,7 +26,7 @@ public class Main {
         Readable configFile = new FileReader(configFilePath);
         Readable in = new InputStreamReader(System.in);
         RandomGeneratorImpl rand = new RandomGeneratorImpl();
-        Model model = new ModelImpl(configFile, rand);
+        Model model = new ModelImpl(configFile, rand, turnsPerGame);
         GameController controller = new GameConsoleController(in, System.out, turnsPerGame);
         controller.start(model);
       } catch (IOException ioe) {

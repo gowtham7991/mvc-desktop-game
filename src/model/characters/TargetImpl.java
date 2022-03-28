@@ -7,8 +7,8 @@ package model.characters;
  */
 public class TargetImpl implements Target {
   private final String name;
-  private final int health;
-  private int position;
+  private int health;
+  private String position;
 
   /**
    * Constructs the target character given the health of the target, name and start position.
@@ -17,15 +17,12 @@ public class TargetImpl implements Target {
    * @param name     the target name
    * @param position the current position
    */
-  public TargetImpl(int health, String name, int position) {
+  public TargetImpl(int health, String name, String position) {
     if (name == null || name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid target name!");
     }
     if (health < 1) {
       throw new IllegalArgumentException("Target's health cannot be less than 1!");
-    }
-    if (position < 0) {
-      throw new IllegalArgumentException("Invalid position given to the target!");
     }
 
     this.name = name;
@@ -33,22 +30,30 @@ public class TargetImpl implements Target {
     this.position = position;
   }
 
-  /**
-   * Returns the health of the target.
-   *
-   * @return the health
-   */
+  @Override
   public int getTargetHealth() {
     return health;
   }
 
   @Override
-  public void moveTo(int newPosition) {
+  public void reduceHealth(int damage) {
+    if (damage > health) {
+      health = 0;
+    } else {
+      health = health - damage;
+    }
+  }
+
+  @Override
+  public void moveTo(String newPosition) {
+    if (newPosition == null) {
+      throw new IllegalArgumentException("Invalid position!");
+    }
     position = newPosition;
   }
 
   @Override
-  public int getPosition() {
+  public String getPosition() {
     return position;
   }
 

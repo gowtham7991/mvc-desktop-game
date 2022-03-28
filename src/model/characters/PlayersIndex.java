@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import model.layout.Item;
 
 /**
  * This Class stores the player objects referenced with their id based on their insertion order.
@@ -54,11 +55,14 @@ public class PlayersIndex {
   }
 
   /**
-   * Returns the list of players in a the mentioned space.
+   * Returns the list of players in the mentioned space.
    * @param name the space name
    * @return the set of player name
    */
   public Set<String> getPlayersInSpace(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Invalid space name!");
+    }
     Set<String> set = new HashSet<>();
     for (Player p : players.values()) {
 

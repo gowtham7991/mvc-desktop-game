@@ -2,11 +2,13 @@ package controller;
 
 import controller.commands.AddComputerPlayer;
 import controller.commands.AddPlayer;
+import controller.commands.Attack;
 import controller.commands.CreateLayout;
 import controller.commands.DisplayPlayerDescription;
 import controller.commands.GetInfoOfSpace;
 import controller.commands.LookAround;
 import controller.commands.Move;
+import controller.commands.MovePet;
 import controller.commands.PickUpItem;
 import java.io.IOException;
 import java.util.HashMap;
@@ -65,6 +67,8 @@ public class GameConsoleController implements GameController {
       gameExecutionCommands.put("playerdesc", (s, out) -> new DisplayPlayerDescription(s, out));
       gameExecutionCommands.put("move", (s, out) -> new Move(s, out));
       gameExecutionCommands.put("pickup", (s, out) -> new PickUpItem(s, out));
+      gameExecutionCommands.put("attack", (s, out) -> new Attack(s, out));
+      gameExecutionCommands.put("movepet", (s, out) -> new MovePet(s, out));
 
       boolean isGameStarted = false;
       out.append("\n");
@@ -104,16 +108,17 @@ public class GameConsoleController implements GameController {
       out.append("specific space the player currently is in\n");
       out.append("move - Move to the neighbouring space\n");
       out.append("pickup - Pickup an item from the current space\n");
+      out.append("attack - Attack the target using an item in possession\n");
+      out.append("movepet - Move the pet to a space in the world\n");
       out.append("quit - quit the game\n\n");
 
-      out.append(m.getTurn());
-      while (scan.hasNextLine()) {
+      while (!m.isGameOver()) {
+        out.append(m.getTurn());
+        out.append(m.getCluesForTurn());
+        out.append(">> Enter a command").append("\n");
+
         Command c;
         String in = scan.nextLine().trim();
-
-        if (noOfTurns == turns) {
-          break;
-        }
         if ("quit".equals(in)) {
           break;
         }
@@ -124,21 +129,16 @@ public class GameConsoleController implements GameController {
         } else {
           c = cmd.apply(scan, out);
           c.execute(m);
-          if ("move".equals(in) || "lookaround".equals(in) || "pickup".equals(in)) {
-            noOfTurns += 1;
-          }
         }
-
-        out.append(m.getTurn());
       }
 
-      if (noOfTurns == turns) {
-        out.append("### Max turns in the reached ###\n");
-        out.append("GAME HAS ENDED!\n");
+      if (m.isGameOver()) {
+        out.append(m.getWinner());
       } else {
         out.append("### User quit the game ###\n");
         out.append("GAME HAS ENDED!\n");
       }
+
     } catch (IOException ioe) {
       throw new IllegalStateException("Append failed!\n");
     }

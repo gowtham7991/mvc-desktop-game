@@ -59,6 +59,14 @@ public interface Model {
   String move(String space);
 
   /**
+   * Moves a pet to the chosen space from the current space.
+   *
+   * @param space the space to move into
+   * @return the details of operation
+   */
+  String movePet(String space);
+
+  /**
    * Returns the name of the player currently in turn.
    *
    * @return the name of the current player in turn
@@ -102,6 +110,12 @@ public interface Model {
   String getItemsInCurrentSpace();
 
   /**
+   * Returns the list if items in the current player's bag.
+   * @return the list of items
+   */
+  String getItemsOfPlayerInTurn();
+  
+  /**
    * Returns all the players in the game as a string.
    * @return the list of players
    */
@@ -124,4 +138,36 @@ public interface Model {
    * @return the list of spaces
    */
   String getAllSpaces();
+
+  /**
+   * Returns a set of clues for the player in turn to help progress in the game.
+   * @return the clues
+   */
+  String getCluesForTurn();
+
+  /**
+   * Returns a boolean of whether the game has been completed.
+   * @return true if max turns are completed or target has been killed else false
+   */
+  boolean isGameOver();
+
+  /**
+   * Return the winner of the game if a player has killed the target.
+   * Game is tied if there is no winner.
+   * @return the winner
+   */
+  String getWinner();
+
+  /**
+   * Attacks the target by using the item chosen.
+   * @param itemName the item
+   * @return the details of the attack
+   */
+  String attack(String itemName);
+
+  /**
+   * Attacks the target by poking in the eye.
+   * @return the details of the attack
+   */
+  String attack();
 }

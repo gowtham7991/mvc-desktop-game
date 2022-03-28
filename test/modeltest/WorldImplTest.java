@@ -19,6 +19,7 @@ public class WorldImplTest {
 
   private final String validWorldDescription;
   private final String validTargetDescription;
+  private final String validPetDescription;
   private final int noOfSpaces;
   private final int noOfItems;
   private final RandomGenerator rand;
@@ -29,6 +30,7 @@ public class WorldImplTest {
   public WorldImplTest() {
     this.validWorldDescription = "30 30 MyWorld";
     this.validTargetDescription = "50 MyTarget";
+    this.validPetDescription = "My Pet";
     this.noOfSpaces = 9;
     this.noOfItems = 5;
     this.rand = new RandomGeneratorMock();
@@ -39,12 +41,12 @@ public class WorldImplTest {
     this.items = new ArrayList<>(
         List.of("0 10 Item1", "0 10 Item111", "1 20 Item2", "2 30 Item3", "3 40 Item4"));
     this.validWorld = createWorld(validWorldDescription, validTargetDescription,
-        noOfSpaces, noOfItems, spaces, items, rand);
+        validPetDescription, noOfSpaces, noOfItems, spaces, items, rand);
   }
 
-  private World createWorld(String worldDesc, String targetDesc, int noOfSpaces, int noOfItems,
+  private World createWorld(String worldDesc, String targetDesc, String petDescription, int noOfSpaces, int noOfItems,
       List<String> spaces, List<String> items, RandomGenerator rand) {
-    return new WorldImpl(worldDesc, targetDesc, noOfSpaces, noOfItems, spaces, items, rand);
+    return new WorldImpl(worldDesc, targetDesc, petDescription, noOfSpaces, noOfItems, spaces, items, rand);
   }
 
   @Test
@@ -58,7 +60,7 @@ public class WorldImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testWorldDescriptionWithNegativeRowsAndCols() {
-    createWorld("-20 10 myWorld", validTargetDescription, noOfSpaces, noOfItems, spaces, items,
+    createWorld("-20 10 myWorld", validTargetDescription, validPetDescription, noOfSpaces, noOfItems, spaces, items,
         rand);
   }
 

@@ -71,4 +71,5 @@ public interface Space {
    * @return the bottom right column
    */
   int getBottomRightCol();
+
 }

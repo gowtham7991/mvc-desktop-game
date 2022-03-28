@@ -7,12 +7,20 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
+import java.util.Vector;
+import java.util.stream.Collectors;
+import model.characters.Pet;
+import model.characters.PetImpl;
 import model.characters.Player;
 import model.characters.PlayerImpl;
 import model.characters.PlayerType;
@@ -22,7 +30,7 @@ import model.characters.TargetImpl;
 import utils.RandomGenerator;
 
 /**
- * This represents the board of the game where all the spaces reside and also initlializes the grid
+ * This represents the board of the game where all the spaces reside and also initializes the grid
  * of units using which a space is constructed.
  */
 public class WorldImpl implements World {
@@ -34,32 +42,41 @@ public class WorldImpl implements World {
   private final int noOfItems;
   private final RandomGenerator randGen;
   private final Target target;
+  private final Pet pet;
   private final Map<String, Space> spaceMap;
   private final Map<String, Set<String>> neighboursMap;
-  private final PlayersIndex players;
+  private final Map<Integer, Player> players;
   private int noOfPlayers;
   private int noOfComputerPlayers;
   private int playerInTurn;
+  private String winner;
+  private Stack<String> dfsNodes;
+  private Vector<Boolean> visitedNodes;
 
   /**
    * Constructs the using the specifications of the world, target and items.
    *
    * @param worldDescription  the description of the world in the format (rows, cols, name)
    * @param targetDescription the description of the target in the format (health, name)
+   * @param petDescription    the description of the pet in the format (name)
    * @param noOfSpaces        the number of spaces in the world
    * @param noOfItems         the total number of items in the world
    * @param spaces            the list of spaces as a string
    * @param items             the list of items as a string
    * @param rand              the random generator
    */
-  public WorldImpl(String worldDescription, String targetDescription, int noOfSpaces, int noOfItems,
-      List<String> spaces, List<String> items, RandomGenerator rand) {
+  public WorldImpl(String worldDescription, String targetDescription, String petDescription,
+      int noOfSpaces, int noOfItems, List<String> spaces, List<String> items,
+      RandomGenerator rand) {
 
     if ("".equals(worldDescription) || worldDescription == null) {
       throw new IllegalArgumentException("Invalid World description!");
     }
     if ("".equals(targetDescription) || targetDescription == null) {
       throw new IllegalArgumentException("Invalid Target description!");
+    }
+    if ("".equals(petDescription) || petDescription == null) {
+      throw new IllegalArgumentException("Invalid Pet description!");
     }
     if (noOfSpaces < 1) {
       throw new IllegalArgumentException("There has to be at least one space in the world!");
@@ -74,8 +91,6 @@ public class WorldImpl implements World {
       throw new IllegalArgumentException("No space description provided!");
     }
     if (noOfItems != items.size()) {
-      System.out.println(noOfItems);
-      System.out.println(items.size());
       throw new IllegalArgumentException("Sufficient description of items not provided!");
     }
     if (items == null || items.size() == 0) {
@@ -89,33 +104,57 @@ public class WorldImpl implements World {
     this.noOfRows = (int) validatedWorldDesc.get(0);
     this.noOfColumns = (int) validatedWorldDesc.get(1);
     this.name = (String) validatedWorldDesc.get(2);
-
-    List<Object> validatedTargetDesc = validateTargetDescription(targetDescription);
-    this.target = new TargetImpl((Integer) validatedTargetDesc.get(0),
-        (String) validatedTargetDesc.get(1), 0);
+    this.grid = new int[noOfRows][noOfColumns];
+    // Initialize the grid
+    for (int i = 0; i < noOfRows; i++) {
+      for (int j = 0; j < noOfColumns; j++) {
+        grid[i][j] = -1;
+      }
+    }
 
     Map<String, Space> spaceMap = createSpaces(spaces, items);
     this.spaceMap = spaceMap;
 
-    this.grid = populateGrid();
+    List<Object> validatedTargetDesc = validateTargetDescription(targetDescription);
+    this.target = new TargetImpl((Integer) validatedTargetDesc.get(0),
+        (String) validatedTargetDesc.get(1), (String) spaceMap.keySet().toArray()[0]);
 
+    this.pet = new PetImpl(petDescription, (String) spaceMap.keySet().toArray()[0]);
     Map<String, Set<String>> neighboursMap = populateNeighboursMap();
     this.neighboursMap = neighboursMap;
 
     this.noOfPlayers = 0;
     this.noOfComputerPlayers = 0;
     this.playerInTurn = 0;
-    this.players = new PlayersIndex();
+    this.winner = null;
+    this.players = new TreeMap<>();
     this.randGen = rand;
+    this.visitedNodes = new Vector<>(noOfSpaces);
+    this.dfsNodes = new Stack<>();
+
+    initializeDfs(0);
+  }
+
+  private void initializeDfs(int idx) {
+    //Initialize DFS visited nodes
+    for (int i = 0; i < noOfSpaces; i++) {
+      visitedNodes.add(false);
+    }
+    visitedNodes.set(idx, true);
+    String spaceName = spaceMap.get(spaceMap.keySet().toArray()[idx]).getName();
+    // fill the stack with neighbours of idx
+    for (String n : getNeighboursOf(spaceMap.get(spaceName).getName())) {
+      dfsNodes.push(n);
+    }
   }
 
   @Override
-  public String getNeighboursOf(String name) throws IllegalArgumentException {
+  public Set<String> getNeighboursOf(String name) throws IllegalArgumentException {
     if (!neighboursMap.containsKey(name)) {
       throw new IllegalArgumentException("Could not find the Space not found in the world!");
     }
 
-    return neighboursMap.get(name).toString();
+    return neighboursMap.get(name);
   }
 
   @Override
@@ -128,7 +167,7 @@ public class WorldImpl implements World {
       String neighbours = String.format("Visible Spaces : %s\n",
           neighboursMap.get(name).toString());
       String playersInSpace = String.format("Players in Space : %s\n",
-          players.getPlayersInSpace(name).toString());
+          getAllPlayersInSpace(name).toString());
       str.append(spaceDetails);
       str.append(neighbours);
       str.append(playersInSpace);
@@ -185,13 +224,15 @@ public class WorldImpl implements World {
 
   @Override
   public void moveTarget() {
-    int currentTargetPosition = target.getPosition();
-    int newTargetPosition = (currentTargetPosition + 1) % noOfSpaces;
+    String currentTargetPosition = target.getPosition();
+    int currSpaceIdx = spaceMap.get(currentTargetPosition).getIndex();
+    int newTargetIdx = (currSpaceIdx + 1) % noOfSpaces;
+    String newTargetPosition = (String) spaceMap.keySet().toArray()[newTargetIdx];
     target.moveTo(newTargetPosition);
   }
 
   @Override
-  public int getTargetPosition() {
+  public String getTargetPosition() {
     return target.getPosition();
   }
 
@@ -216,7 +257,7 @@ public class WorldImpl implements World {
       StringBuilder sr = new StringBuilder();
       Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer,
           noOfPlayers);
-      players.addPlayer(noOfPlayers, player);
+      players.put(noOfPlayers, player);
       noOfPlayers += 1;
 
       sr.append(name).append(" added to ").append(space);
@@ -234,7 +275,7 @@ public class WorldImpl implements World {
     int maxItemsPerPlayer = 5;
     Player player = new PlayerImpl(name, space, PlayerType.COMPUTER, maxItemsPerPlayer,
         noOfPlayers);
-    players.addPlayer(noOfPlayers, player);
+    players.put(noOfPlayers, player);
     noOfPlayers += 1;
     noOfComputerPlayers += 1;
 
@@ -246,7 +287,7 @@ public class WorldImpl implements World {
   @Override
   public String move(String space) {
     StringBuilder sr = new StringBuilder();
-    Player p = players.getPlayerObj(playerInTurn);
+    Player p = players.get(playerInTurn);
 
     if (p.getPosition().equals(space)) {
       sr.append("You are currently in this space. Your turn is up!\n");
@@ -254,17 +295,12 @@ public class WorldImpl implements World {
       if (! spaceMap.keySet().contains(space)) {
         sr.append("Space not found in the world. Your turn is up!\n");
       } else {
-        if (getNeighboursOf(p.getPosition()).length() == 0) {
+        if (getNeighboursOf(p.getPosition()).size() == 0) {
           sr.append("No neighbours found. Your turn is up!\n");
         } else {
           if (getNeighboursOf(p.getPosition()).contains(space)) {
             p.moveTo(space);
             sr.append(p.getName()).append(" moved to ").append(space).append("\n");
-            sr.append("Neighbours : ").append(getNeighboursOf(space)).append("\n");
-            sr.append("Items available : ")
-                .append(spaceMap.get(space)
-                    .getItems().toString())
-                .append("\n");
           } else {
             sr.append("Space is not a neighbour. Your turn is up!\n");
           }
@@ -274,6 +310,7 @@ public class WorldImpl implements World {
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
     moveTarget();
+    dfsMovePet();
     return sr.toString();
   }
 
@@ -281,59 +318,75 @@ public class WorldImpl implements World {
   public String getTurn() {
     StringBuilder sr = new StringBuilder();
 
-    Player player = players.getPlayerObj(playerInTurn);
+    Player player = players.get(playerInTurn);
     while (player.getPlayerType() == PlayerType.COMPUTER) {
       sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
           .append(" is in turn. Select a command.").append("\n");
       String str = controlComputerControlledPlayer();
       sr.append(str).append("\n");
-      player = players.getPlayerObj(playerInTurn);
+      player = players.get(playerInTurn);
     }
     sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
-        .append(" is in turn. Select a command.").append("\n");
+        .append(" is in turn.").append("\n");
     return sr.toString();
   }
 
   @Override
   public String lookAround() {
     StringBuilder sr = new StringBuilder();
-    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
-    System.out.println();
-    sr.append("Current Space : ");
-    sr.append(currentSpace);
-    sr.append("\n");
+    String currentSpace = players.get(playerInTurn).getPosition();
+    String currentPetPosition = pet.getPosition();
     Set<String> neighbours = neighboursMap.get(currentSpace);
+    sr.append("Current Space : ");
+    sr.append(displayPlayersAndItemsInaSpace(currentSpace));
     if (neighbours == null || neighbours.size() == 0) {
       sr.append("No neighbours for this space.\n");
     } else {
       sr.append("Neighbours : \n");
       for (String n : neighbours) {
-        sr.append(n).append("\n");
-        Set<String> items = spaceMap.get(n).getItems();
-        sr.append("Items available : ").append(items.toString()).append("\n");
-        sr.append("\n");
+        if (n != currentPetPosition) {
+          sr.append(displayPlayersAndItemsInaSpace(n));
+        }
       }
-
     }
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
     moveTarget();
+    dfsMovePet();
+    return sr.toString();
+  }
+
+  private String displayPlayersAndItemsInaSpace(String name) {
+    StringBuilder sr = new StringBuilder();
+    sr.append(name);
+    sr.append("\n");
+    Set<String> items = spaceMap.get(name).getItems();
+    sr.append("Items available : ").append(items.toString()).append("\n");
+    String playersInSpace = String.format("Players in Space : %s\n",
+        getAllPlayersInSpace(name));
+    sr.append(playersInSpace);
+    sr.append("\n");
     return sr.toString();
   }
 
   @Override
   public String displayPlayerDescription(String name) {
-    int playerId = players.getIdOf(name);
+    int playerId = -1;
+    for (int id : players.keySet()) {
+      if (players.get(id).getName().equals(name)) {
+        playerId = id;
+      }
+    }
     if (playerId == -1) {
       throw new IllegalArgumentException("Player not found!");
     }
-    return players.getPlayerObj(playerId).toString();
+    return players.get(playerId).toString();
 
   }
 
   @Override
   public String pickUpItem(String itemName) {
-    Player p = players.getPlayerObj(playerInTurn);
+    Player p = players.get(playerInTurn);
     StringBuilder sr = new StringBuilder();
     String playerCurrentSpace = p.getPosition();
 
@@ -349,6 +402,7 @@ public class WorldImpl implements World {
               .append(playerCurrentSpace).append("\n");
           playerInTurn = (playerInTurn + 1) % noOfPlayers;
           moveTarget();
+          dfsMovePet();
         } else {
           sr.append("Max item limit reached. Cannot pick up the item!\n");
         }
@@ -363,16 +417,22 @@ public class WorldImpl implements World {
 
   @Override
   public String getNeighboursOfPlayerCurrentSpace() {
-    String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
-    String result = String.format("%s\n", getNeighboursOf(playerCurrentSpace));
+    String playerCurrentSpace = players.get(playerInTurn).getPosition();
+    String result = String.format("%s\n", getNeighboursOf(playerCurrentSpace).toString());
     return result;
   }
 
   @Override
   public String getItemsInCurrentSpace() {
-    String playerCurrentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    String playerCurrentSpace = players.get(playerInTurn).getPosition();
     String result = spaceMap.get(playerCurrentSpace).getItems().toString();
     return result;
+  }
+
+  @Override
+  public String getItemsOfPlayerInTurn() {
+    return players.get(playerInTurn).getItemList().stream().map(o -> o.getName()).collect(
+        Collectors.toList()).toString();
   }
 
   @Override
@@ -395,9 +455,120 @@ public class WorldImpl implements World {
     return sb.toString();
   }
 
+  @Override
+  public String getClues() {
+    StringBuilder sb = new StringBuilder();
+    String currentSpaceName = players.get(playerInTurn).getPosition();
+    sb.append("## Hints ##").append("\n");
+    sb.append("Current space : ")
+        .append(currentSpaceName)
+        .append("\n");
+    Set<String> items = spaceMap.get(currentSpaceName).getItems();
+    sb.append("Items available : ").append(items.toString()).append("\n");
+    String playersInSpace = String.format("Players in Space : %s\n",
+        getAllPlayersInSpace(currentSpaceName).toString());
+    sb.append(playersInSpace);
+    sb.append("Target location : ").append(target.getPosition()).append("\n");
+    sb.append("Target health : ").append(target.getTargetHealth()).append("\n");
+    return sb.toString();
+  }
+
+  @Override
+  public String movePet(String spaceName) {
+    int spaceIdx = spaceMap.get(spaceName).getIndex();
+    StringBuilder sb = new StringBuilder();
+    sb.append("Pet moved to ").append(spaceName).append("\n");
+    pet.moveTo(spaceName);
+    initializeDfs(spaceIdx);
+    return sb.toString();
+  }
+
+  @Override
+  public String attack(String itemName) {
+    StringBuilder sb = new StringBuilder();
+    if (!isAttackSeen() && target.getPosition().equals(players.get(playerInTurn).getPosition())) {
+      Item item = players.get(playerInTurn).useItem(itemName);
+      target.reduceHealth(item.getDamage());
+      if (target.getTargetHealth() == 0) {
+        winner = players.get(playerInTurn).getName();
+      }
+      sb.append("Target attacked.\n");
+      moveTarget();
+      dfsMovePet();
+    } else {
+      if (!target.getPosition().equals(players.get(playerInTurn).getPosition())) {
+        sb.append("Attack failed! Your attack was defended by other players.\n");
+      } else if (isAttackSeen()) {
+        sb.append("Attack failed! Target not in this space.\n");
+      }
+    }
+
+    playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    return sb.toString();
+  }
+
+  @Override
+  public String attack() {
+    StringBuilder sb = new StringBuilder();
+
+    if ((!isAttackSeen()) && target.getPosition().equals(players.get(playerInTurn).getPosition())) {
+      target.reduceHealth(1);
+      if (target.getTargetHealth() == 0) {
+        winner = players.get(playerInTurn).getName();
+      }
+      sb.append("Target attacked.\n");
+      moveTarget();
+      dfsMovePet();
+    } else {
+      if (isAttackSeen()) {
+        sb.append("Attack failed! Your attack was defended by other players.\n");
+      } else if (!target.getPosition().equals(players.get(playerInTurn).getPosition())) {
+        sb.append("Attack failed! Target not in this space.\n");
+      }
+    }
+
+    playerInTurn = (playerInTurn + 1) % noOfPlayers;
+    return sb.toString();
+  }
+
+  private boolean isAttackSeen() {
+    String currentPlayerSpace = players.get(playerInTurn).getPosition();
+    Set<String> neighbours = getNeighboursOf(currentPlayerSpace);
+    if (currentPlayerSpace.equals(pet.getPosition())) {
+      return false;
+    }
+    if (getAllPlayersInSpace(currentPlayerSpace).size() > 1) {
+      return true;
+    }
+    for (String n : neighbours) {
+      if (getAllPlayersInSpace(n).size() > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public String getWinner() {
+    return winner;
+  }
+
+  @Override
+  public boolean playerCanSeeEachOther(Player playerA, Player playerB) {
+    if (playerA.getPosition().equals(playerB.getPosition())) {
+      return true;
+    }
+    for (String n : getNeighboursOf(playerA.getPosition())) {
+      if (n.equals(playerB.getPosition())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private String controlComputerControlledPlayer() {
-    Player player = players.getPlayerObj(playerInTurn);
-    List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
+    Player player = players.get(playerInTurn);
+    List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem", "attack"));
     boolean isValidCommand = false;
     String response = "";
     while (!isValidCommand) {
@@ -425,15 +596,32 @@ public class WorldImpl implements World {
         } catch (IllegalArgumentException e) {
           isValidCommand = false;
         }
-
+      } else if ("attack".equals(selectedCommand)) {
+        try {
+          response = handleAttackComputerPlayer(player);
+          isValidCommand = true;
+        } catch (IllegalArgumentException e) {
+          isValidCommand = false;
+        }
       }
     }
-
     return response;
   }
 
+  private String handleAttackComputerPlayer(Player p) {
+    Set<Item> items = p.getItemList();
+    if (items.size() == 0) {
+      return attack();
+    } else {
+      Comparator<Item> damage = Comparator.comparing(Item::getDamage);
+      List<Item> sortedItemsAsc = items.stream().sorted(damage).collect(Collectors.toList());
+      Item maxDamageItem = sortedItemsAsc.get(sortedItemsAsc.size() - 1);
+      return attack(maxDamageItem.getName());
+    }
+  }
+
   private String handleMoveComputerPlayer(Player p) {
-    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    String currentSpace = players.get(playerInTurn).getPosition();
     Set<String> neighbourSet = neighboursMap.get(currentSpace);
     String[] neighbours = neighbourSet.toArray(new String[neighbourSet.size()]);
     int randomNeighbourIdx = randGen.getRandomInt() % neighbours.length;
@@ -442,7 +630,7 @@ public class WorldImpl implements World {
   }
 
   private String handlePickUpItemComputerPlayer(Player p) {
-    String currentSpace = players.getPlayerObj(playerInTurn).getPosition();
+    String currentSpace = players.get(playerInTurn).getPosition();
     Set<String> items = spaceMap.get(currentSpace).getItems();
 
     int randomItemIdx = randGen.getRandomInt() % items.size();
@@ -605,42 +793,20 @@ public class WorldImpl implements World {
 
     Space newSpace = new SpaceImpl(spaceName, spaceIndex, topLeftRow, topLeftCol, bottomRightRow,
         bottomRightCol, itemMap);
+    for (int i = topLeftRow;
+         i <= bottomRightRow;
+         i++) {
+      for (int j = topLeftCol;
+           j <= bottomRightCol;
+           j++) {
+        if (grid[i][j] != -1) {
+          throw new IllegalArgumentException("Overlapping spaces not allowed!");
+        }
+        grid[i][j] = spaceIndex;
+      }
+    }
     return newSpace;
 
-  }
-
-  /**
-   * Helper method which populates the grid with a given space index.
-   *
-   * @params the space map
-   */
-  private int[][] populateGrid() throws IllegalArgumentException {
-
-    int[][] grid = new int[noOfRows][noOfColumns];
-
-    for (int i = 0; i < noOfRows; i++) {
-      for (int j = 0; j < noOfColumns; j++) {
-        grid[i][j] = -1;
-      }
-    }
-
-    for (Space space : spaceMap.values()) {
-      for (int i = space.getTopLeftRow();
-           i < (space.getBottomRightRow() - space.getTopLeftRow()) + space.getTopLeftRow() + 1;
-           i++) {
-        for (int j = space.getTopLeftCol();
-             j < (space.getBottomRightCol() - space.getTopLeftCol()) + space.getTopLeftCol() + 1;
-             j++) {
-          if (grid[i][j] != -1) {
-            throw new IllegalArgumentException("Overlapping spaces not allowed!");
-          }
-
-          grid[i][j] = space.getIndex();
-        }
-      }
-    }
-
-    return grid;
   }
 
   /**
@@ -687,16 +853,49 @@ public class WorldImpl implements World {
       int neighbourIndex = grid[row][col];
       if (neighbourIndex != -1 && neighbourIndex != spaceMap.get(name).getIndex()) {
         String neighbourName = (String) spaceMap.keySet().toArray()[neighbourIndex];
-        if (map.containsKey(name)) {
+        if (map.containsKey(name) && neighbourName != name) {
           map.get(name).add(neighbourName);
-        } else {
-          Set<String> newSet = new HashSet();
-          newSet.add(neighbourName);
-          map.put(name, newSet);
         }
       }
     }
 
     return map;
+  }
+
+  /**
+   * Returns all the players in the space specified.
+   * @param name the name of the space
+   * @return the set of players
+   */
+  private Set<String> getAllPlayersInSpace(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Invalid space name!");
+    }
+    Set<String> set = new HashSet<>();
+    for (Player p : players.values()) {
+
+      if (name.equals(p.getPosition())) {
+        set.add(p.getName());
+      }
+    }
+
+    return set;
+  }
+
+  private void dfsMovePet() {
+    while (!dfsNodes.empty()) {
+      String nextSpace = dfsNodes.pop();
+      int nextSpaceIdx = spaceMap.get(nextSpace).getIndex();
+      if (!visitedNodes.get(nextSpaceIdx)) {
+        visitedNodes.set(nextSpaceIdx, true);
+        pet.moveTo(nextSpace);
+
+        for (String n : getNeighboursOf(nextSpace)) {
+          dfsNodes.push(n);
+        }
+        break;
+      }
+    }
+    initializeDfs(0);
   }
 }

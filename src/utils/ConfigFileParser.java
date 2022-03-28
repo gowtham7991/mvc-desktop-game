@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class ConfigFileParser {
   private String worldDescription;
   private String targetDescription;
+  private String petDescription;
   private int noOfSpaces;
   private int noOfItems;
   private List<String> spaces;
@@ -33,6 +34,7 @@ public class ConfigFileParser {
   private void parseFile(Scanner sc) {
     String worldDescription = "";
     String targetDescription = "";
+    String petDescription = "";
     int noOfSpaces = -1;
     int noOfItems = -1;
     List<String> spaces = new ArrayList<>();
@@ -46,11 +48,13 @@ public class ConfigFileParser {
 
     // extracts world desc, target desc, noOfSpaces
     while (sc.hasNext()) {
-      if (lineNo == 1) {
+      if (lineNo == worldDescLine) {
         worldDescription = sc.nextLine();
-      } else if (lineNo == 2) {
+      } else if (lineNo == targetDescLine) {
         targetDescription = sc.nextLine();
-      } else if (lineNo == 3) {
+      } else if (lineNo == petDescLine) {
+        petDescription = sc.nextLine();
+      } else if (lineNo == spaceCount) {
         // check if the no of spaces is a number
         String givenNoOfSpaces = sc.nextLine();
         try {
@@ -90,6 +94,7 @@ public class ConfigFileParser {
 
     this.worldDescription = worldDescription;
     this.targetDescription = targetDescription;
+    this.petDescription = petDescription;
     this.noOfSpaces = noOfSpaces;
     this.noOfItems = noOfItems;
     this.spaces = spaces;
@@ -110,6 +115,14 @@ public class ConfigFileParser {
    */
   public String getTargetDescription() {
     return targetDescription;
+  }
+
+  /**
+   * Returns the pet description extracted from the file.
+   * @return the pet description
+   */
+  public String getPetDescription() {
+    return petDescription;
   }
 
   /**

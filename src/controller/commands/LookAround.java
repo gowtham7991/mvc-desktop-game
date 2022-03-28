@@ -37,7 +37,7 @@ public class LookAround implements Command {
       while (!validExec) {
         try {
           cmdResponse = m.lookAround();
-          out.append(cmdResponse);
+          out.append(cmdResponse).append("\n");
           validExec = true;
         } catch (IllegalArgumentException e) {
           out.append("Could not add a player! Retry.\n");

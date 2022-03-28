@@ -41,7 +41,7 @@ public class CreateLayout implements Command {
         File file = new File("WorldRepresentation.png");
         ImageIO.write(img, "png", file);
         cmdResponse = "Layout created!\n";
-        out.append(cmdResponse);
+        out.append(cmdResponse).append("\n");
       } catch (IllegalArgumentException e) {
         out.append("Could not create a layout!\n");
       }

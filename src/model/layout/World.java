@@ -1,6 +1,8 @@
 package model.layout;
 
 import java.awt.image.WritableRenderedImage;
+import java.util.Set;
+import model.characters.Player;
 
 /**
  * A world is one of the possible layout of a game. The world comprises a number of spaces.
@@ -16,7 +18,7 @@ public interface World {
    * @return the list of spaces which can be viewed from a given space
    * @throws IllegalArgumentException - if space is not in the world.
    */
-  String getNeighboursOf(String name);
+  Set<String> getNeighboursOf(String name);
 
   /**
    * Returns the information of specific space in the world like, the name of the space,
@@ -45,7 +47,7 @@ public interface World {
    *
    * @return the current position (space index) of target
    */
-  int getTargetPosition();
+  String getTargetPosition();
 
   /**
    * Returns the total no of spaces in the world.
@@ -134,26 +136,72 @@ public interface World {
   /**
    * Returns the list of items in the current space occupied by the player currently in turn.
    *
-   * @return the items in a space
+   * @return the items in a space as a string
    */
   String getItemsInCurrentSpace();
 
   /**
-   * Returns all the players in the game as a string
+   * Returns the list of items in the bag of player in turn.
+   * @return the list of items as a string
+   */
+  String getItemsOfPlayerInTurn();
+
+  /**
+   * Returns all the players in the game as a string.
    * @return the list of players
    */
   String getPlayers();
 
   /**
-   * Returns the number of normal players added to the game
+   * Returns the number of normal players added to the game.
    * @return the count of normal players
    */
   int getTotalNumberOfHumanPlayers();
 
   /**
-   * Returns all the spaces in the world
+   * Returns all the spaces in the world.
    * @return the list of spaces
    */
   String getSpaces();
 
+  /**
+   * Returns the clues for the player in turn.
+   * @return the list of clues
+   */
+  String getClues();
+
+  /**
+   * Moves the pet to the space specified by the player.
+   * @param spaceName the name of the space
+   * @return the details of the movement.
+   */
+  String movePet(String spaceName);
+
+  /**
+   * Attacks the target by using the item chosen. The target's health is reduced by the damage
+   * caused by the item. The item is removed from the player's inventory.
+   * @param itemName the item
+   * @return the details of the attack
+   */
+  String attack(String itemName);
+
+  /**
+   * Attacks the target by poking in the eye. The target's health is reduced by 1.
+   * @return the details of the attack
+   */
+  String attack();
+
+  /**
+   * Returns the name of the player who killed the target.
+   * @return the player name or null if no winner
+   */
+  String getWinner();
+
+  /**
+   * Returns if the player A can see PlayerB.
+   * @param playerA one of the player
+   * @param playerB second player
+   * @return true both players can see each other else false
+   */
+  boolean playerCanSeeEachOther(Player playerA, Player playerB);
 }

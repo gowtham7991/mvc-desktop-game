@@ -1,5 +1,6 @@
 package model.characters;
 
+import java.util.Set;
 import model.layout.Item;
 
 /**
@@ -31,26 +32,45 @@ public interface Player {
   void pickUpItem(Item item);
 
   /**
+   * Returns the item from the player's bag.
+   *
+   * @param itemName the name of the item
+   * @return the Item chosen
+   */
+  Item useItem(String itemName);
+
+  /**
    * Returns the name of the player.
-   * @return
+   *
+   * @return the name
    */
   String getName();
 
   /**
    * Returns the type of the player (Computer / Manual).
-   * @return
+   *
+   * @return the player type
    */
   PlayerType getPlayerType();
 
   /**
+   * Returns the list of items carried by the player.
+   *
+   * @return the item list
+   */
+  Set<Item> getItemList();
+
+  /**
    * Returns the no of items currently in player's possession.
-   * @return
+   *
+   * @return the count
    */
   int getItemCount();
 
   /**
    * Returns the maximum no of items a player can carry.
-   * @return
+   *
+   * @return the count of max items
    */
   int getMaxItemCount();
 }

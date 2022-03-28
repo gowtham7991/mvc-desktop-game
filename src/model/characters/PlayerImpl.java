@@ -1,7 +1,9 @@
 package model.characters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import model.layout.Item;
 
 /**
@@ -16,7 +18,7 @@ public class PlayerImpl implements Player {
   private String position;
   private final String startingPosition;
   private int noOfItems;
-  private final List<Item> itemsCarrying = new ArrayList<>();
+  private Map<String, Item> itemsInBag;
 
   /**
    * Constructs the player class when given the required details.
@@ -48,6 +50,7 @@ public class PlayerImpl implements Player {
     this.startingPosition = position;
     this.type = type;
     this.maxItems = maxItems;
+    this.itemsInBag = new HashMap<>();
     this.noOfItems = 0;
     this.id = id;
   }
@@ -75,8 +78,18 @@ public class PlayerImpl implements Player {
       throw new IllegalArgumentException("Max limit reached!");
     }
 
-    itemsCarrying.add(item);
+    itemsInBag.put(item.getName(), item);
     noOfItems += 1;
+  }
+
+  @Override
+  public Item useItem(String itemName) {
+    if (itemName == null) {
+      throw new IllegalArgumentException("Invalid item name!");
+    }
+
+    noOfItems -= 1;
+    return itemsInBag.remove(itemName);
   }
 
   @Override
@@ -97,6 +110,17 @@ public class PlayerImpl implements Player {
   @Override
   public PlayerType getPlayerType() {
     return type;
+  }
+
+  @Override
+  public Set<Item> getItemList() {
+
+    Set<Item> items = new HashSet<>();
+    for (Item i : itemsInBag.values()) {
+      items.add(i);
+    }
+
+    return items;
   }
 
   @Override
@@ -127,12 +151,7 @@ public class PlayerImpl implements Player {
     sr.append(this.name);
     sr.append("\n");
     sr.append("Items : ");
-    List<String> items = new ArrayList<>();
-
-    for (int i = 0; i < itemsCarrying.size(); i++) {
-      items.add(itemsCarrying.get(i).getName());
-    }
-    sr.append(items);
+    sr.append(itemsInBag.keySet());
 
     return sr.toString();
   }

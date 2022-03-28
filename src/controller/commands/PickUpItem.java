@@ -42,7 +42,7 @@ public class PickUpItem implements Command {
           out.append("Enter the item name: \n");
           itemName = scan.nextLine().trim();
           cmdResponse = m.pickUpItem(itemName);
-          out.append(cmdResponse);
+          out.append(cmdResponse).append("\n");
           validExec = true;
         } catch (IllegalArgumentException e) {
           out.append("Could not pick up item.\n");

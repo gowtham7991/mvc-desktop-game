@@ -84,6 +84,16 @@ public class MockModel implements Model {
   }
 
   @Override
+  public String movePet(String space) {
+    try {
+      log.append("Pet is moved.").append(space).append("\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
+  }
+
+  @Override
   public String getTurn() {
     try {
       log.append("The player is in turn.\n");
@@ -150,6 +160,17 @@ public class MockModel implements Model {
   }
 
   @Override
+  public String getItemsOfPlayerInTurn() {
+    try {
+      log.append("Displaying the items of player.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+
+    return code;
+  }
+
+  @Override
   public String getPlayers() {
     try {
       log.append("The players in the game.\n");
@@ -177,6 +198,56 @@ public class MockModel implements Model {
 
   @Override
   public String getAllSpaces() {
-    return "List of spaces";
+    try {
+      log.append("List of spaces.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
+  }
+
+  @Override
+  public String getCluesForTurn() {
+    try {
+      log.append("Clues for the turn.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
+  }
+
+  @Override
+  public boolean isGameOver() {
+    return false;
+  }
+
+  @Override
+  public String getWinner() {
+    try {
+      log.append("The winner of the game is PlayerA.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
+  }
+
+  @Override
+  public String attack(String itemName) {
+    try {
+      log.append("Target is attacked.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
+  }
+
+  @Override
+  public String attack() {
+    try {
+      log.append("Target is poked in the eye.\n");
+    } catch (IOException ioe) {
+      throw new IllegalArgumentException("Failed to append!");
+    }
+    return code;
   }
 }
