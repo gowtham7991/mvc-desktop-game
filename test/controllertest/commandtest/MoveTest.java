@@ -30,8 +30,8 @@ public class MoveTest {
 
     String logExpected = logBuilder.append("Displaying neighbours of the player.\n")
         .append("Player moved to space Dining Hall\n").toString();
-    String outExpected = outBuilder.append("123456789\n")
-        .append("Enter the Space you wish to enter: \n").append("123456789").toString();
+    String outExpected = outBuilder.append("Neighbouring spaces : \n").append("123456789\n")
+        .append("Enter the Space you wish to enter: \n").append("123456789\n").toString();
 
     assertEquals(logExpected, log.toString());
     assertEquals(outExpected, out.toString());

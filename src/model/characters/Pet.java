@@ -15,6 +15,13 @@ public interface Pet {
   void moveTo(String position);
 
   /**
+   * Returns the name of the pet.
+   *
+   * @return the name
+   */
+  String getName();
+
+  /**
    * Returns the current position of the pet.
    *
    * @return the current space of pet

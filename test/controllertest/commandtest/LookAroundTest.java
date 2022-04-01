@@ -26,7 +26,7 @@ public class LookAroundTest {
     c.execute(model);
 
     String logExpected = "Looking around the space player is in.\n";
-    String outExpected = "123456789";
+    String outExpected = "123456789\n";
 
     assertEquals(logExpected, log.toString());
     assertEquals(outExpected, out.toString());

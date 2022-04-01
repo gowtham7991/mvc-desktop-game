@@ -18,6 +18,7 @@ public class ConfigFileParser {
 
   /**
    * Constructs the config file parser. The data is read from the scanner object.
+   *
    * @param scan the scanner to read data
    */
   public ConfigFileParser(Scanner scan) {
@@ -29,6 +30,7 @@ public class ConfigFileParser {
 
   /**
    * Helper method to parse the input file.
+   *
    * @param sc the scanner object
    */
   private void parseFile(Scanner sc) {
@@ -103,6 +105,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the world description extracted from the file.
+   *
    * @return the world description
    */
   public String getWorldDescription() {
@@ -111,6 +114,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the target description extracted from the file.
+   *
    * @return the target description
    */
   public String getTargetDescription() {
@@ -119,6 +123,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the pet description extracted from the file.
+   *
    * @return the pet description
    */
   public String getPetDescription() {
@@ -127,6 +132,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the total number of spaces defined.
+   *
    * @return the total spaces
    */
   public int getNoOfSpaces() {
@@ -135,6 +141,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the number of items in the world.
+   *
    * @return the total items
    */
   public int getNoOfItems() {
@@ -143,6 +150,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the list of space descriptions.
+   *
    * @return the list of strings
    */
   public List<String> getSpaces() {
@@ -155,6 +163,7 @@ public class ConfigFileParser {
 
   /**
    * Returns the list of item description present in the world.
+   *
    * @return the list string
    */
   public List<String> getItems() {

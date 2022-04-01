@@ -14,6 +14,7 @@ import utils.RandomGeneratorImpl;
 public class Main {
   /**
    * The main function which runs when the game begins.
+   *
    * @param args the command line arguments.
    */
   public static void main(String[] args) {

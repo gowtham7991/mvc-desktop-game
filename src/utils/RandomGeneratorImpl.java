@@ -16,6 +16,10 @@ public class RandomGeneratorImpl implements RandomGenerator {
     this.rand = new Random();
   }
 
+  /**
+   * Returns the next random integer.
+   * @return the random integer
+   */
   public int getRandomInt() {
     return Math.abs(rand.nextInt());
   }

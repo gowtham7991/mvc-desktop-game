@@ -12,7 +12,7 @@ This repo represents the coursework for CS 5010, the Fall 2022 Edition!
 
 ### About/Overview
 
-The problem statement is about representing a board game using a config file 
+The problem statement is about representing a board game using a config file
 which has the ability any defined world which has spaces and items
 
 
@@ -20,7 +20,7 @@ which has the ability any defined world which has spaces and items
 ### List of Features
 
 The program can read a text file and based on the text file can initiate a game with a world,
-spaces and items inside along with a target. 
+spaces and items inside along with a target.
 Thg program can display the information of a specified space.
 The program can display the number spaces visible or neighbours of a specified space.
 The program can move the target around the world.
@@ -42,7 +42,7 @@ java -jar <jar file path> <config file path> <Max turns per game>
 
 ### How to Use the Program
 
-The current model provides the ability to create a graphical representation of 
+The current model provides the ability to create a graphical representation of
 the world provided using the createGraphicalRepresentation() method.
 List of neighbours of a specific space can be listed using the getNeighboursOf() method.
 The information about a specific space can be viewed using the getInfoOf() method.
@@ -69,13 +69,13 @@ Milestone2_ExampleRun2.txt
 ### Design/Model Changes
 
 Milestone1
-- Removed the singleton class as I felt that multiple game be played simultaneously 
-and there is no resource which causes a deadlock.
-- I removed the characterIndices map field to track the position of character 
-and other possible players in future as there is no requirement as of today.
+- Removed the singleton class as I felt that multiple game be played simultaneously
+  and there is no resource which causes a deadlock.
+- I removed the characterIndices map field to track the position of character
+  and other possible players in future as there is no requirement as of today.
 - I moved the position of my target class from Game class to World class.
-- I removed the Unit class which makes up the grid as there is no 
-requirement applicable using this class and a simple integer in the grid works well.
+- I removed the Unit class which makes up the grid as there is no
+  requirement applicable using this class and a simple integer in the grid works well.
 
 Milestone2
 - I removed the character interface and made seperate interface for target and player.
@@ -98,8 +98,13 @@ Milestone2
 - Game cannot start without a single human player
 - Name is not needed for a computer player.
 - If no neighbours and players makes a move, then the turn is up.
-- If no items are found in the space and the user picksup, the turn is completed.
+- If no items are found in the space and the user picks up, the turn is completed.
 - The user cannot move to the same space he is in currently.
+
+Milestone3
+- A player can poke even if he has items in bag.
+- A computer player does not have the ability to move the pet.
+- Player's turn gets over if one uses wrong item.
 
 
 ### Limitations
@@ -112,7 +117,6 @@ There is re prompt if an invalid action takes place.
 
 ### Citations
 
-None
-
+DFS Traversal of a Graph - https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
 
 

@@ -12,7 +12,8 @@ public interface GameController {
   /**
    * Initiates the connection with the model when the model is passed as a parameter
    * to the controller.
-   * @param model
+   *
+   * @param model the model object
    */
   void start(Model model);
 }

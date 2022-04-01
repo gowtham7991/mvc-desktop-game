@@ -9,11 +9,12 @@ public class PetImpl implements Pet {
 
   /**
    * Constructs the pet by taking in the assigned name and the starting location.
-   * @param name the pet name
+   *
+   * @param name     the pet name
    * @param position the pet starting space
    */
   public PetImpl(String name, String position) {
-    if (name == null || position == null) {
+    if (name == null || "".equals(name.trim()) || position == null || "".equals(position.trim())) {
       throw new IllegalArgumentException("Invalid parameters passed!");
     }
     this.name = name;
@@ -29,7 +30,20 @@ public class PetImpl implements Pet {
   }
 
   @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
   public String getPosition() {
     return position;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Name : ").append(name).append("\n");
+    sb.append("Location : ").append(position).append("\n");
+    return sb.toString();
   }
 }

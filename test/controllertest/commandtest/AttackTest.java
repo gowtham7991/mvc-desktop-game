@@ -3,7 +3,8 @@ package controllertest.commandtest;
 import static org.junit.Assert.assertEquals;
 
 import controller.Command;
-import controller.commands.PickUpItem;
+import controller.commands.Attack;
+import controller.commands.Move;
 import controllertest.mocks.MockModel;
 import java.io.StringReader;
 import java.util.Scanner;
@@ -11,27 +12,28 @@ import model.Model;
 import org.junit.Test;
 
 /**
- * Test suite for the pickup item player command.
+ * Test suite for the move player command.
  */
-public class PickUpItemTest {
+public class AttackTest {
 
   @Test
-  public void testPickUpItem() {
+  public void testAttackTarget() {
     StringBuffer out = new StringBuffer();
-    Readable in = new StringReader("Gowtham\nArmory\n");
+    Readable in = new StringReader("Item1\n");
     StringBuilder log = new StringBuilder();
     Scanner scan = new Scanner(in);
     Model model = new MockModel(log, "123456789");
-    Command c = new PickUpItem(scan, out);
+    Command c = new Attack(scan, out);
     c.execute(model);
 
     StringBuilder logBuilder = new StringBuilder();
     StringBuilder outBuilder = new StringBuilder();
 
-    String logExpected = logBuilder.append("Displaying the items in current space\n")
-        .append("Player has picked up the item.\n").toString();
-    String outExpected = outBuilder.append("Available items : 123456789\n")
-        .append("Enter the item name: \n").append("123456789\n").toString();
+    String logExpected = logBuilder.append("Displaying the items of player.\n")
+        .append("Target is attacked using Item1.\n").toString();
+    String outExpected = outBuilder.append("Available items : \n").append("123456789\n")
+        .append("Enter the item you would want to use or use poke: \n")
+        .append("123456789\n").toString();
 
     assertEquals(logExpected, log.toString());
     assertEquals(outExpected, out.toString());

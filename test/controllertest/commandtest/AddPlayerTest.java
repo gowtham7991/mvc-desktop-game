@@ -28,9 +28,11 @@ public class AddPlayerTest {
     StringBuilder logBuilder = new StringBuilder();
     StringBuilder outBuilder = new StringBuilder();
 
-    String logExpected = logBuilder.append("Player Gowtham added to Armory\n")
+    String logExpected = logBuilder.append("List of spaces.\n")
+        .append("Player Gowtham added to Armory\n")
         .append("Max items limit : 5.\n").toString();
     String outExpected = outBuilder.append("Enter your name: \n")
+        .append("# List of available spaces #\n" + "123456789")
         .append("Enter the Space you wish to enter: \n").append("Enter the item limit: \n")
         .append("123456789\n").toString();
 

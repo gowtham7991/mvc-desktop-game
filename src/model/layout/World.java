@@ -2,7 +2,6 @@ package model.layout;
 
 import java.awt.image.WritableRenderedImage;
 import java.util.Set;
-import model.characters.Player;
 
 /**
  * A world is one of the possible layout of a game. The world comprises a number of spaces.
@@ -83,6 +82,7 @@ public interface World {
   /**
    * Add a computer player with the default name of Computer(id of player).
    * The player is added to the first space by default.
+   *
    * @return the response of the addition of computer player
    */
   String addComputerPlayer();
@@ -98,8 +98,8 @@ public interface World {
   /**
    * Returns the name of the player currently in turn.
    *
-   * @return player who is currently in turn,
-   *        if a computer player is next, the next normal player is prompted
+   * @return player who is currently in turn, if a computer player is next,
+   *     the next normal player is prompted
    */
   String getTurn();
 
@@ -142,36 +142,42 @@ public interface World {
 
   /**
    * Returns the list of items in the bag of player in turn.
+   *
    * @return the list of items as a string
    */
   String getItemsOfPlayerInTurn();
 
   /**
    * Returns all the players in the game as a string.
+   *
    * @return the list of players
    */
   String getPlayers();
 
   /**
    * Returns the number of normal players added to the game.
+   *
    * @return the count of normal players
    */
   int getTotalNumberOfHumanPlayers();
 
   /**
    * Returns all the spaces in the world.
+   *
    * @return the list of spaces
    */
   String getSpaces();
 
   /**
    * Returns the clues for the player in turn.
+   *
    * @return the list of clues
    */
   String getClues();
 
   /**
    * Moves the pet to the space specified by the player.
+   *
    * @param spaceName the name of the space
    * @return the details of the movement.
    */
@@ -180,6 +186,7 @@ public interface World {
   /**
    * Attacks the target by using the item chosen. The target's health is reduced by the damage
    * caused by the item. The item is removed from the player's inventory.
+   *
    * @param itemName the item
    * @return the details of the attack
    */
@@ -187,21 +194,38 @@ public interface World {
 
   /**
    * Attacks the target by poking in the eye. The target's health is reduced by 1.
+   *
    * @return the details of the attack
    */
   String attack();
 
   /**
    * Returns the name of the player who killed the target.
+   *
    * @return the player name or null if no winner
    */
   String getWinner();
 
   /**
    * Returns if the player A can see PlayerB.
+   *
    * @param playerA one of the player
    * @param playerB second player
    * @return true both players can see each other else false
    */
-  boolean playerCanSeeEachOther(Player playerA, Player playerB);
+  boolean playerCanSeeEachOther(String playerA, String playerB);
+
+  /**
+   * Returns the current location of the pet.
+   *
+   * @return the space name
+   */
+  String getPetLocation();
+
+  /**
+   * Returns the remaining health of the target.
+   *
+   * @return the health
+   */
+  int getTargetHealth();
 }

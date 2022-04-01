@@ -7,7 +7,7 @@ import model.Model;
 /**
  * Mock model used for testing the model.
  */
-public class MockModel implements Model {
+public class MockModel1 implements Model {
 
   private final String code;
   private final Appendable log;
@@ -17,7 +17,7 @@ public class MockModel implements Model {
    * @param log the log
    * @param uniqueCode the unique code
    */
-  public MockModel(Appendable log, String uniqueCode) {
+  public MockModel1(Appendable log, String uniqueCode) {
     this.log = log;
     this.code = uniqueCode;
   }
@@ -223,7 +223,7 @@ public class MockModel implements Model {
 
   @Override
   public boolean isGameOver() {
-    return false;
+    return true;
   }
 
   @Override

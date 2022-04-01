@@ -24,7 +24,12 @@ public class TargetImpl implements Target {
     if (health < 1) {
       throw new IllegalArgumentException("Target's health cannot be less than 1!");
     }
-
+    if ("".equals(position) || position == null) {
+      throw new IllegalArgumentException("Invalid position!");
+    }
+    if ("".equals(position.trim())) {
+      throw new IllegalArgumentException("Invalid position!");
+    }
     this.name = name;
     this.health = health;
     this.position = position;

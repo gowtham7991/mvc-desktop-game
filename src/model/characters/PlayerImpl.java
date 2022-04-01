@@ -15,10 +15,10 @@ public class PlayerImpl implements Player {
   private final PlayerType type;
   private final int maxItems;
   private final int id;
-  private String position;
   private final String startingPosition;
+  private String position;
   private int noOfItems;
-  private Map<String, Item> itemsInBag;
+  private final Map<String, Item> itemsInBag;
 
   /**
    * Constructs the player class when given the required details.
@@ -151,7 +151,9 @@ public class PlayerImpl implements Player {
     sr.append(this.name);
     sr.append("\n");
     sr.append("Items : ");
-    sr.append(itemsInBag.keySet());
+    sr.append(itemsInBag.keySet()).append("\n");
+    sr.append("Current Position : ");
+    sr.append(position).append("\n");
 
     return sr.toString();
   }

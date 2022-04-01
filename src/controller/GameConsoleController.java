@@ -26,13 +26,14 @@ public class GameConsoleController implements GameController {
   private final int turns;
   private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands;
   private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands;
-  private int noOfTurns;
+  private final int noOfTurns;
 
   /**
    * Constructs the controller by taking a readable object,
    * appendable to write the data and max turns.
-   * @param in the readable to read data
-   * @param out the appendable to write the data
+   *
+   * @param in           the readable to read data
+   * @param out          the appendable to write the data
    * @param turnsPerGame the max turns of the game
    */
   public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
@@ -80,6 +81,9 @@ public class GameConsoleController implements GameController {
 
       while (scan.hasNextLine()) {
         String in = scan.nextLine().trim();
+        if ("quit".equals(in)) {
+          break;
+        }
         if ("start".equalsIgnoreCase(in)) {
           if (m.getTotalNumberOfHumanPlayers() > 0) {
             break;

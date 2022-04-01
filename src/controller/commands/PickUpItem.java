@@ -14,8 +14,9 @@ public class PickUpItem implements Command {
 
   /**
    * Constructs the command to pick up item from the space.
+   *
    * @param scan the scanner to read input
-   * @param out the output buffer to write the data
+   * @param out  the output buffer to write the data
    */
   public PickUpItem(Scanner scan, Appendable out) {
     if (scan == null || out == null) {

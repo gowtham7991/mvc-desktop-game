@@ -22,6 +22,7 @@ public interface Target {
 
   /**
    * Returns the current target health.
+   *
    * @return the health of the target
    */
   int getTargetHealth();

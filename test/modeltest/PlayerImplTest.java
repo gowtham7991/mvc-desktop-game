@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import model.characters.Player;
 import model.characters.PlayerImpl;
 import model.characters.PlayerType;
+import model.layout.Item;
+import model.layout.ItemImpl;
 import org.junit.Test;
 
 /**
@@ -24,7 +26,7 @@ public class PlayerImplTest {
     Player p = createPlayer("Player1", "Armory", PlayerType.MANUAL, 5, 0);
     assertEquals("Player1", p.getName());
     assertEquals("Armory", p.getPosition());
-    assertEquals("Name : Player1\n" + "Items : []", p.toString());
+    assertEquals("Name : Player1\n" + "Items : []\n" + "Current Position : Armory\n", p.toString());
   }
 
   @Test
@@ -34,7 +36,8 @@ public class PlayerImplTest {
     assertEquals("Armory", p.getPosition());
     StringBuilder sr = new StringBuilder();
     sr.append("Name : Player1\n");
-    sr.append("Items : []");
+    sr.append("Items : []\n");
+    sr.append("Current Position : Armory\n");
     assertEquals(sr.toString(), p.toString());
     assertEquals(0, p.getItemCount());
   }
@@ -62,6 +65,13 @@ public class PlayerImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testPlayerWithNegativeItemLimit() {
     Player p = createPlayer("Player1", "Drawing Room", PlayerType.MANUAL, -5, 0);
+  }
+
+  @Test
+  public void testPickUpItem() {
+    Player p = createPlayer("Player1", "Drawing Room", PlayerType.MANUAL, 5, 0);
+    Item i = new ItemImpl("Item1", 5);
+    p.pickUpItem(i);
   }
 
   @Test

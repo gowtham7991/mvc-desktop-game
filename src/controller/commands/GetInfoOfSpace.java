@@ -14,8 +14,9 @@ public class GetInfoOfSpace implements Command {
 
   /**
    * Constructs the command to add a normal player.
+   *
    * @param scan the scanner to read input
-   * @param out the output buffer to write the data
+   * @param out  the output buffer to write the data
    */
   public GetInfoOfSpace(Scanner scan, Appendable out) {
     if (scan == null || out == null) {

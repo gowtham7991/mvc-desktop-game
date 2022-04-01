@@ -98,8 +98,13 @@ Milestone2
 - Game cannot start without a single human player
 - Name is not needed for a computer player.
 - If no neighbours and players makes a move, then the turn is up.
-- If no items are found in the space and the user picksup, the turn is completed.
+- If no items are found in the space and the user picks up, the turn is completed.
 - The user cannot move to the same space he is in currently.
+
+Milestone3
+- A player can poke even if he has items in bag.
+- A computer player does not have the ability to move the pet.
+- Player's turn gets over if one uses wrong item.
 
 
 ### Limitations
@@ -112,6 +117,6 @@ There is re prompt if an invalid action takes place.
 
 ### Citations
 
-None
+DFS Traversal of a Graph - https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
 
 

@@ -29,7 +29,8 @@ public class GetInfoOfSpaceTest {
     StringBuilder outBuilder = new StringBuilder();
 
     String logExpected = "Displaying information of Armory\n";
-    String outExpected = outBuilder.append("Enter the name of the space: \n").append("123456789")
+    String outExpected = outBuilder.append("Enter the name of the space: \n")
+        .append("123456789").append("\n")
         .toString();
 
     assertEquals(logExpected, log.toString());

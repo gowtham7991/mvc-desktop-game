@@ -28,7 +28,7 @@ public class SpaceImplTest {
   @Test
   public void testValidSpaceCreation() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace("Space0", 0, 0, 0, 5, 5, items);
     assertEquals("Space0", s.getName());
     assertEquals(0, s.getTopLeftRow());
@@ -40,63 +40,63 @@ public class SpaceImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationInvalidName() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, 0, 0, 5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationNullName() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(null, 0, 0, 0, 5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationNegativeTopLeftXcoordinate() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, -5, 0, 5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationNegativeTopLeftYcoordinate() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, 0, -5, 5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationNegativeBottomRightXcoordinate() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, 0, 0, -5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationNegativeBottomRightYcoordinate() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, 0, 0, 5, -5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationTopLeftXgreaterThanBottomRight() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 10, 0, 0, 5, 5, items);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSpaceCreationTopLeftYgreaterThanBottomRight() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s = createSpace(" ", 0, 10, 0, 5, 5, items);
   }
 
   @Test
   public void testEquals() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s1 = createSpace("Space1", 0, 0, 0, 10, 10, items);
     Space s2 = createSpace("Space1", 0, 0, 0, 10, 10, items);
     Space s3 = createSpace("Space3", 0, 0, 0, 10, 10, items);
@@ -109,7 +109,7 @@ public class SpaceImplTest {
   @Test
   public void testHashCode() {
     Map<String, Item> items = new HashMap<>();
-    items.put("Item1", new ItemImpl("Item1", 30, 0));
+    items.put("Item1", new ItemImpl("Item1", 30));
     Space s1 = createSpace("Space1", 0, 0, 0, 10, 10, items);
     Space s2 = createSpace("Space1", 0, 0, 0, 10, 10, items);
     Space s3 = createSpace("Space2", 0, 0, 0, 10, 10, items);

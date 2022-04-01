@@ -17,8 +17,9 @@ public class CreateLayout implements Command {
 
   /**
    * Constructs the command to create a layout.
+   *
    * @param scan the scanner to read input
-   * @param out the output buffer to write the data
+   * @param out  the output buffer to write the data
    */
   public CreateLayout(Scanner scan, Appendable out) {
     if (scan == null || out == null) {

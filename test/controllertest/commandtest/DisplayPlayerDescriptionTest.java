@@ -29,7 +29,8 @@ public class DisplayPlayerDescriptionTest {
     StringBuilder outBuilder = new StringBuilder();
 
     String logExpected = "Displaying player description.\n";
-    String outExpected = logBuilder.append("Enter a player's name: \n").append("123456789")
+    String outExpected = logBuilder.append("Enter a player's name: \n")
+        .append("123456789").append("\n")
         .toString();
 
     assertEquals(logExpected, log.toString());

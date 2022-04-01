@@ -11,28 +11,22 @@ public class ItemImpl implements Item {
 
   private final String name;
   private final int damage;
-  private final int location;
 
   /**
    * Creates an items in the designated space.
    *
-   * @param name     the name of the item
-   * @param damage   the damage caused by the item
-   * @param location the space index of where the item can be found
+   * @param name   the name of the item
+   * @param damage the damage caused by the item
    */
-  public ItemImpl(String name, int damage, int location) {
+  public ItemImpl(String name, int damage) {
     if (name == null || name.trim().length() < 1) {
       throw new IllegalArgumentException("Invalid item name!");
     }
     if (damage < 0) {
       throw new IllegalArgumentException("Damage for an item cannot be negative!");
     }
-    if (location < 0) {
-      throw new IllegalArgumentException("Invalid location of the item!");
-    }
     this.name = name;
     this.damage = damage;
-    this.location = location;
   }
 
   @Override
@@ -55,19 +49,18 @@ public class ItemImpl implements Item {
       return false;
     }
     ItemImpl s2 = (ItemImpl) o;
-    return name.equals(s2.name) && (location == s2.location);
+    return name.equals(s2.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, location);
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sr = new StringBuilder();
-    sr.append("Name : ").append(name).append("\n").append("Damage : ").append(damage).append("\n")
-        .append("Location : ").append(location).append("\n");
+    sr.append("Name : ").append(name).append("\n").append("Damage : ").append(damage).append("\n");
 
     return sr.toString();
   }

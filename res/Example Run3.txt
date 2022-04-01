@@ -1,0 +1,661 @@
+### Welcome to Marvel Multiverse ###
+
+### Add Players ###
+
+addplayer - to add a new human player
+addcomputerplayer - to add a new computer player
+start - to start the game
+addplayer
+Enter your name: 
+Gow
+# List of available spaces #
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+Enter the Space you wish to enter: 
+Avengers Mansion
+Enter the item limit: 
+5
+Gow added to Avengers Mansion
+addplayer
+Enter your name: 
+Gow1
+# List of available spaces #
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+Enter the Space you wish to enter: 
+Sokovia
+Enter the item limit: 
+4
+Gow1 added to Sokovia
+addplayer
+Enter your name: 
+Gow3
+# List of available spaces #
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+Enter the Space you wish to enter: 
+Titan
+Enter the item limit: 
+7
+Gow3 added to Titan
+addcomputerplayer
+Computer1 added to Asgard
+addplayer
+Enter your name: 
+Gow4
+# List of available spaces #
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+Enter the Space you wish to enter: 
+Ta Lo
+Enter the item limit: 
+5
+Gow4 added to Ta Lo
+start
+### Game has started ###
+
+Players : 
+Player0 : Gow
+Type - MANUAL
+Location - Avengers Mansion
+
+Player1 : Gow1
+Type - MANUAL
+Location - Sokovia
+
+Player2 : Gow3
+Type - MANUAL
+Location - Titan
+
+Player3 : Computer1
+Type - COMPUTER
+Location - Asgard
+
+Player4 : Gow4
+Type - MANUAL
+Location - Ta Lo
+
+
+--- Available Commands ---
+
+layout - generate a layout of the game
+playerdesc - Displays the description of a player
+getinfo - Displays information about a space
+lookaround - Displays the details of a specific space the player currently is in
+move - Move to the neighbouring space
+pickup - Pickup an item from the current space
+attack - Attack the target using an item in possession
+movepet - Move the pet to a space in the world
+quit - quit the game
+
+Player0 - Gow is in turn.
+## Hints ##
+Current space : Avengers Mansion
+Items available : [Mark 35]
+Players in Space : [Gow]
+Target location : Asgard
+Target health : 50
+Pet location : Asgard
+>> Enter a command
+pickup
+Available items : [Mark 35]
+Enter the item name: 
+Mark 35
+Gow picked up Mark 35 from Avengers Mansion
+
+Player1 - Gow1 is in turn.
+## Hints ##
+Current space : Sokovia
+Items available : []
+Players in Space : [Gow1]
+Target location : Avengers Mansion
+Target health : 50
+Pet location : Bifrost
+>> Enter a command
+pickup
+Available items : []
+Enter the item name: 
+none
+No items found. Your turn is up!
+
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : [Infinity Gauntlet]
+Players in Space : [Gow3]
+Target location : Bifrost
+Target health : 50
+Pet location : Quantum Realm
+>> Enter a command
+movepet
+Available spaces : 
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+
+Enter the Space you wish to move the pet : 
+Wakanda
+Pet moved to Wakanda
+
+Player3 - Computer1 is in turn. Select a command.
+Attack failed! Target not in this space.
+
+Player4 - Gow4 is in turn.
+## Hints ##
+Current space : Ta Lo
+Items available : [The Ten Rings]
+Players in Space : [Gow4]
+Target location : Ego's Planet
+Target health : 50
+Pet location : Avengers Mansion
+>> Enter a command
+pickup
+Available items : [The Ten Rings]
+Enter the item name: 
+The Ten Rings
+Gow4 picked up The Ten Rings from Ta Lo
+
+Player0 - Gow is in turn.
+## Hints ##
+Current space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+Target location : Hydra
+Target health : 50
+Pet location : Hydra
+>> Enter a command
+lookaround
+Current Space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+
+Neighbours : 
+Kamartaj
+Items available : [Time Stone]
+Players in Space : []
+
+Quantum Realm
+Items available : [Ant man suit]
+Players in Space : []
+
+Wakanda
+Items available : [Panther Habit, Vibranium Sheild]
+Players in Space : []
+
+
+Player1 - Gow1 is in turn.
+## Hints ##
+Current space : Sokovia
+Items available : []
+Players in Space : [Gow1]
+Target location : Kamartaj
+Target health : 50
+Pet location : Kamartaj
+>> Enter a command
+movepet
+Available spaces : 
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+
+Enter the Space you wish to move the pet : 
+Vormir
+Pet moved to Vormir
+
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : [Infinity Gauntlet]
+Players in Space : [Gow3]
+Target location : London
+Target health : 50
+Pet location : Vormir
+>> Enter a command
+Pickup
+Invalid command. Retry!
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : [Infinity Gauntlet]
+Players in Space : [Gow3]
+Target location : London
+Target health : 50
+Pet location : Vormir
+>> Enter a command
+pickup
+Available items : [Infinity Gauntlet]
+Enter the item name: 
+Infinity Gauntlet
+Gow3 picked up Infinity Gauntlet from Titan
+
+Player3 - Computer1 is in turn. Select a command.
+Computer1 picked up Mjolnir from Asgard
+
+Player4 - Gow4 is in turn.
+## Hints ##
+Current space : Ta Lo
+Items available : []
+Players in Space : [Gow4]
+Target location : Morag
+Target health : 50
+Pet location : Collector's Museum
+>> Enter a command
+movepet
+Available spaces : 
+Asgard
+Avengers Mansion
+Bifrost
+Collector's Museum
+Ego's Planet
+Hydra
+Kamartaj
+London
+Midtown School
+Morag
+New York
+Nidavellir
+Quantum Realm
+S.H.E.I.L.D Headquarters
+Sokovia
+Stark Industries
+Ta Lo
+Titan
+Tokyo Sanctum
+Vormir
+Wakanda
+Xandar
+
+Enter the Space you wish to move the pet : 
+Titan
+Pet moved to Titan
+
+Player0 - Gow is in turn.
+## Hints ##
+Current space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+Target location : New York
+Target health : 50
+Pet location : Titan
+>> Enter a command
+lookaround
+Current Space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+
+Neighbours : 
+Hydra
+Items available : [Chitauri Scepter]
+Players in Space : []
+
+Kamartaj
+Items available : [Time Stone]
+Players in Space : []
+
+Quantum Realm
+Items available : [Ant man suit]
+Players in Space : []
+
+Wakanda
+Items available : [Panther Habit, Vibranium Sheild]
+Players in Space : []
+
+
+Player1 - Gow1 is in turn.
+## Hints ##
+Current space : Sokovia
+Items available : []
+Players in Space : [Gow1]
+Target location : Nidavellir
+Target health : 50
+Pet location : Ego's Planet
+>> Enter a command
+move
+Neighbouring spaces : 
+[Hydra]
+
+Enter the Space you wish to enter: 
+Hydra
+Gow1 moved to Hydra
+
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : []
+Players in Space : [Gow3]
+Target location : Quantum Realm
+Target health : 50
+Pet location : Titan
+>> Enter a command
+lookaround'
+Invalid command. Retry!
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : []
+Players in Space : [Gow3]
+Target location : Quantum Realm
+Target health : 50
+Pet location : Titan
+>> Enter a command
+lookaround
+Current Space : Titan
+Items available : []
+Players in Space : [Gow3]
+
+Neighbours : 
+Collector's Museum
+Items available : [Reality]
+Players in Space : []
+
+Ego's Planet
+Items available : [Quad Blasters]
+Players in Space : []
+
+Morag
+Items available : []
+Players in Space : []
+
+Quantum Realm
+Items available : [Ant man suit]
+Players in Space : []
+
+Vormir
+Items available : [Soul Stone]
+Players in Space : []
+
+Xandar
+Items available : [Power Stone]
+Players in Space : []
+
+
+Player3 - Computer1 is in turn. Select a command.
+Computer1 picked up Space Stone from Asgard
+
+Player4 - Gow4 is in turn.
+## Hints ##
+Current space : Ta Lo
+Items available : []
+Players in Space : [Gow4]
+Target location : Sokovia
+Target health : 50
+Pet location : Titan
+>> Enter a command
+lookaround
+Current Space : Ta Lo
+Items available : []
+Players in Space : [Gow4]
+
+Neighbours : 
+Quantum Realm
+Items available : [Ant man suit]
+Players in Space : []
+
+S.H.E.I.L.D Headquarters
+Items available : [Mind]
+Players in Space : []
+
+
+Player0 - Gow is in turn.
+## Hints ##
+Current space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+Target location : Stark Industries
+Target health : 50
+Pet location : Xandar
+>> Enter a command
+lookaround
+Current Space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+
+Neighbours : 
+Hydra
+Items available : [Chitauri Scepter]
+Players in Space : [Gow1]
+
+Kamartaj
+Items available : [Time Stone]
+Players in Space : []
+
+Quantum Realm
+Items available : [Ant man suit]
+Players in Space : []
+
+Wakanda
+Items available : [Panther Habit, Vibranium Sheild]
+Players in Space : []
+
+
+Player1 - Gow1 is in turn.
+## Hints ##
+Current space : Hydra
+Items available : [Chitauri Scepter]
+Players in Space : [Gow1]
+Target location : Ta Lo
+Target health : 50
+Pet location : Titan
+>> Enter a command
+pickup
+Available items : [Chitauri Scepter]
+Enter the item name: 
+Chitauri Scepter
+Gow1 picked up Chitauri Scepter from Hydra
+
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : []
+Players in Space : [Gow3]
+Target location : Titan
+Target health : 50
+Pet location : Titan
+>> Enter a command
+attack
+Available items : 
+[Infinity Gauntlet]
+Enter the item you would want to use or use poke: 
+Infinity Gauntlet
+Target attacked. Target Health reduced to 28
+
+Player3 - Computer1 is in turn. Select a command.
+Attack failed! Target not in this space.
+
+Player4 - Gow4 is in turn.
+## Hints ##
+Current space : Ta Lo
+Items available : []
+Players in Space : [Gow4]
+Target location : Vormir
+Target health : 28
+Pet location : London
+>> Enter a command
+move
+Neighbouring spaces : 
+[Quantum Realm, S.H.E.I.L.D Headquarters]
+
+Enter the Space you wish to enter: 
+S.H.E.I.L.D Headquarters
+Gow4 moved to S.H.E.I.L.D Headquarters
+
+Player0 - Gow is in turn.
+## Hints ##
+Current space : Avengers Mansion
+Items available : []
+Players in Space : [Gow]
+Target location : Wakanda
+Target health : 28
+Pet location : New York
+>> Enter a command
+move
+Neighbouring spaces : 
+[Hydra, Kamartaj, Quantum Realm, Wakanda]
+
+Enter the Space you wish to enter: 
+Kamartaj
+Gow moved to Kamartaj
+
+Player1 - Gow1 is in turn.
+## Hints ##
+Current space : Hydra
+Items available : []
+Players in Space : [Gow1]
+Target location : Xandar
+Target health : 28
+Pet location : Tokyo Sanctum
+>> Enter a command
+move
+Neighbouring spaces : 
+[Avengers Mansion, Kamartaj, Sokovia, Wakanda]
+
+Enter the Space you wish to enter: 
+Sokovia
+Gow1 moved to Sokovia
+
+Player2 - Gow3 is in turn.
+## Hints ##
+Current space : Titan
+Items available : []
+Players in Space : [Gow3]
+Target location : Asgard
+Target health : 28
+Pet location : New York
+>> Enter a command
+attack
+Available items : 
+[]
+Enter the item you would want to use or use poke: 
+poke
+Attack failed! Target not in this space.
+
+Player3 - Computer1 is in turn. Select a command.
+Computer1 moved to Bifrost
+
+Player4 - Gow4 is in turn.
+## Hints ##
+Current space : S.H.E.I.L.D Headquarters
+Items available : [Mind]
+Players in Space : [Gow4]
+Target location : Bifrost
+Target health : 28
+Pet location : Kamartaj
+>> Enter a command
