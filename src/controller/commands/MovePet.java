@@ -6,14 +6,14 @@ import java.util.Scanner;
 import model.Model;
 
 /**
- * Command to move a player from the current space to required space.
+ * Command to move the pet from the current space to required space.
  */
 public class MovePet implements Command {
   private final Scanner scan;
   private final Appendable out;
 
   /**
-   * Constructs the command to add a normal player.
+   * Constructs the command to move the pet.
    *
    * @param scan the scanner to read input
    * @param out  the output buffer to write the data

@@ -25,13 +25,15 @@ Thg program can display the information of a specified space.
 The program can display the number spaces visible or neighbours of a specified space.
 The program can move the target around the world.
 The program lets user add a normal player
-The programm lets user to add a computer controlled player
+The program lets the user add a computer controlled player
 The program allows the user to move around the world.
 The program allows the user to pick up an item from the current space.
 The program allows the user to look around the current space.
 The program allows the user to read a specific player's description
 The program allows the user to generate a layout of the game
-
+The program allows the user to attack the target.
+The program allows the user to move the pet around.
+The program automatically moves the pet around after every turn.
 
 
 ### How to Run
@@ -60,11 +62,15 @@ The program also allows the players to quit the game.
 
 After the max turns are completed the game is automatically stopped.
 
+A player can attack the target using the items he has picked or can also poke him in the eye.
+A player can also move the pet around to strategically plan his/her attacks on the target.
+
 
 ### Example Runs
 
 Milestone1_ExampleRun1.txt
 Milestone2_ExampleRun2.txt
+Milestone3_ExampleRun3.txt
 
 ### Design/Model Changes
 
@@ -80,7 +86,8 @@ Milestone1
 Milestone2
 - I removed the character interface and made seperate interface for target and player.
 
-
+Milestone3
+- I removed the players index class which stores the players referenced with their id.
 
 ### Assumptions
 
@@ -112,7 +119,6 @@ Milestone3
 As per the current design, I have not provided the ability to enter a name for computer players.
 There is no way for a user to reenter a new command once the command is chosen.
 There is re prompt if an invalid action takes place.
-
 
 
 ### Citations

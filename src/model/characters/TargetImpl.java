@@ -30,6 +30,7 @@ public class TargetImpl implements Target {
     if ("".equals(position.trim())) {
       throw new IllegalArgumentException("Invalid position!");
     }
+
     this.name = name;
     this.health = health;
     this.position = position;
@@ -42,6 +43,9 @@ public class TargetImpl implements Target {
 
   @Override
   public void reduceHealth(int damage) {
+    if (damage < 0) {
+      throw new IllegalArgumentException("Damage cannot be negative!");
+    }
     if (damage > health) {
       health = 0;
     } else {

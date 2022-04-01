@@ -23,10 +23,8 @@ import model.Model;
 public class GameConsoleController implements GameController {
   private final Scanner scan;
   private final Appendable out;
-  private final int turns;
   private final Map<String, BiFunction<Scanner, Appendable, Command>> gameConfigCommands;
   private final Map<String, BiFunction<Scanner, Appendable, Command>> gameExecutionCommands;
-  private final int noOfTurns;
 
   /**
    * Constructs the controller by taking a readable object,
@@ -34,9 +32,8 @@ public class GameConsoleController implements GameController {
    *
    * @param in           the readable to read data
    * @param out          the appendable to write the data
-   * @param turnsPerGame the max turns of the game
    */
-  public GameConsoleController(Readable in, Appendable out, int turnsPerGame) {
+  public GameConsoleController(Readable in, Appendable out) {
 
     if (in == null || out == null) {
       throw new IllegalArgumentException("Invalid values passed!");
@@ -44,8 +41,6 @@ public class GameConsoleController implements GameController {
 
     this.scan = new Scanner(in);
     this.out = out;
-    this.turns = turnsPerGame;
-    this.noOfTurns = 0;
     this.gameConfigCommands = new HashMap<>();
     this.gameExecutionCommands = new HashMap<>();
   }
@@ -71,7 +66,6 @@ public class GameConsoleController implements GameController {
       gameExecutionCommands.put("attack", (s, out) -> new Attack(s, out));
       gameExecutionCommands.put("movepet", (s, out) -> new MovePet(s, out));
 
-      boolean isGameStarted = false;
       out.append("\n");
       out.append("### Welcome to ").append(m.getName()).append(" ###").append("\n\n");
       out.append("### Add Players ###\n\n");

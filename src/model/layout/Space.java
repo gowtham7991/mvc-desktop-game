@@ -38,13 +38,6 @@ public interface Space {
   Item removeItem(String name);
 
   /**
-   * Add an item to the space.
-   *
-   * @param item the item
-   */
-  void addItem(Item item);
-
-  /**
    * Returns the top left row of the space.
    *
    * @return the top left row

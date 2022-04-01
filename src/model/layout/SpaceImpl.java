@@ -85,11 +85,6 @@ public class SpaceImpl implements Space {
   }
 
   @Override
-  public void addItem(Item item) {
-    items.put(item.getName(), item);
-  }
-
-  @Override
   public int getTopLeftRow() {
     return topLeftRow;
   }

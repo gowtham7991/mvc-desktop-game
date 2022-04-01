@@ -6,14 +6,14 @@ import java.util.Scanner;
 import model.Model;
 
 /**
- * Command to move a player from the current space to required space.
+ * Command to attack the target with an item or poke him in the eye.
  */
 public class Attack implements Command {
   private final Scanner scan;
   private final Appendable out;
 
   /**
-   * Constructs the command to add a normal player.
+   * Constructs the command to attack the target.
    *
    * @param scan the scanner to read input
    * @param out  the output buffer to write the data

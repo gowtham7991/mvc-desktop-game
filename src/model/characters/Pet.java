@@ -10,7 +10,7 @@ public interface Pet {
   /**
    * Moves the pet to the designated space.
    *
-   * @param position the index of the destination space
+   * @param position the name of the destination space
    */
   void moveTo(String position);
 

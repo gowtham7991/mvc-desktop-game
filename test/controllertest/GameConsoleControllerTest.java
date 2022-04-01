@@ -22,9 +22,8 @@ public class GameConsoleControllerTest {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n"
@@ -55,10 +54,9 @@ public class GameConsoleControllerTest {
   public void testStartWithNullModel() {
     Appendable log = new FailingAppendable();
     StringBuffer out = new StringBuffer();
-    int maxTurns = 20;
     Model model = new MockModel(log, "123456");
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall\n");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(null);
   }
 
@@ -66,10 +64,9 @@ public class GameConsoleControllerTest {
   public void testFailingAppendable() {
     Appendable log = new FailingAppendable();
     StringBuffer out = new StringBuffer();
-    int maxTurns = 20;
     Model model = new MockModel(log, "123456");
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall\n");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
   }
 
@@ -79,9 +76,8 @@ public class GameConsoleControllerTest {
     Readable in = new StringReader(
         "addplayer\nGowtham\nArmory\n5\nstart\nmove\nDining Hall\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
         + "\n" + "addplayer - to add a new human player\n" + "addcomputerplayer - to add a "
@@ -117,9 +113,8 @@ public class GameConsoleControllerTest {
     Readable in = new StringReader(
         "addplayer\nGowtham\nArmory\n5\nstart\npickup\nRevolver\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
         + "\n" + "addplayer - to add a new human player\n"
@@ -156,9 +151,8 @@ public class GameConsoleControllerTest {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("addplayer\nGowtham\nArmory\n5\nstart\nlookaround\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -197,9 +191,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nGowtham1\nArmory\n5\nstart\nplayerdesc\nGowtham1\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -240,9 +233,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nGowtham1\nArmory\n5\nstart\ngetinfo\nArmory\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String logExpected = "Displaying the name of the game.\n" + "List of spaces.\n"
@@ -280,9 +272,8 @@ public class GameConsoleControllerTest {
     Readable in = new StringReader(
         "addplayer\nGowtham\nArmory\n5\naddplayer\nGowtham1\nArmory\n5\nstart\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -318,9 +309,8 @@ public class GameConsoleControllerTest {
     StringBuffer out = new StringBuffer();
     Readable in = new StringReader("addcomputerplayer\naddcomputerplayer\nstart\nquit\n");
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -352,9 +342,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nmove\nDrawing Room\nmove\nLilac Room\nmove\nBilliard Room\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 3;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -404,9 +393,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nGowtham1\nArmory\n5\nstart\nmovepet\nDining Hall\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -449,9 +437,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nGowtham1\nArmory\n5\nstart\nattack\nItem1\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"
@@ -493,9 +480,8 @@ public class GameConsoleControllerTest {
     inBuilder.append("\nGowtham1\nArmory\n5\nstart\nattack\nItem1\nquit\n");
     Readable in = new StringReader(inBuilder.toString());
     StringBuilder log = new StringBuilder();
-    int maxTurns = 10;
     Model model = new MockModel1(log, "123456");
-    GameController controller = new GameConsoleController(in, out, maxTurns);
+    GameController controller = new GameConsoleController(in, out);
     controller.start(model);
 
     String outExpected = "\n" + "### Welcome to 123456 ###\n" + "\n" + "### Add Players ###\n"

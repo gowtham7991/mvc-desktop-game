@@ -28,7 +28,7 @@ public class Main {
         Readable in = new InputStreamReader(System.in);
         RandomGeneratorImpl rand = new RandomGeneratorImpl();
         Model model = new ModelImpl(configFile, rand, turnsPerGame);
-        GameController controller = new GameConsoleController(in, System.out, turnsPerGame);
+        GameController controller = new GameConsoleController(in, System.out);
         controller.start(model);
       } catch (IOException ioe) {
         throw new IllegalArgumentException("File not found!");

@@ -133,15 +133,6 @@ public class WorldImpl implements World {
     this.pet = new PetImpl(petDescription, useDfsNode());
   }
 
-  private void initializeDfs(int idx) {
-    //Initialize DFS visited nodes
-    for (int i = 0; i < noOfSpaces; i++) {
-      visitedNodes.add(false);
-    }
-    String spaceName = spaceMap.get(spaceMap.keySet().toArray()[idx]).getName();
-    dfsNodes.push(spaceName);
-  }
-
   @Override
   public Set<String> getNeighboursOf(String name) throws IllegalArgumentException {
     if (!neighboursMap.containsKey(name)) {
@@ -285,6 +276,10 @@ public class WorldImpl implements World {
 
   @Override
   public String move(String space) {
+    if (space == null) {
+      throw new IllegalArgumentException("Invalid space!");
+    }
+
     StringBuilder sr = new StringBuilder();
     Player p = players.get(playerInTurn);
 
@@ -375,6 +370,10 @@ public class WorldImpl implements World {
 
   @Override
   public String pickUpItem(String itemName) {
+    if (itemName == null) {
+      throw new IllegalArgumentException("Invalid item!");
+    }
+
     Player p = players.get(playerInTurn);
     StringBuilder sr = new StringBuilder();
     String playerCurrentSpace = p.getPosition();
@@ -470,6 +469,10 @@ public class WorldImpl implements World {
 
   @Override
   public String movePet(String spaceName) {
+    if (spaceName == null) {
+      throw new IllegalArgumentException("Invalid space!");
+    }
+
     StringBuilder sb = new StringBuilder();
     if (spaceMap.containsKey(spaceName)) {
       int spaceIdx = spaceMap.get(spaceName).getIndex();
@@ -487,6 +490,9 @@ public class WorldImpl implements World {
 
   @Override
   public String attack(String itemName) {
+    if (itemName == null) {
+      throw new IllegalArgumentException("Invalid item name!");
+    }
     StringBuilder sb = new StringBuilder();
     Item item = players.get(playerInTurn).useItem(itemName);
     if (item == null) {
@@ -536,24 +542,6 @@ public class WorldImpl implements World {
     return sb.toString();
   }
 
-  private boolean isAttackSeen() {
-    String currentPlayerSpace = players.get(playerInTurn).getPosition();
-    Set<String> neighbours = getNeighboursOf(currentPlayerSpace);
-    if (getAllPlayersInSpace(currentPlayerSpace).size() > 1) {
-      return true;
-    }
-
-    if (currentPlayerSpace.equals(pet.getPosition())) {
-      return false;
-    }
-    for (String n : neighbours) {
-      if (getAllPlayersInSpace(n).size() > 0) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   @Override
   public String getWinner() {
     return winner;
@@ -588,6 +576,10 @@ public class WorldImpl implements World {
     return target.getTargetHealth();
   }
 
+  /**
+   * Controls the game play of a computer player by randomly choosing an action.
+   * @return the details of the action
+   */
   private String controlComputerControlledPlayer() {
     Player player = players.get(playerInTurn);
     List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem", "attack"));
@@ -630,6 +622,10 @@ public class WorldImpl implements World {
     return response;
   }
 
+  /**
+   * Handles the attack for a computer player.
+   * @return the details of the action
+   */
   private String handleAttackComputerPlayer() {
     Set<Item> items = players.get(playerInTurn).getItemList();
     if (items.size() == 0) {
@@ -642,6 +638,10 @@ public class WorldImpl implements World {
     }
   }
 
+  /**
+   * Handles the move for a computer player.
+   * @return the details of the action
+   */
   private String handleMoveComputerPlayer() {
     String currentSpace = players.get(playerInTurn).getPosition();
     Set<String> neighbourSet = neighboursMap.get(currentSpace);
@@ -651,6 +651,10 @@ public class WorldImpl implements World {
     return move(randomNeighbour);
   }
 
+  /**
+   * Handles the pickup item for a computer player.
+   * @return the details of the action
+   */
   private String handlePickUpItemComputerPlayer() {
     String currentSpace = players.get(playerInTurn).getPosition();
     Set<String> items = spaceMap.get(currentSpace).getItems();
@@ -660,10 +664,40 @@ public class WorldImpl implements World {
     return pickUpItem(randomItem);
   }
 
+  /**
+   * Handles the lookaround for a computer player.
+   * @return the details of the action
+   */
   private String handleLookAroundComputerPlayer() {
     return lookAround();
   }
 
+  /**
+   * Returns if the attack can be seen by other players.
+   * @return true if attack is seen else false
+   */
+  private boolean isAttackSeen() {
+    String currentPlayerSpace = players.get(playerInTurn).getPosition();
+    Set<String> neighbours = getNeighboursOf(currentPlayerSpace);
+    if (getAllPlayersInSpace(currentPlayerSpace).size() > 1) {
+      return true;
+    }
+
+    if (currentPlayerSpace.equals(pet.getPosition())) {
+      return false;
+    }
+    for (String n : neighbours) {
+      if (getAllPlayersInSpace(n).size() > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Helper method to find the nth element of a set.
+   * @return the name
+   */
   private String findNthElementOfSet(Set<String> set, int n) {
     int currIdx = 0;
     for (String str : set) {
@@ -899,9 +933,25 @@ public class WorldImpl implements World {
     return set;
   }
 
+  /**
+   * Moves the pet to the next space determined by the DFS traversal.
+   */
   private void dfsMovePet() {
     String space = useDfsNode();
     pet.moveTo(space);
+  }
+
+  /**
+   * Re-initializes the DFS stack strating from the given index of the space.
+   * @param idx the index of the space
+   */
+  private void initializeDfs(int idx) {
+    //Initialize DFS visited nodes
+    for (int i = 0; i < noOfSpaces; i++) {
+      visitedNodes.add(false);
+    }
+    String spaceName = spaceMap.get(spaceMap.keySet().toArray()[idx]).getName();
+    dfsNodes.push(spaceName);
   }
 
   /**
