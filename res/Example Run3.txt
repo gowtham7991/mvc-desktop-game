@@ -1,3 +1,10 @@
+Example Run 3 - Milestone3
+
+This example run displays the added functionality of attacking a target by picking up an item, 
+poking in the eye and also moving the pet around.
+The example also displays the hints provided to the user at the start of the turn 
+and also moves the pet around the world after every turn.
+
 ### Welcome to Marvel Multiverse ###
 
 ### Add Players ###
@@ -659,3 +666,4 @@ Target location : Bifrost
 Target health : 28
 Pet location : Kamartaj
 >> Enter a command
+
