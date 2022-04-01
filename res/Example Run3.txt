@@ -657,13 +657,5 @@ Attack failed! Target not in this space.
 Player3 - Computer1 is in turn. Select a command.
 Computer1 moved to Bifrost
 
-Player4 - Gow4 is in turn.
-## Hints ##
-Current space : S.H.E.I.L.D Headquarters
-Items available : [Mind]
-Players in Space : [Gow4]
-Target location : Bifrost
-Target health : 28
-Pet location : Kamartaj
->> Enter a command
+Game Tied! Max turns completed.
 

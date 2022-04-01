@@ -68,9 +68,12 @@ A player can also move the pet around to strategically plan his/her attacks on t
 
 ### Example Runs
 
-Milestone1_ExampleRun1.txt
-Milestone2_ExampleRun2.txt
-Milestone3_ExampleRun3.txt
+- Milestone1_ExampleRun1.txt
+- Milestone2_ExampleRun2.txt
+- Milestone3_ExampleRun3.txt
+- Milestone3_ExampleRun4.txt
+- Milestone4_ExampleRun5.txt
+
 
 ### Design/Model Changes
 
