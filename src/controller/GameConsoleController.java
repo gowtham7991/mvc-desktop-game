@@ -122,7 +122,8 @@ public class GameConsoleController implements GameController {
             break;
           }
 
-          BiFunction<Scanner, Appendable, Command> cmd = gameExecutionCommands.getOrDefault(in, null);
+          BiFunction<Scanner, Appendable, Command> cmd = gameExecutionCommands.getOrDefault(in,
+              null);
           if (cmd == null) {
             out.append("Invalid command. Retry!\n");
           } else {
