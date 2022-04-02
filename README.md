@@ -123,6 +123,9 @@ As per the current design, I have not provided the ability to enter a name for c
 There is no way for a user to reenter a new command once the command is chosen.
 There is re prompt if an invalid action takes place.
 
+Milestone3
+- Pet's current location is being shown in the Hints which shouldn't be the case as it eases
+- the gameplay.
 
 ### Citations
 

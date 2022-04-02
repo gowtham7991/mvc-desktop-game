@@ -624,9 +624,13 @@ public class WorldImplTest {
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
+    w.getTurn();
+    w.move("Space5");
+    String actual = w.getTurn();
+
     String expected = "Player0 - Computer1 is in turn. Select a command.\n"
         + "Computer1 moved to Space3\n" + "\n" + "Player1 - Gowtham is in turn.\n";
-    assertEquals(expected, w.getTurn());
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -637,15 +641,18 @@ public class WorldImplTest {
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
+    w.getTurn();
+    w.move("Space5");
+    String actual = w.getTurn();
+
     String expected = "Player0 - Computer1 is in turn. Select a command.\n"
         + "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
         + "Players in Space : [Computer1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
-        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
-        + "Items available : [Item3]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
         + "Items available : []\n" + "Players in Space : []\n" + "\n" + "\n"
         + "Player1 - Gowtham is in turn.\n";
 
-    assertEquals(expected, w.getTurn());
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -656,10 +663,13 @@ public class WorldImplTest {
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space4", 5);
+    w.getTurn();
+    w.move("Sapce5");
+    String actual = w.getTurn();
     StringBuilder sb = new StringBuilder();
     String expected = "Player0 - Computer1 is in turn. Select a command.\n"
         + "Computer1 picked up Item111 from Space1\n" + "\n" + "Player1 - Gowtham is in turn.\n";
-    assertEquals(expected, w.getTurn());
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -812,7 +822,7 @@ public class WorldImplTest {
     w.lookAround();
     w.getTurn();
 
-    assertEquals(40, w.getTargetHealth());
+    assertEquals(39, w.getTargetHealth());
     assertEquals("Name : Computer1\nItems : []\nCurrent Position : Space2\n",
         w.displayPlayerDescription("Computer1"));
   }
@@ -828,6 +838,8 @@ public class WorldImplTest {
     w.getTurn();
     w.lookAround();
     w.getTurn();
+    w.lookAround();
+    w.getTurn();
     assertEquals("Name : Computer1\nItems : [Item1, Item111]\nCurrent Position : Space1\n",
         w.displayPlayerDescription("Computer1"));
 
@@ -840,7 +852,7 @@ public class WorldImplTest {
     w.lookAround();
     w.getTurn();
 
-    assertEquals(30, w.getTargetHealth());
+    assertEquals(29, w.getTargetHealth());
 
     assertEquals("Name : Computer1\nItems : [Item1]\nCurrent Position : Space2\n",
         w.displayPlayerDescription("Computer1"));

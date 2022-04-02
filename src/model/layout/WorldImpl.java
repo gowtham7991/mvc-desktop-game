@@ -318,8 +318,11 @@ public class WorldImpl implements World {
       sr.append(str).append("\n");
       player = players.get(playerInTurn);
     }
-    sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
-        .append(" is in turn.").append("\n");
+    if (winner == null) {
+      sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
+          .append(" is in turn.").append("\n");
+    }
+
     return sr.toString();
   }
 
@@ -582,9 +585,15 @@ public class WorldImpl implements World {
    */
   private String controlComputerControlledPlayer() {
     Player player = players.get(playerInTurn);
-    List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem", "attack"));
+    List<String> commands = new ArrayList<>(List.of("move", "lookAround", "pickUpItem"));
     boolean isValidCommand = false;
     String response = "";
+
+    if (!isAttackSeen() && target.getPosition().equals(players.get(playerInTurn).getPosition())) {
+      response = handleAttackComputerPlayer();
+      isValidCommand = true;
+    }
+
     while (!isValidCommand) {
       int randomCmdIdx = randGen.getRandomInt() % commands.size();
       String selectedCommand = commands.get(randomCmdIdx);

@@ -112,22 +112,25 @@ public class GameConsoleController implements GameController {
 
       while (!m.isGameOver()) {
         out.append(m.getTurn());
-        out.append(m.getCluesForTurn());
-        out.append(">> Enter a command").append("\n");
+        if (!m.isGameOver()) {
+          out.append(m.getCluesForTurn());
+          out.append(">> Enter a command").append("\n");
 
-        Command c;
-        String in = scan.nextLine().trim();
-        if ("quit".equals(in)) {
-          break;
+          Command c;
+          String in = scan.nextLine().trim();
+          if ("quit".equals(in)) {
+            break;
+          }
+
+          BiFunction<Scanner, Appendable, Command> cmd = gameExecutionCommands.getOrDefault(in, null);
+          if (cmd == null) {
+            out.append("Invalid command. Retry!\n");
+          } else {
+            c = cmd.apply(scan, out);
+            c.execute(m);
+          }
         }
 
-        BiFunction<Scanner, Appendable, Command> cmd = gameExecutionCommands.getOrDefault(in, null);
-        if (cmd == null) {
-          out.append("Invalid command. Retry!\n");
-        } else {
-          c = cmd.apply(scan, out);
-          c.execute(m);
-        }
       }
 
       if (m.isGameOver()) {
