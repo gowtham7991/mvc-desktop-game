@@ -1,6 +1,7 @@
 package modeltest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import controllertest.mocks.RandomGeneratorMock;
@@ -463,6 +464,197 @@ public class WorldImplTest {
   }
 
   @Test
+  public void testLookAroundWhenPlayersInSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space1", 1);
+    w.addPlayer("Player3", "Space3", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player2, Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : [Player3]\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenNoPlayersInSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space2", 1);
+    w.addPlayer("Player3", "Space3", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : [Player2]\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : [Player3]\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenNoPlayersInNeighbouringSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space9", 1);
+    w.addPlayer("Player3", "Space8", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenPlayersInNeighbouringSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space2", 1);
+    w.addPlayer("Player3", "Space3", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : [Player2]\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : [Player3]\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenItemsInSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space9", 1);
+    w.addPlayer("Player3", "Space8", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenNoItemsInSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space7", 1);
+    w.addPlayer("Player2", "Space9", 1);
+    w.addPlayer("Player3", "Space8", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space7\n" + "Items available : []\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space5\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n" + "Space8\n"
+        + "Items available : []\n" + "Players in Space : [Player3]\n" + "\n" + "Space9\n"
+        + "Items available : []\n" + "Players in Space : [Player2]\n\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenNoItemsInNeighbouringSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space7", 1);
+    w.addPlayer("Player2", "Space9", 1);
+    w.addPlayer("Player3", "Space8", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space7\n" + "Items available : []\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space5\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n" + "Space8\n"
+        + "Items available : []\n" + "Players in Space : [Player3]\n" + "\n" + "Space9\n"
+        + "Items available : []\n" + "Players in Space : [Player2]\n\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenItemsInNeighbouringSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space9", 1);
+    w.addPlayer("Player3", "Space8", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenTargetInCurrentSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space2", 1);
+    w.addPlayer("Player3", "Space3", 1);
+    String s = w.lookAround();
+    String expected = "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
+        + "Players in Space : [Player1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
+        + "Items available : [Item2]\n" + "Players in Space : [Player2]\n" + "\n" + "Space3\n"
+        + "Items available : [Item3]\n" + "Players in Space : [Player3]\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player1 - Player2 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenTargetInNeighbouringSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space3", 1);
+    w.addPlayer("Player3", "Space5", 1);
+    w.move("Space3");
+    String s = w.lookAround();
+    String expected = "Current Space : Space3\n" + "Items available : [Item3]\n"
+        + "Players in Space : [Player2, Player1]\n" + "\n" + "Neighbours : \n" + "Space1\n"
+        + "Items available : [Item1, Item111]\n" + "Players in Space : []\n" + "\n" + "Space4\n"
+        + "Items available : [Item4]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player2 - Player3 is in turn.\n", w.getTurn());
+  }
+
+  @Test
+  public void testLookAroundWhenTargetNotAroundThePlayer() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space1", 1);
+    w.addPlayer("Player2", "Space3", 1);
+    w.addPlayer("Player3", "Space9", 1);
+    w.move("Space3");
+    w.move("Space1");
+    String s = w.lookAround();
+
+    String expected = "Current Space : Space9\n" + "Items available : []\n"
+        + "Players in Space : [Player3]\n" + "\n" + "Neighbours : \n" + "Space7\n"
+        + "Items available : []\n" + "Players in Space : []\n" + "\n";
+
+    assertEquals(expected, s);
+    assertEquals("Player0 - Player1 is in turn.\n", w.getTurn());
+  }
+
+  @Test
   public void testLookAroundWithOneNeighbour() {
     World w = validWorld;
     w.addPlayer("Player1", "Space9", 1);
@@ -774,10 +966,51 @@ public class WorldImplTest {
   }
 
   @Test
+  public void testIfPetStartsAtInitialSpace() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space9", 5);
+    w.addPlayer("Player2", "Space1", 3);
+
+    String actual = w.getInfoOfSpace("Space1");
+
+    String expected = "Name : Space1\n" + "Index : 0\n" + "Items : [Item1, Item111]\n"
+        + "Visible Spaces : [Space2, Space3, Space6]\n" + "Players in Space : [Player2]\n"
+        + "Pet present : yes\n";
+    assertEquals(expected, actual);
+  }
+
+  @Test
   public void testPlayerVisibilityWhenInCurrentSpace() {
     World w = validWorld;
-    w.addPlayer("Player1", "Space1", 5);
+    w.addPlayer("Player1", "Space2", 5);
+    w.addPlayer("Player2", "Space2", 3);
+
+    assertTrue(w.playerCanSeeEachOther("Player1", "Player2"));
+  }
+
+  @Test
+  public void testPlayerVisibilityWhenInCurrentSpaceWithPet() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space7", 5);
+    w.addPlayer("Player2", "Space8", 3);
+
+    assertTrue(w.playerCanSeeEachOther("Player1", "Player2"));
+  }
+
+  @Test
+  public void testPlayerVisibilityWhenInNeighbourSpaceWithPet() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space2", 5);
     w.addPlayer("Player2", "Space1", 3);
+
+    assertFalse(w.playerCanSeeEachOther("Player1", "Player2"));
+  }
+
+  @Test
+  public void testPlayerVisibilityWhenInNeighbourSpaceAndNoPet() {
+    World w = validWorld;
+    w.addPlayer("Player1", "Space3", 5);
+    w.addPlayer("Player2", "Space4", 3);
 
     assertTrue(w.playerCanSeeEachOther("Player1", "Player2"));
   }
@@ -906,6 +1139,7 @@ public class WorldImplTest {
     assertEquals("Name : Player1\nItems : []\nCurrent Position : Space6\n",
         w.displayPlayerDescription("Player1"));
   }
+
 
   @Test
   public void testPlayerAttackWithPetInSpace() {

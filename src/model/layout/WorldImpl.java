@@ -558,11 +558,11 @@ public class WorldImpl implements World {
     String posA = players.get(idA).getPosition();
     String posB = players.get(idB).getPosition();
 
-    if (posA.equals(posB)) {
+    if (posA.equals(posB) && !posB.equals(pet.getPosition())) {
       return true;
     }
     for (String n : getNeighboursOf(posA)) {
-      if (n.equals(posB)) {
+      if (n.equals(posB) && !n.equals(pet.getPosition())) {
         return true;
       }
     }
