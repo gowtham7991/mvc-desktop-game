@@ -50,6 +50,7 @@ public class WorldImpl implements World {
   private String winner;
   private final Stack<String> dfsNodes;
   private final Vector<Boolean> visitedNodes;
+  private final int maxNoPlayers;
 
   /**
    * Constructs the using the specifications of the world, target and items.
@@ -131,6 +132,7 @@ public class WorldImpl implements World {
     initializeDfs(0);
 
     this.pet = new PetImpl(petDescription, useDfsNode());
+    this.maxNoPlayers = 10;
   }
 
   @Override
@@ -243,6 +245,9 @@ public class WorldImpl implements World {
 
   @Override
   public String addPlayer(String name, String space, int maxItemsPerPlayer) {
+    if (maxNoPlayers == 10) {
+      throw new IllegalArgumentException("Max number of players added!");
+    }
     if (spaceMap.containsKey(space)) {
       StringBuilder sr = new StringBuilder();
       Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer,
@@ -260,6 +265,10 @@ public class WorldImpl implements World {
   // Computer player is given a limit of 5 items
   @Override
   public String addComputerPlayer() {
+    if (maxNoPlayers == 10) {
+      throw new IllegalArgumentException("Max number of players added!");
+    }
+
     String name = "Computer".concat(Integer.toString(noOfComputerPlayers + 1));
     String space = spaceMap.keySet().iterator().next();
     int maxItemsPerPlayer = 5;
@@ -284,20 +293,16 @@ public class WorldImpl implements World {
     Player p = players.get(playerInTurn);
 
     if (p.getPosition().equals(space)) {
-      sr.append("You are currently in this space. Your turn is up!\n");
+      throw new IllegalArgumentException("Currently in the same space!");
     } else {
       if (!spaceMap.containsKey(space)) {
-        sr.append("Space not found in the world. Your turn is up!\n");
+        throw new IllegalArgumentException("Space not found!");
       } else {
-        if (getNeighboursOf(p.getPosition()).size() == 0) {
-          sr.append("No neighbours found. Your turn is up!\n");
+        if (getNeighboursOf(p.getPosition()).contains(space)) {
+          p.moveTo(space);
+          sr.append(p.getName()).append(" moved to ").append(space).append("\n");
         } else {
-          if (getNeighboursOf(p.getPosition()).contains(space)) {
-            p.moveTo(space);
-            sr.append(p.getName()).append(" moved to ").append(space).append("\n");
-          } else {
-            sr.append("Space is not a neighbour. Your turn is up!\n");
-          }
+          throw new IllegalArgumentException("Not a neighbour!");
         }
       }
     }
@@ -382,7 +387,7 @@ public class WorldImpl implements World {
     String playerCurrentSpace = p.getPosition();
 
     if (spaceMap.get(playerCurrentSpace).getItems().size() == 0) {
-      sr.append("No items found. Your turn is up!\n");
+      throw new IllegalArgumentException("No items found!");
     } else {
       if (spaceMap.get(playerCurrentSpace).getItems().contains(itemName)) {
         if (p.getItemCount() < p.getMaxItemCount()) {
@@ -392,11 +397,11 @@ public class WorldImpl implements World {
           sr.append(p.getName()).append(" picked up ").append(itemName).append(" from ")
               .append(playerCurrentSpace).append("\n");
         } else {
-          sr.append("Max item limit reached. Cannot pick up the item!\n");
+          throw new IllegalArgumentException("Max item limit reached!");
         }
 
       } else {
-        sr.append("Item not found. Your turn is up!\n");
+        throw new IllegalArgumentException("Item not found!");
       }
     }
 
@@ -483,7 +488,7 @@ public class WorldImpl implements World {
       sb.append("Pet moved to ").append(spaceName).append("\n");
       pet.moveTo(useDfsNode());
     } else {
-      sb.append("Space doesn't exist. Your turn is up!\n");
+      throw new IllegalArgumentException("Space does not exist!");
     }
 
     playerInTurn = (playerInTurn + 1) % noOfPlayers;
@@ -494,12 +499,12 @@ public class WorldImpl implements World {
   @Override
   public String attack(String itemName) {
     if (itemName == null) {
-      throw new IllegalArgumentException("Invalid item name!");
+
     }
     StringBuilder sb = new StringBuilder();
     Item item = players.get(playerInTurn).useItem(itemName);
     if (item == null) {
-      return "Attack failed! You don't have this item.\n";
+      throw new IllegalArgumentException("Invalid item name!");
     }
 
     if (!isAttackSeen() && target.getPosition().equals(players.get(playerInTurn).getPosition())) {
@@ -615,13 +620,6 @@ public class WorldImpl implements World {
       } else if ("pickUpItem".equals(selectedCommand)) {
         try {
           response = handlePickUpItemComputerPlayer();
-          isValidCommand = true;
-        } catch (IllegalArgumentException e) {
-          isValidCommand = false;
-        }
-      } else if ("attack".equals(selectedCommand)) {
-        try {
-          response = handleAttackComputerPlayer();
           isValidCommand = true;
         } catch (IllegalArgumentException e) {
           isValidCommand = false;

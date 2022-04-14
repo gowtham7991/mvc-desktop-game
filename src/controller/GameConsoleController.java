@@ -138,9 +138,8 @@ public class GameConsoleController implements GameController {
         out.append(m.getWinner());
       } else {
         out.append("### User quit the game ###\n");
-        out.append("GAME HAS ENDED!\n");
       }
-
+      out.append("GAME HAS ENDED!\n");
     } catch (IOException ioe) {
       throw new IllegalStateException("Append failed!\n");
     }
