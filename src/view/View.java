@@ -10,6 +10,7 @@ public interface View {
   void begin();
   void refresh();
   List<String> openAddPlayerPrompt();
+  String openAddComputerPlayerPrompt();
   String openPickUpItemPrompt();
   String openAttackPrompt();
   String openMovePetPrompt();

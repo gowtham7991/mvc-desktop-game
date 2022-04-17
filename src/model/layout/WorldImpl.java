@@ -200,6 +200,7 @@ public class WorldImpl implements World {
       g.setFont(new Font("TimesRoman", Font.PLAIN, (int) ((width / noOfColumns)*0.4)));
       g.drawString(spaceName, x + width / 200, y + height / 80);
     }
+
     drawPlayers(g, width, height);
     drawTarget(g, width, height);
     g.dispose();

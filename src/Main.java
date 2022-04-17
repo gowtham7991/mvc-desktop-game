@@ -39,7 +39,7 @@ public class Main {
         model.addPlayer("Player7", "Billiard Room", 5);
         model.addPlayer("Player8", "Billiard Room", 5);
         File outputfile = new File("image.jpg");
-        ImageIO.write(model.createGraphicalRepresentation(1500, 1500), "jpg", outputfile);
+        ImageIO.write(model.createGraphicalRepresentation(1000, 1000), "jpg", outputfile);
 //        GameController controller = new GameConsoleController(in, System.out);
 //        controller.start(model);
       } catch (IOException ioe) {
