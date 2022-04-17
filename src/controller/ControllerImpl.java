@@ -1,6 +1,13 @@
 package controller;
 
+import controller.commands.AddComputerPlayer;
+import controller.commands.AddPlayer;
+import controller.commands.Attack;
 import controller.commands.Command;
+import controller.commands.LookAround;
+import controller.commands.Move;
+import controller.commands.MovePet;
+import controller.commands.PickUpItem;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -16,11 +23,15 @@ public class ControllerImpl implements Controller{
   public ControllerImpl(View v, Model m) {
     this.m = m;
     this.commands = new HashMap<>();
+    commands.put("attack", (view) -> new Attack(v));
+    commands.put("pickup", (view) -> new PickUpItem(v));
+    commands.put("move", (view) -> new Move(v));
+    commands.put("movepet", (view) -> new MovePet(v));
+    commands.put("lookaround", (view) -> new LookAround(v));
+    commands.put("addplayer", (view) -> new AddPlayer(v));
+    commands.put("addcomputerplayer", (view) -> new AddComputerPlayer(v));
   }
 
-  public void ControllerImpl() {
-
-  }
   @Override
   public void startGame() {
 
