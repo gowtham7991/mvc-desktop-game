@@ -1,6 +1,7 @@
 package model.layout;
 
 import java.awt.image.WritableRenderedImage;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,7 +35,7 @@ public interface World {
    *
    * @return the buffered image of the world which has spaces.
    */
-  WritableRenderedImage getBufferedImage();
+  WritableRenderedImage getBufferedImage(int width, int height);
 
   /**
    * Moves the target from the current position.
@@ -138,21 +139,21 @@ public interface World {
    *
    * @return the items in a space as a string
    */
-  String getItemsInCurrentSpace();
+  List<String> getItemsInCurrentSpace();
 
   /**
    * Returns the list of items in the bag of player in turn.
    *
    * @return the list of items as a string
    */
-  String getItemsOfPlayerInTurn();
+  List<String> getItemsOfPlayerInTurn();
 
   /**
    * Returns all the players in the game as a string.
    *
    * @return the list of players
    */
-  String getPlayers();
+  List<String> getPlayers();
 
   /**
    * Returns the number of normal players added to the game.
@@ -166,7 +167,7 @@ public interface World {
    *
    * @return the list of spaces
    */
-  String getSpaces();
+  List<String> getSpaces();
 
   /**
    * Returns the clues for the player in turn.
@@ -228,4 +229,12 @@ public interface World {
    * @return the health
    */
   int getTargetHealth();
+
+  /**
+   * Returns the name of the space based on the co-ordinates.
+   * @param x the X coordinate
+   * @param y the Y coordinate
+   * @return the space
+   */
+  String getSpaceBasedOnCoordinates(int x, int y);
 }

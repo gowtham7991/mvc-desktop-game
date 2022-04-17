@@ -30,9 +30,16 @@ public class Main {
         Readable in = new InputStreamReader(System.in);
         RandomGeneratorImpl rand = new RandomGeneratorImpl();
         Model model = new ModelImpl(configFile, rand, turnsPerGame);
-
+        model.addPlayer("Player1", "Wakanda", 5);
+        model.addPlayer("Player2", "Wakanda", 5);
+        model.addPlayer("Player3", "Wakanda", 5);
+        model.addPlayer("Player4", "Wakanda", 5);
+        model.addPlayer("Player5", "Wakanda", 5);
+        model.addPlayer("Player6", "Wakanda", 5);
+        model.addPlayer("Player7", "Wakanda", 5);
+        model.addPlayer("Player8", "Wakanda", 5);
         File outputfile = new File("image.jpg");
-        ImageIO.write(model.createGraphicalRepresentation(), "jpg", outputfile);
+        ImageIO.write(model.createGraphicalRepresentation(1500, 1500), "jpg", outputfile);
 //        GameController controller = new GameConsoleController(in, System.out);
 //        controller.start(model);
       } catch (IOException ioe) {

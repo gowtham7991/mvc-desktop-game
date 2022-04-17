@@ -1,10 +1,10 @@
 package model.layout;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +18,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
 import model.characters.Pet;
 import model.characters.PetImpl;
 import model.characters.Player;
@@ -170,12 +171,7 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public WritableRenderedImage getBufferedImage() {
-    int imgScaleFactor = 17;
-    int layoutScaleFactor = 15;
-
-    int width = noOfColumns * imgScaleFactor;
-    int height = noOfRows * imgScaleFactor;
+  public WritableRenderedImage getBufferedImage(int width, int height) {
 
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = bufferedImage.getGraphics();
@@ -184,34 +180,101 @@ public class WorldImpl implements World {
     g.fillRect(0, 0, width, height);
     g.setColor(Color.black);
     g.setFont(new Font("TimesRoman", Font.PLAIN, 14));
-    g.drawString(name, width / 2 - 50, 10);
-
-    int spacesStartIdx = 3;
-    int spacesEndIdx = spacesStartIdx + noOfSpaces;
 
     for (Space s : spaceMap.values()) {
-      int topLeftRow = s.getTopLeftRow() * layoutScaleFactor;
-      int topLeftCol = s.getTopLeftCol() * layoutScaleFactor;
-      int bottomRightRow = s.getBottomRightRow() * layoutScaleFactor;
-      int bottomRightCol = s.getBottomRightCol() * layoutScaleFactor;
+      int topLeftRow = s.getTopLeftRow() * (height / noOfRows);
+      int topLeftCol = s.getTopLeftCol() * (width / noOfColumns);
+      int bottomRightRow = s.getBottomRightRow() * (height / noOfRows);
+      int bottomRightCol = s.getBottomRightCol() * (width / noOfColumns);
 
       int x = topLeftCol;
       int y = topLeftRow;
-      int spaceWidth = (bottomRightCol - topLeftCol) + layoutScaleFactor;
-      int spaceHeight = (bottomRightRow - topLeftRow) + layoutScaleFactor;
+
+      int spaceWidth = (bottomRightCol - topLeftCol) + (width / noOfColumns);
+      int spaceHeight = (bottomRightRow - topLeftRow) + (height / noOfRows);
 
       String spaceName = s.getName();
 
       g.drawRect(x, y, spaceWidth, spaceHeight);
 
-      g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
-      g.drawString(spaceName, x + 5, y + 10);
+      g.setFont(new Font("TimesRoman", Font.PLAIN, (int) ((width / noOfColumns)*0.4)));
+      g.drawString(spaceName, x + width / 200, y + height / 80);
     }
-
+    drawPlayers(g, width, height);
+    drawTarget(g, width, height);
     g.dispose();
 
     return bufferedImage;
 
+  }
+
+  private void drawPlayers(Graphics g, int width, int height) {
+    for (String space : spaceMap.keySet()) {
+      Space s = spaceMap.get(space);
+      int topLeftRow = s.getTopLeftRow() * (height / noOfRows);
+      int topLeftCol = s.getTopLeftCol() * (width / noOfColumns);
+      int bottomRightRow = s.getBottomRightRow() * (height / noOfRows);
+      int bottomRightCol = s.getBottomRightCol() * (width / noOfColumns);
+
+      int spaceWidth = (bottomRightCol - topLeftCol) + (width / noOfColumns);
+      int spaceHeight = (bottomRightRow - topLeftRow) + (height / noOfRows);
+
+      Set<String> players = getAllPlayersInSpace(space);
+
+      for (int i = 0; i < players.size(); i++) {
+        String playerName = findNthElementOfSet(players, i);
+        int playerId = playerIdBasedOnName(playerName);
+        int offsetX, offsetY;
+        if (i < 4) {
+          offsetX = spaceWidth/6
+              + (i%3)*(spaceWidth/3);
+          offsetY = spaceHeight/6
+              + (i/3)*(spaceHeight/3);
+        } else {
+          offsetX = spaceWidth/6
+              + ((i+1)%3)*(spaceWidth/3);
+          offsetY = spaceHeight/6
+              + ((i+1)/3)*(spaceHeight/3);
+        }
+
+        int playerCoordinateX = topLeftCol + offsetX - spaceWidth/10;
+        int playerCoordinateY = topLeftRow + offsetY - spaceHeight/10;
+
+        try {
+          String img = "player" + playerId + ".png";
+          BufferedImage image = ImageIO.read(new File("res/", img));
+          g.drawImage(image, playerCoordinateX, playerCoordinateY, null);
+        } catch (IOException io) {
+          throw new IllegalArgumentException("Could not read the file!");
+        }
+      }
+    }
+  }
+
+  private void drawTarget(Graphics g, int width, int height) {
+    String targetPosition = target.getPosition();
+    Space s = spaceMap.get(targetPosition);
+
+    int topLeftRow = s.getTopLeftRow() * (height / noOfRows);
+    int topLeftCol = s.getTopLeftCol() * (width / noOfColumns);
+    int bottomRightRow = s.getBottomRightRow() * (height / noOfRows);
+    int bottomRightCol = s.getBottomRightCol() * (width / noOfColumns);
+
+    int spaceWidth = (bottomRightCol - topLeftCol) + (width / noOfColumns);
+    int spaceHeight = (bottomRightRow - topLeftRow) + (height / noOfRows);
+
+    int offsetX = spaceWidth/6  + (4%3)*(spaceWidth/3);
+    int offsetY = spaceHeight/6  + (4/3)*(spaceHeight/3);
+
+    int targetCoordinateX = topLeftCol + offsetX - spaceWidth/10;
+    int targetCoordinateY = topLeftRow + offsetY - spaceHeight/10;
+
+    try {
+      BufferedImage image = ImageIO.read(new File("res/", "target.png"));
+      g.drawImage(image, targetCoordinateX, targetCoordinateY, null);
+    } catch (IOException io) {
+      throw new IllegalArgumentException("Could not read the file!");
+    }
   }
 
   @Override
@@ -245,7 +308,7 @@ public class WorldImpl implements World {
 
   @Override
   public String addPlayer(String name, String space, int maxItemsPerPlayer) {
-    if (maxNoPlayers == 10) {
+    if (noOfPlayers == 10) {
       throw new IllegalArgumentException("Max number of players added!");
     }
     if (spaceMap.containsKey(space)) {
@@ -265,7 +328,7 @@ public class WorldImpl implements World {
   // Computer player is given a limit of 5 items
   @Override
   public String addComputerPlayer() {
-    if (maxNoPlayers == 10) {
+    if (noOfPlayers == 10) {
       throw new IllegalArgumentException("Max number of players added!");
     }
 
@@ -417,30 +480,33 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public String getItemsInCurrentSpace() {
+  public List<String> getItemsInCurrentSpace() {
     String playerCurrentSpace = players.get(playerInTurn).getPosition();
-    String result = spaceMap.get(playerCurrentSpace).getItems().toString();
-    return result;
+    Set<String> result = spaceMap.get(playerCurrentSpace).getItems();
+    List<String> list = new ArrayList<>();
+
+    for(String s : result) {
+      list.add(s);
+    }
+    return list;
   }
 
   @Override
-  public String getItemsOfPlayerInTurn() {
+  public List<String> getItemsOfPlayerInTurn() {
     return players.get(playerInTurn).getItemList().stream().map(o -> o.getName())
-        .collect(Collectors.toList()).toString();
+        .collect(Collectors.toList());
   }
 
   @Override
-  public String getPlayers() {
-    StringBuilder sr = new StringBuilder();
+  public List<String> getPlayers() {
+    List<String> list = new ArrayList<>();
 
     for (int id : players.keySet()) {
-      Player p = players.get(id);
-      sr.append("Player").append(id).append(" : ").append(p.getName()).append("\n")
-          .append("Type - ").append(p.getPlayerType().toString()).append("\n").append("Location - ")
-          .append(p.getPosition()).append("\n\n");
+        Player p = players.get(id);
+        list.add(p.getName());
     }
-    sr.append("\n");
-    return sr.toString();
+
+    return list;
   }
 
   @Override
@@ -449,13 +515,12 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public String getSpaces() {
-    StringBuilder sb = new StringBuilder();
+  public List<String> getSpaces() {
+    List<String> list = new ArrayList<>();
     for (String s : spaceMap.keySet()) {
-      sb.append(s);
-      sb.append("\n");
+      list.add(s);
     }
-    return sb.toString();
+    return list;
   }
 
   @Override
@@ -582,6 +647,16 @@ public class WorldImpl implements World {
   @Override
   public int getTargetHealth() {
     return target.getTargetHealth();
+  }
+
+  @Override
+  public String getSpaceBasedOnCoordinates(int x, int y) {
+    int spaceId = grid[x][y];
+    if (spaceId == -1) {
+      throw new IllegalArgumentException("Invalid coordinates");
+    }
+    String space = (String) spaceMap.keySet().toArray()[spaceId];
+    return space;
   }
 
   /**

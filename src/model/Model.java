@@ -1,18 +1,13 @@
 package model;
 
 import java.awt.image.WritableRenderedImage;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * An interface representing one of the possibilities of a World for the Game.
  */
-public interface Model {
-  /**
-   * Returns the graphical representation of the world with spaces.
-   *
-   * @return the buffered image of the world
-   */
-  WritableRenderedImage createGraphicalRepresentation();
-
+public interface Model extends ReadOnlyModel {
   /**
    * Returns the information of specific space in the world like, the name of the space,
    * the items in the space and the neighbours of the space.
@@ -66,12 +61,7 @@ public interface Model {
    */
   String movePet(String space);
 
-  /**
-   * Returns the name of the player currently in turn.
-   *
-   * @return the name of the current player in turn
-   */
-  String getTurn();
+
 
   /**
    * Return the details of the current space and neighbouring spaces.
@@ -107,43 +97,25 @@ public interface Model {
    * Returns the list of items in the current player's space as a string.
    * @return the list of items
    */
-  String getItemsInCurrentSpace();
+  List<String> getItemsInCurrentSpace();
 
   /**
    * Returns the list if items in the current player's bag.
    * @return the list of items
    */
-  String getItemsOfPlayerInTurn();
-  
-  /**
-   * Returns all the players in the game as a string.
-   * @return the list of players
-   */
-  String getPlayers();
+  List<String> getItemsOfPlayerInTurn();
 
   /**
-   * Returns the name of the game.
-   * @return the name
+   * Returns all the spaces in the world.
+   * @return the list of spaces
    */
-  String getName();
+  List<String> getAllSpaces();
 
   /**
    * Returns the number of normal players added to the game.
    * @return the count of normal players
    */
   int getTotalNumberOfHumanPlayers();
-
-  /**
-   * Returns all the spaces in the world.
-   * @return the list of spaces
-   */
-  String getAllSpaces();
-
-  /**
-   * Returns a set of clues for the player in turn to help progress in the game.
-   * @return the clues
-   */
-  String getCluesForTurn();
 
   /**
    * Returns a boolean of whether the game has been completed.
@@ -170,4 +142,18 @@ public interface Model {
    * @return the details of the attack
    */
   String attack();
+
+  /**
+   * Returns the name of the space based on the co-ordinates.
+   * @param x the X coordinate
+   * @param y the Y coordinate
+   * @return the space
+   */
+  String getSpaceBasedOnCoordinates(int x, int y);
+
+  /**
+   * Re-initializes the world data using the provided configuration file.
+   * @param r the readable of the config file.
+   */
+  void reInitializeGame(Readable r);
 }

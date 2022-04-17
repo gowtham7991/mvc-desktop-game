@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.image.WritableRenderedImage;
+import java.util.List;
 import java.util.Scanner;
 import model.layout.World;
 import model.layout.WorldImpl;
@@ -11,7 +12,7 @@ import utils.RandomGenerator;
  * This is the implementation the game.
  */
 public class ModelImpl implements Model {
-  private final World world;
+  private World world;
   private final RandomGenerator rg;
   private final int maxTurns;
   private int turns;
@@ -21,7 +22,7 @@ public class ModelImpl implements Model {
    *
    * @param in   the readable object of the file provided
    * @param rand the random generator class object
-   * @param maxTurns the max number of turnss
+   * @param maxTurns the max number of turns
    */
   public ModelImpl(Readable in, RandomGenerator rand, int maxTurns) {
 
@@ -29,20 +30,14 @@ public class ModelImpl implements Model {
       throw new IllegalArgumentException("Invalid values passed!");
     }
 
-    Scanner scan = new Scanner(in);
-    ConfigFileParser parsedData = new ConfigFileParser(scan);
-
-    World world = new WorldImpl(parsedData.getWorldDescription(), parsedData.getTargetDescription(),
-        parsedData.getPetDescription(), parsedData.getNoOfSpaces(), parsedData.getNoOfItems(),
-        parsedData.getSpaces(), parsedData.getItems(), rand);
-    this.world = world;
+    reConfigureWorld(in, rand);
     this.rg = rand;
     this.maxTurns = maxTurns;
   }
 
   @Override
-  public WritableRenderedImage createGraphicalRepresentation() {
-    return world.getBufferedImage();
+  public WritableRenderedImage createGraphicalRepresentation(int width, int height) {
+    return world.getBufferedImage(width, height);
   }
 
   @Override
@@ -99,17 +94,17 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public String getItemsInCurrentSpace() {
+  public List<String> getItemsInCurrentSpace() {
     return world.getItemsInCurrentSpace();
   }
 
   @Override
-  public String getItemsOfPlayerInTurn() {
+  public List<String> getItemsOfPlayerInTurn() {
     return world.getItemsOfPlayerInTurn();
   }
 
   @Override
-  public String getPlayers() {
+  public List<String> getPlayers() {
     return world.getPlayers();
   }
 
@@ -124,7 +119,7 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public String getAllSpaces() {
+  public List<String> getAllSpaces() {
     return world.getSpaces();
   }
 
@@ -161,7 +156,26 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public String getSpaceBasedOnCoordinates(int x, int y) {
+    return world.getSpaceBasedOnCoordinates(x, y);
+  }
+
+  @Override
+  public void reInitializeGame(Readable r) {
+    reConfigureWorld(r, rg);
+  }
+
+  @Override
   public String displayPlayerDescription(String name) {
     return world.displayPlayerDescription(name);
+  }
+
+  private void reConfigureWorld(Readable r, RandomGenerator rand) {
+    Scanner scan = new Scanner(r);
+    ConfigFileParser parsedData = new ConfigFileParser(scan);
+
+    this.world = new WorldImpl(parsedData.getWorldDescription(), parsedData.getTargetDescription(),
+        parsedData.getPetDescription(), parsedData.getNoOfSpaces(), parsedData.getNoOfItems(),
+        parsedData.getSpaces(), parsedData.getItems(), rand);
   }
 }
