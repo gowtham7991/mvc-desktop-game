@@ -12,12 +12,11 @@ public class AddComputerPlayer implements Command{
 
   @Override
   public void execute(Model m) {
-    String response = view.openAddComputerPlayerPrompt();
     try {
       m.addComputerPlayer();
-      view.showSuccessMessage();
+      view.showSuccessMessage("Player added!", "");
     } catch (IllegalArgumentException e) {
-      view.showErrorMessage();
+      view.showErrorMessage("Failed to add player",e.getMessage());
     }
   }
 }

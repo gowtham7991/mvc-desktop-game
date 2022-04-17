@@ -10,12 +10,11 @@ public interface View {
   void begin();
   void refresh();
   List<String> openAddPlayerPrompt();
-  String openAddComputerPlayerPrompt();
   String openPickUpItemPrompt();
   String openAttackPrompt();
   String openMovePetPrompt();
   String openMovePrompt();
   String openLookAroundPrompt();
-  String showSuccessMessage();
-  String showErrorMessage();
+  String showSuccessMessage(String title, String message);
+  String showErrorMessage(String title, String message);
 }

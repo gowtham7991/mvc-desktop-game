@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.util.List;
 import model.Model;
 import view.View;
 
@@ -12,6 +13,11 @@ public class AddPlayer implements Command{
 
   @Override
   public void execute(Model m) {
-
+    try {
+      m.addComputerPlayer();
+      view.showSuccessMessage("Player added!", "");
+    } catch (IllegalArgumentException e) {
+      view.showErrorMessage("Failed to add player",e.getMessage());
+    }
   }
 }

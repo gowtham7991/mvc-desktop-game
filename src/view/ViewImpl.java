@@ -78,12 +78,12 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public String showSuccessMessage() {
+  public String showSuccessMessage(String title, String message) {
     return null;
   }
 
   @Override
-  public String showErrorMessage() {
+  public String showErrorMessage(String title, String message) {
     return null;
   }
 }
