@@ -2,10 +2,11 @@ package view;
 
 import controller.Features;
 import java.util.List;
+import model.Model;
 
 public interface View {
   void setFeatures(Features f);
-  void setModel();
+  void setModel(Model m);
   void startGame();
   void begin();
   void refresh();

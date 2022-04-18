@@ -95,6 +95,7 @@ public class ControllerImpl implements Controller{
   public void setView(View v) {
     this.v = v;
     v.setFeatures(this);
+    v.setModel(m);
   }
 
   private void execCommand(String command) {

@@ -3,6 +3,7 @@ package view;
 import controller.Features;
 import java.awt.*;
 import java.util.List;
+import model.Model;
 import view.screens.GameScreen;
 import view.screens.GameScreenImpl;
 import view.screens.SplashScreen;
@@ -11,15 +12,14 @@ import view.screens.StartScreen;
 import view.screens.StartScreenImpl;
 
 public class ViewImpl implements View{
-
   private final SplashScreen splashScreen;
   private final StartScreen startScreen;
   private final GameScreen gameScreen;
 
-  public ViewImpl() {
-    this.splashScreen = new SplashScreenImpl();
-    this.startScreen = new StartScreenImpl();
-    this.gameScreen = new GameScreenImpl();
+  public ViewImpl(Model m) {
+    this.splashScreen = new SplashScreenImpl(m);
+    this.startScreen = new StartScreenImpl(m);
+    this.gameScreen = new GameScreenImpl(m);
   }
 
   @Override
@@ -28,7 +28,7 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public void setModel() {
+  public void setModel(Model m) {
 
   }
 
