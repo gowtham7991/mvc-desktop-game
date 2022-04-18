@@ -30,8 +30,13 @@ public interface ReadOnlyModel {
   String getName();
 
   /**
+   * Returns the current player's position.
+   * @return the position of the player in turn
+   */
+  String getCurrentPlayerPosition();
+
+  /**
    * Returns the graphical representation of the world with spaces.
-   *
    * @return the buffered image of the world
    */
   WritableRenderedImage createGraphicalRepresentation(int width, int height);

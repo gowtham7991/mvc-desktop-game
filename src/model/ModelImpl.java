@@ -114,6 +114,11 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public String getCurrentPlayerPosition() {
+    return world.getCurrentPlayerPosition();
+  }
+
+  @Override
   public int getTotalNumberOfHumanPlayers() {
     return world.getTotalNumberOfHumanPlayers();
   }

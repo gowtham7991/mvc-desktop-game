@@ -53,17 +53,17 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public String openPickUpItemPrompt() {
+  public String openPickUpItemPrompt(List<String> options) {
     return null;
   }
 
   @Override
-  public String openAttackPrompt() {
+  public String openAttackPrompt(List<String> options) {
     return null;
   }
 
   @Override
-  public String openMovePetPrompt() {
+  public String openMovePetPrompt(List<String> options) {
     return null;
   }
 
@@ -73,7 +73,7 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public String openLookAroundPrompt() {
+  public String openLookAroundPrompt(String text) {
     return null;
   }
 

@@ -242,7 +242,13 @@ public class WorldImpl implements World {
         int playerCoordinateY = topLeftRow + offsetY - spaceHeight/10;
 
         try {
-          String img = "player" + playerId + ".png";
+          String img;
+          if (playerId == playerInTurn) {
+            img = "player" + playerId + "_in_turn.png";
+          } else {
+            img = "player" + playerId + ".png";
+          }
+
           BufferedImage image = ImageIO.read(new File("res/", img));
           g.drawImage(image, playerCoordinateX, playerCoordinateY, null);
         } catch (IOException io) {
@@ -658,6 +664,11 @@ public class WorldImpl implements World {
     }
     String space = (String) spaceMap.keySet().toArray()[spaceId];
     return space;
+  }
+
+  @Override
+  public String getCurrentPlayerPosition() {
+    return players.get(playerInTurn).getPosition();
   }
 
   /**

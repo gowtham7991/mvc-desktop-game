@@ -10,11 +10,11 @@ public interface View {
   void begin();
   void refresh();
   List<String> openAddPlayerPrompt();
-  String openPickUpItemPrompt();
-  String openAttackPrompt();
-  String openMovePetPrompt();
+  String openPickUpItemPrompt(List<String> options);
+  String openAttackPrompt(List<String> options);
+  String openMovePetPrompt(List<String> options);
   String openMovePrompt();
-  String openLookAroundPrompt();
+  String openLookAroundPrompt(String text);
   String showSuccessMessage(String title, String message);
   String showErrorMessage(String title, String message);
 }

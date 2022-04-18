@@ -237,4 +237,10 @@ public interface World {
    * @return the space
    */
   String getSpaceBasedOnCoordinates(int x, int y);
+
+  /**
+   * Returns the position of the current player in turn.
+   * @return the space occupied by the player
+   */
+  String getCurrentPlayerPosition();
 }

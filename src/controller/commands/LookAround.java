@@ -12,6 +12,12 @@ public class LookAround implements Command{
 
   @Override
   public void execute(Model m) {
-
+    try {
+      String response = m.lookAround();
+      view.openLookAroundPrompt(response);
+      view.refresh();
+    } catch (IllegalArgumentException e) {
+      view.showErrorMessage("Could not retrieve information!",e.getMessage());
+    }
   }
 }
