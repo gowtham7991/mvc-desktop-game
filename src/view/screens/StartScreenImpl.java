@@ -27,7 +27,7 @@ public class StartScreenImpl extends JFrame implements StartScreen{
   }
 
   @Override
-  public void setModel() {
-
+  public void setModel(Model m) {
+    this.m = m;
   }
 }

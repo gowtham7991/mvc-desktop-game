@@ -26,7 +26,7 @@ public class SplashScreenImpl extends JFrame implements SplashScreen{
   }
 
   @Override
-  public void setModel() {
-
+  public void setModel(Model m) {
+    this.m = m;
   }
 }

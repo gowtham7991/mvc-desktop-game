@@ -29,7 +29,9 @@ public class ViewImpl implements View{
 
   @Override
   public void setModel(Model m) {
-
+    splashScreen.setModel(m);
+    startScreen.setModel(m);
+    gameScreen.setModel(m);
   }
 
   @Override
