@@ -36,8 +36,8 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public WritableRenderedImage createGraphicalRepresentation(int width, int height) {
-    return world.getBufferedImage(width, height);
+  public WritableRenderedImage createGraphicalRepresentation() {
+    return world.getBufferedImage();
   }
 
   @Override
@@ -173,6 +173,11 @@ public class ModelImpl implements Model {
   @Override
   public String displayPlayerDescription(String name) {
     return world.displayPlayerDescription(name);
+  }
+
+  @Override
+  public String displayPlayerDescription() {
+    return world.displayPlayerDescription();
   }
 
   private void reConfigureWorld(Readable r, RandomGenerator rand) {

@@ -1,9 +1,8 @@
 package view;
 
 import controller.Features;
-import java.awt.*;
 import java.util.List;
-import model.Model;
+import model.ReadOnlyModel;
 import view.screens.GameScreen;
 import view.screens.GameScreenImpl;
 import view.screens.SplashScreen;
@@ -16,7 +15,7 @@ public class ViewImpl implements View{
   private final StartScreen startScreen;
   private final GameScreen gameScreen;
 
-  public ViewImpl(Model m) {
+  public ViewImpl(ReadOnlyModel m) {
     this.splashScreen = new SplashScreenImpl(m);
     this.startScreen = new StartScreenImpl(m);
     this.gameScreen = new GameScreenImpl(m);
@@ -28,7 +27,7 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public void setModel(Model m) {
+  public void setModel(ReadOnlyModel m) {
     splashScreen.setModel(m);
     startScreen.setModel(m);
     gameScreen.setModel(m);
@@ -36,7 +35,8 @@ public class ViewImpl implements View{
 
   @Override
   public void startGame() {
-
+    splashScreen.hideScreen();
+    startScreen.showScreen();
   }
 
   @Override
@@ -77,6 +77,11 @@ public class ViewImpl implements View{
   @Override
   public String openLookAroundPrompt(String text) {
     return null;
+  }
+
+  @Override
+  public void openGameOverPrompt(String winner) {
+
   }
 
   @Override

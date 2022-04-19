@@ -5,9 +5,13 @@ import view.View;
 
 public class Move implements Command{
   private final View view;
+  private final int x;
+  private final int y;
 
-  public Move(View view) {
+  public Move(View view, int xCoodrinate, int yCoordinate) {
     this.view = view;
+    this.x = xCoodrinate;
+    this.y = yCoordinate;
   }
 
   @Override
@@ -16,7 +20,12 @@ public class Move implements Command{
     try {
       m.move(response);
       view.showSuccessMessage("Player moved!", "");
-      view.refresh();
+      if (m.isGameOver()) {
+        String winner = m.getWinner();
+        view.openGameOverPrompt(winner);
+      } else {
+        view.refresh();
+      }
     } catch (IllegalArgumentException e) {
       view.showErrorMessage("Failed to move",e.getMessage());
     }

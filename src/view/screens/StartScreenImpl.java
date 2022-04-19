@@ -3,11 +3,12 @@ package view.screens;
 import controller.Features;
 import javax.swing.*;
 import model.Model;
+import model.ReadOnlyModel;
 
 public class StartScreenImpl extends JFrame implements StartScreen{
-  private Model m;
+  private ReadOnlyModel m;
 
-  public StartScreenImpl(Model m) {
+  public StartScreenImpl(ReadOnlyModel m) {
     this.m = m;
   }
 
@@ -27,7 +28,7 @@ public class StartScreenImpl extends JFrame implements StartScreen{
   }
 
   @Override
-  public void setModel(Model m) {
+  public void setModel(ReadOnlyModel m) {
     this.m = m;
   }
 }

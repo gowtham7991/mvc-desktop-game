@@ -52,6 +52,8 @@ public class WorldImpl implements World {
   private final Stack<String> dfsNodes;
   private final Vector<Boolean> visitedNodes;
   private final int maxNoPlayers;
+  private final int gameLayoutWidth;
+  private final int gameLayoutHeight;
 
   /**
    * Constructs the using the specifications of the world, target and items.
@@ -134,6 +136,8 @@ public class WorldImpl implements World {
 
     this.pet = new PetImpl(petDescription, useDfsNode());
     this.maxNoPlayers = 10;
+    this.gameLayoutHeight = 800;
+    this.gameLayoutWidth = 1000;
   }
 
   @Override
@@ -171,8 +175,9 @@ public class WorldImpl implements World {
   }
 
   @Override
-  public WritableRenderedImage getBufferedImage(int width, int height) {
-
+  public WritableRenderedImage getBufferedImage() {
+    int width = gameLayoutWidth;
+    int height = gameLayoutHeight;
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = bufferedImage.getGraphics();
 
@@ -250,7 +255,7 @@ public class WorldImpl implements World {
           }
 
           BufferedImage image = ImageIO.read(new File("res/", img));
-          g.drawImage(image, playerCoordinateX, playerCoordinateY, null);
+          g.drawImage(image, playerCoordinateX, playerCoordinateY, 30, 30, null);
         } catch (IOException io) {
           throw new IllegalArgumentException("Could not read the file!");
         }
@@ -278,7 +283,7 @@ public class WorldImpl implements World {
 
     try {
       BufferedImage image = ImageIO.read(new File("res/", "target.png"));
-      g.drawImage(image, targetCoordinateX, targetCoordinateY, null);
+      g.drawImage(image, targetCoordinateX, targetCoordinateY, 30, 30,null);
     } catch (IOException io) {
       throw new IllegalArgumentException("Could not read the file!");
     }
@@ -332,7 +337,6 @@ public class WorldImpl implements World {
     }
   }
 
-  // Computer player is given a limit of 5 items
   @Override
   public String addComputerPlayer() {
     if (noOfPlayers == 10) {
@@ -386,17 +390,17 @@ public class WorldImpl implements World {
     StringBuilder sr = new StringBuilder();
 
     Player player = players.get(playerInTurn);
+    sr.append("<html>");
     while (player.getPlayerType() == PlayerType.COMPUTER) {
-      sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
-          .append(" is in turn. Select a command.").append("\n");
+      sr.append(player.getName()).append(" in turn").append("<br>");
       String str = controlComputerControlledPlayer();
       sr.append(str).append("\n");
       player = players.get(playerInTurn);
     }
     if (winner == null) {
-      sr.append("Player").append(playerInTurn).append(" - ").append(player.getName())
-          .append(" is in turn.").append("\n");
+      sr.append(player.getName()).append(" in turn").append("<br>");
     }
+    sr.append("</html>");
 
     return sr.toString();
   }
@@ -444,6 +448,11 @@ public class WorldImpl implements World {
     }
     return players.get(playerId).toString();
 
+  }
+
+  @Override
+  public String displayPlayerDescription() {
+    return  players.get(playerInTurn).toString();
   }
 
   @Override
@@ -534,16 +543,13 @@ public class WorldImpl implements World {
   public String getClues() {
     StringBuilder sb = new StringBuilder();
     String currentSpaceName = players.get(playerInTurn).getPosition();
-    sb.append("## Hints ##").append("\n");
-    sb.append("Current space : ").append(currentSpaceName).append("\n");
-    Set<String> items = spaceMap.get(currentSpaceName).getItems();
-    sb.append("Items available : ").append(items.toString()).append("\n");
-    String playersInSpace = String.format("Players in Space : %s\n",
-        getAllPlayersInSpace(currentSpaceName));
-    sb.append(playersInSpace);
-    sb.append("Target location : ").append(target.getPosition()).append("\n");
-    sb.append("Target health : ").append(target.getTargetHealth()).append("\n");
-    sb.append("Pet location : ").append(pet.getPosition()).append("\n");
+    sb.append("<html>");
+    sb.append("Current space : ").append(currentSpaceName).append("<br>");
+    sb.append("Target location : ").append(target.getPosition()).append("<br>");
+    sb.append("Target health : ").append(target.getTargetHealth()).append("<br>");
+    sb.append("<br>");
+    sb.append("</html>");
+
     return sb.toString();
   }
 
@@ -658,7 +664,11 @@ public class WorldImpl implements World {
 
   @Override
   public String getSpaceBasedOnCoordinates(int x, int y) {
-    int spaceId = grid[x][y];
+
+    int col = x / (gameLayoutWidth / noOfColumns);
+    int row = y / (gameLayoutHeight / noOfRows);
+
+    int spaceId = grid[row][col];
     if (spaceId == -1) {
       throw new IllegalArgumentException("Invalid coordinates");
     }

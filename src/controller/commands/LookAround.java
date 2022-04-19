@@ -15,7 +15,12 @@ public class LookAround implements Command{
     try {
       String response = m.lookAround();
       view.openLookAroundPrompt(response);
-      view.refresh();
+      if (m.isGameOver()) {
+        String winner = m.getWinner();
+        view.openGameOverPrompt(winner);
+      } else {
+        view.refresh();
+      }
     } catch (IllegalArgumentException e) {
       view.showErrorMessage("Could not retrieve information!",e.getMessage());
     }

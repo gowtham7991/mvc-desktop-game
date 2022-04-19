@@ -3,11 +3,12 @@ package view.screens;
 import controller.Features;
 import javax.swing.*;
 import model.Model;
+import model.ReadOnlyModel;
 
 public class SplashScreenImpl extends JFrame implements SplashScreen{
 
-  private Model m;
-  public SplashScreenImpl(Model m) {
+  private ReadOnlyModel m;
+  public SplashScreenImpl(ReadOnlyModel m) {
     this.m = m;
   }
   @Override
@@ -26,7 +27,7 @@ public class SplashScreenImpl extends JFrame implements SplashScreen{
   }
 
   @Override
-  public void setModel(Model m) {
+  public void setModel(ReadOnlyModel m) {
     this.m = m;
   }
 }

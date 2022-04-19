@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import model.Model;
 import model.ModelImpl;
 import utils.RandomGeneratorImpl;
+import view.screens.GameScreen;
+import view.screens.GameScreenImpl;
 
 /**
  * The driver function which instantiates the model, controller
@@ -38,8 +40,9 @@ public class Main {
         model.addPlayer("Player6", "Billiard Room", 5);
         model.addPlayer("Player7", "Billiard Room", 5);
         model.addPlayer("Player8", "Billiard Room", 5);
+        GameScreen screen = new GameScreenImpl(model);
         File outputfile = new File("image.jpg");
-        ImageIO.write(model.createGraphicalRepresentation(1500, 1500), "jpg", outputfile);
+        ImageIO.write(model.createGraphicalRepresentation(), "jpg", outputfile);
 //        GameController controller = new GameConsoleController(in, System.out);
 //        controller.start(model);
       } catch (IOException ioe) {

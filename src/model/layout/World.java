@@ -35,7 +35,7 @@ public interface World {
    *
    * @return the buffered image of the world which has spaces.
    */
-  WritableRenderedImage getBufferedImage(int width, int height);
+  WritableRenderedImage getBufferedImage();
 
   /**
    * Moves the target from the current position.
@@ -118,6 +118,13 @@ public interface World {
    * @return the details of the player
    */
   String displayPlayerDescription(String name);
+
+  /**
+   * Return the details of the player in turn including the items one is carrying.
+   *
+   * @return the details of the player
+   */
+  String displayPlayerDescription();
 
   /**
    * Picks up an item for the player in turn from the current space the player is in.

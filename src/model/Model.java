@@ -79,6 +79,13 @@ public interface Model extends ReadOnlyModel {
   String displayPlayerDescription(String name);
 
   /**
+   * Return the details of the player currently in turn including the items one is carrying.
+   *
+   * @return the details of the player
+   */
+  String displayPlayerDescription();
+
+  /**
    * Removes an item from the current space the player is in and adds it to the players item
    * inventory.
    *
@@ -142,14 +149,6 @@ public interface Model extends ReadOnlyModel {
    * @return the details of the attack
    */
   String attack();
-
-  /**
-   * Returns the name of the space based on the co-ordinates.
-   * @param x the X coordinate
-   * @param y the Y coordinate
-   * @return the space
-   */
-  String getSpaceBasedOnCoordinates(int x, int y);
 
   /**
    * Re-initializes the world data using the provided configuration file.

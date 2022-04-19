@@ -47,9 +47,9 @@ public interface Features {
   void attack();
 
   /**
-   *
-   * @param xCoordinate
-   * @param yCoordinate
+   * Handles the moue click of the game board.
+   * @param xCoordinate the x-coordinate of the game board
+   * @param yCoordinate the y-coordinate of the game board
    */
   void handleMouseClick(int xCoordinate, int yCoordinate);
 }

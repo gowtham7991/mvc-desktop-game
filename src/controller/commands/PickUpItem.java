@@ -15,13 +15,20 @@ public class PickUpItem implements Command{
   public void execute(Model m) {
     List<String> itemsInSpace = m.getItemsInCurrentSpace();
     String response = view.openPickUpItemPrompt(itemsInSpace);
+    if (!"cancel".equalsIgnoreCase(response)) {
+      try {
+        m.pickUpItem(response);
+        view.showSuccessMessage("Item picked up!", "");
 
-    try {
-      m.pickUpItem(response);
-      view.showSuccessMessage("Item picked up!", "");
-      view.refresh();
-    } catch (IllegalArgumentException e) {
-      view.showErrorMessage("Failed to pick up item",e.getMessage());
+        if (m.isGameOver()) {
+          String winner = m.getWinner();
+          view.openGameOverPrompt(winner);
+        } else {
+          view.refresh();
+        }
+      } catch (IllegalArgumentException e) {
+        view.showErrorMessage("Failed to pick up item",e.getMessage());
+      }
     }
   }
 }

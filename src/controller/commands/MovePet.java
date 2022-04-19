@@ -15,13 +15,20 @@ public class MovePet implements Command{
   public void execute(Model m) {
     List<String> spaces = m.getAllSpaces();
     String response = view.openMovePetPrompt(spaces);
-
-    try {
-      m.movePet(response);
-      view.showSuccessMessage("Pet moved!", "");
-      view.refresh();
-    } catch (IllegalArgumentException e) {
-      view.showErrorMessage("Failed to move",e.getMessage());
+    if (!"cancel".equalsIgnoreCase(response)) {
+      try {
+        m.movePet(response);
+        view.showSuccessMessage("Pet moved!", "");
+        if (m.isGameOver()) {
+          String winner = m.getWinner();
+          view.openGameOverPrompt(winner);
+        } else {
+          view.refresh();
+        }
+      } catch (IllegalArgumentException e) {
+        view.showErrorMessage("Failed to move",e.getMessage());
+      }
     }
+
   }
 }

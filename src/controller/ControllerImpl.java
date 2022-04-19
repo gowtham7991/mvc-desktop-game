@@ -4,6 +4,7 @@ import controller.commands.AddComputerPlayer;
 import controller.commands.AddPlayer;
 import controller.commands.Attack;
 import controller.commands.Command;
+import controller.commands.DisplayPlayerDescription;
 import controller.commands.LookAround;
 import controller.commands.Move;
 import controller.commands.MovePet;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import model.Model;
+import model.ReadOnlyModel;
 import view.View;
 
 public class ControllerImpl implements Controller{
@@ -24,14 +26,14 @@ public class ControllerImpl implements Controller{
     this.m = m;
     this.commands = new HashMap<>();
 
-    commands.put("attack", (view) -> new Attack(v));
-    commands.put("pickup", (view) -> new PickUpItem(v));
-    commands.put("move", (view) -> new Move(v));
-    commands.put("movepet", (view) -> new MovePet(v));
-    commands.put("lookaround", (view) -> new LookAround(v));
-    commands.put("addplayer", (view) -> new AddPlayer(v));
-    commands.put("addcomputerplayer", (view) -> new AddComputerPlayer(v));
-    commands.put("displayplayerdesc", (view) -> new AddComputerPlayer(v));
+    commands.put("attack", (view) -> new Attack(view));
+    commands.put("pickup", (view) -> new PickUpItem(view));
+//    commands.put("move", (view, x, y) -> new Move(view, x, y));
+    commands.put("movepet", (view) -> new MovePet(view));
+    commands.put("lookaround", (view) -> new LookAround(view));
+    commands.put("addplayer", (view) -> new AddPlayer(view));
+    commands.put("addcomputerplayer", (view) -> new AddComputerPlayer(view));
+    commands.put("displayplayerdesc", (view) -> new DisplayPlayerDescription(view));
   }
 
   @Override
@@ -56,27 +58,32 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void pickUpItem() {
-    execCommand("pickup");
+    Command c = new PickUpItem(v);
+    c.execute(m);
   }
 
   @Override
   public void addComputerPlayer() {
-    execCommand("addcomputerplayer");
+    Command c = new AddComputerPlayer(v);
+    c.execute(m);
   }
 
   @Override
   public void addPlayer() {
-    execCommand("addplayer");
+    Command c = new AddPlayer(v);
+    c.execute(m);
   }
 
   @Override
   public void movePet() {
-    execCommand("movepet");
+    Command c = new MovePet(v);
+    c.execute(m);
   }
 
   @Override
   public void attack() {
-    execCommand("attack");
+    Command c = new Attack(v);
+    c.execute(m);
   }
 
   @Override
@@ -84,27 +91,18 @@ public class ControllerImpl implements Controller{
     String spaceClicked = m.getSpaceBasedOnCoordinates(x, y);
     String playerCurrentPosition = m.getCurrentPlayerPosition();
 
+    Command c;
     if (spaceClicked.equalsIgnoreCase(playerCurrentPosition)) {
-      execCommand("displayplayerdesc");
+      c = new DisplayPlayerDescription(v);
     } else {
-      execCommand("move");
+      c = new Move(v, x, y);
     }
+    c.execute(m);
   }
 
   @Override
   public void setView(View v) {
     this.v = v;
     v.setFeatures(this);
-    v.setModel(m);
-  }
-
-  private void execCommand(String command) {
-    Command c;
-    Function<View, Command> cmd = commands.getOrDefault(command, null);
-    if (cmd == null) {
-      throw new IllegalArgumentException("Command not found!");
-    }
-    c = cmd.apply(v);
-    c.execute(m);
   }
 }
