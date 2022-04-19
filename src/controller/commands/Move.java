@@ -8,17 +8,16 @@ public class Move implements Command{
   private final int x;
   private final int y;
 
-  public Move(View view, int xCoodrinate, int yCoordinate) {
+  public Move(View view, int xCoordinate, int yCoordinate) {
     this.view = view;
-    this.x = xCoodrinate;
+    this.x = xCoordinate;
     this.y = yCoordinate;
   }
 
   @Override
   public void execute(Model m) {
-    String response = view.openMovePrompt();
     try {
-      m.move(response);
+      m.move(x, y);
       view.showSuccessMessage("Player moved!", "");
       if (m.isGameOver()) {
         String winner = m.getWinner();

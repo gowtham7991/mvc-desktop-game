@@ -67,6 +67,11 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public String move(int x, int y) {
+    return world.move(x, y);
+  }
+
+  @Override
   public String movePet(String space) {
     return world.movePet(space);
   }

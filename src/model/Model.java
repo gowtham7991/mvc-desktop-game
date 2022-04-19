@@ -54,6 +54,14 @@ public interface Model extends ReadOnlyModel {
   String move(String space);
 
   /**
+   * Moves a player to the chosen neighbouring space from the current space.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return the details of the move of a player to the space.
+   */
+  String move(int x, int y);
+
+  /**
    * Moves a pet to the chosen space from the current space.
    *
    * @param space the space to move into

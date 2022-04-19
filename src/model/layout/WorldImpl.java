@@ -386,6 +386,36 @@ public class WorldImpl implements World {
   }
 
   @Override
+  public String move(int x, int y) {
+    String space = getSpaceBasedOnCoordinates(x, y);
+
+    if (space == null) {
+      throw new IllegalArgumentException("Invalid space!");
+    }
+
+    StringBuilder sr = new StringBuilder();
+    Player p = players.get(playerInTurn);
+
+    if (p.getPosition().equals(space)) {
+      throw new IllegalArgumentException("Currently in the same space!");
+    } else {
+      if (!spaceMap.containsKey(space)) {
+        throw new IllegalArgumentException("Space not found!");
+      } else {
+        if (getNeighboursOf(p.getPosition()).contains(space)) {
+          p.moveTo(space);
+          sr.append(p.getName()).append(" moved to ").append(space).append("\n");
+        } else {
+          throw new IllegalArgumentException("Not a neighbour!");
+        }
+      }
+    }
+
+    turnHelper();
+    return sr.toString();
+  }
+
+  @Override
   public String getTurn() {
     StringBuilder sr = new StringBuilder();
 
@@ -545,6 +575,11 @@ public class WorldImpl implements World {
     String currentSpaceName = players.get(playerInTurn).getPosition();
     sb.append("<html>");
     sb.append("Current space : ").append(currentSpaceName).append("<br>");
+    Set<String> items = spaceMap.get(currentSpaceName).getItems();
+    sb.append("Items available : ").append("<br>");
+    for (String s : items) {
+      sb.append(" - ").append(s).append("<br>");
+    }
     sb.append("Target location : ").append(target.getPosition()).append("<br>");
     sb.append("Target health : ").append(target.getTargetHealth()).append("<br>");
     sb.append("<br>");

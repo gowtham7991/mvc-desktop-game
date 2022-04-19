@@ -97,6 +97,14 @@ public interface World {
   String move(String space);
 
   /**
+   * Moves a player to the chosen neighbouring space from the current space.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return the details of the move of a player to the space.
+   */
+  String move(int x, int y);
+
+  /**
    * Returns the name of the player currently in turn.
    *
    * @return player who is currently in turn, if a computer player is next,

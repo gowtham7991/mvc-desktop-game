@@ -8,7 +8,7 @@ import javax.swing.*;
 import model.Model;
 import model.ReadOnlyModel;
 
-public class GameScreenImpl extends JFrame implements GameScreen {
+public class GameScreenImpl extends JFrame implements Screen {
 
   private ReadOnlyModel m;
 
@@ -50,7 +50,7 @@ public class GameScreenImpl extends JFrame implements GameScreen {
     JTextArea t1;
     JTextArea t2;
 
-    t1 = new JTextArea(10, 10);
+    t1 = new JTextArea();
     t2 = new JTextArea(10, 10);
 
 

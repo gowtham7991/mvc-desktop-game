@@ -14,7 +14,7 @@ public class MovePet implements Command{
   @Override
   public void execute(Model m) {
     List<String> spaces = m.getAllSpaces();
-    String response = view.openMovePetPrompt(spaces);
+    String response = view.openPrompt(spaces, "Choose a space");
     if (!"cancel".equalsIgnoreCase(response)) {
       try {
         m.movePet(response);

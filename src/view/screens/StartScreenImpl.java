@@ -5,7 +5,7 @@ import javax.swing.*;
 import model.Model;
 import model.ReadOnlyModel;
 
-public class StartScreenImpl extends JFrame implements StartScreen{
+public class StartScreenImpl extends JFrame implements Screen {
   private ReadOnlyModel m;
 
   public StartScreenImpl(ReadOnlyModel m) {

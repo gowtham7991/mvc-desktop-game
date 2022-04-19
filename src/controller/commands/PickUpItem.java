@@ -14,7 +14,7 @@ public class PickUpItem implements Command{
   @Override
   public void execute(Model m) {
     List<String> itemsInSpace = m.getItemsInCurrentSpace();
-    String response = view.openPickUpItemPrompt(itemsInSpace);
+    String response = view.openPrompt(itemsInSpace, "Pick an item");
     if (!"cancel".equalsIgnoreCase(response)) {
       try {
         m.pickUpItem(response);

@@ -14,7 +14,7 @@ public class Attack implements Command{
   @Override
   public void execute(Model m) {
     List<String> itemList = m.getItemsInCurrentSpace();
-    String response = view.openAttackPrompt(itemList);
+    String response = view.openPrompt(itemList, "Choose an item");
     if (!"cancel".equalsIgnoreCase(response)) {
       try {
         m.attack(response);

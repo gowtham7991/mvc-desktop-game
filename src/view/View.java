@@ -20,20 +20,64 @@ public interface View {
   void setFeatures(Features f);
 
   /**
-   *
-   * @param m
+   * Resets the model in all the screens
+   * @param m the readonly model
    */
   void setModel(ReadOnlyModel m);
+
+  /**
+   * Prompts the users to add players into the game.
+   */
   void startGame();
+
+  /**
+   * Starts the game by displaying the game board.
+   */
   void begin();
+
+  /**
+   * Refreshes the screen.
+   */
   void refresh();
+
+  /**
+   * Opens the add player prompt.
+   * @return
+   */
   List<String> openAddPlayerPrompt();
-  String openPickUpItemPrompt(List<String> options);
-  String openAttackPrompt(List<String> options);
-  String openMovePetPrompt(List<String> options);
-  String openMovePrompt();
-  String openLookAroundPrompt(String text);
+
+  /**
+   * Opens the prompt with the given list of options
+   * @param options the list of options in the dropdown
+   * @return the option chosen
+   */
+  String openPrompt(List<String> options, String prompt);
+
+  /**
+   * Opens the lookaround prompt.
+   * @param text the response
+   */
+  void openLookAroundPrompt(String text);
+
+  /**
+   * Opens the game over prompt.
+   * @param winner the winner of the game if won or game tied.
+   */
   void openGameOverPrompt(String winner);
+
+  /**
+   * Opens a success dialog.
+   * @param title the title of the dialog
+   * @param message the details of the operation.
+   * @return
+   */
   String showSuccessMessage(String title, String message);
+
+  /**
+   * Opens an error dialog.
+   * @param title the title of the error dialog.
+   * @param message the reason for failure.
+   * @return
+   */
   String showErrorMessage(String title, String message);
 }

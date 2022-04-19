@@ -5,12 +5,13 @@ import javax.swing.*;
 import model.Model;
 import model.ReadOnlyModel;
 
-public class SplashScreenImpl extends JFrame implements SplashScreen{
+public class SplashScreenImpl extends JFrame implements Screen {
 
   private ReadOnlyModel m;
   public SplashScreenImpl(ReadOnlyModel m) {
     this.m = m;
   }
+
   @Override
   public void setFeatures(Features f) {
 
