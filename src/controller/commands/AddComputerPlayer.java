@@ -13,9 +13,9 @@ public class AddComputerPlayer implements Command{
     try {
       String result = m.addComputerPlayer();
       v.showSuccessMessage(result, "Player added!");
-      v.refresh();
     } catch (IllegalArgumentException e) {
       v.showErrorMessage(e.getMessage(), "Failed to add player");
     }
+    v.refresh();
   }
 }

@@ -11,9 +11,9 @@ public class Attack implements Command{
     if (m == null) {
       throw new IllegalArgumentException("Invalid model!");
     }
-    List<String> itemList = m.getItemsInCurrentSpace();
+    List<String> itemList = m.getItemsOfPlayerInTurn();
     itemList.add("poke");
-    
+
     String response = v.openPrompt(itemList, "Choose an item");
     String result = "";
     if (!"cancel".equalsIgnoreCase(response)) {
