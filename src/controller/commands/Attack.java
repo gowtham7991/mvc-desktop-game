@@ -5,28 +5,33 @@ import model.Model;
 import view.View;
 
 public class Attack implements Command{
-  private final View view;
-
-  public Attack(View view) {
-    this.view = view;
-  }
 
   @Override
-  public void execute(Model m) {
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
     List<String> itemList = m.getItemsInCurrentSpace();
-    String response = view.openPrompt(itemList, "Choose an item");
+    itemList.add("poke");
+    
+    String response = v.openPrompt(itemList, "Choose an item");
+    String result = "";
     if (!"cancel".equalsIgnoreCase(response)) {
       try {
-        m.attack(response);
-        view.showSuccessMessage("Player added!", "");
+        if ("poke".equalsIgnoreCase(response)) {
+          result = m.attack();
+        } else {
+          result = m.attack(response);
+        }
+        v.showSuccessMessage(result, "Target attacked!");
         if (m.isGameOver()) {
           String winner = m.getWinner();
-          view.openGameOverPrompt(winner);
+          v.openGameOverPrompt(winner);
         } else {
-          view.refresh();
+          v.refresh();
         }
       } catch (IllegalArgumentException e) {
-        view.showErrorMessage("Failed to add the player",e.getMessage());
+        v.showErrorMessage(e.getMessage(),"Attack failed!");
       }
     }
   }

@@ -4,20 +4,18 @@ import model.Model;
 import view.View;
 
 public class AddComputerPlayer implements Command{
-  private final View view;
-
-  public AddComputerPlayer(View view) {
-    this.view = view;
-  }
 
   @Override
-  public void execute(Model m) {
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
     try {
-      m.addComputerPlayer();
-      view.showSuccessMessage("Player added!", "");
-      view.refresh();
+      String result = m.addComputerPlayer();
+      v.showSuccessMessage(result, "Player added!");
+      v.refresh();
     } catch (IllegalArgumentException e) {
-      view.showErrorMessage("Failed to add player",e.getMessage());
+      v.showErrorMessage(e.getMessage(), "Failed to add player");
     }
   }
 }

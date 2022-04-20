@@ -1,8 +1,8 @@
 package view;
 
 import controller.Features;
+import java.io.File;
 import java.util.List;
-import model.Model;
 import model.ReadOnlyModel;
 
 public interface View {
@@ -44,7 +44,7 @@ public interface View {
    * Opens the add player prompt.
    * @return
    */
-  List<String> openAddPlayerPrompt();
+  List<String> openAddPlayerPrompt(List<String> spaces);
 
   /**
    * Opens the prompt with the given list of options
@@ -66,12 +66,23 @@ public interface View {
   void openGameOverPrompt(String winner);
 
   /**
+   * Opens the file upload prompt for the game layout config file.
+   */
+  File openFileUploadPrompt();
+
+  /**
+   * Reset the focus on the appropriate part of the view that has the keyboard
+   * listener attached to it, so that keyboard events will still flow through.
+   */
+  void resetFocus();
+
+  /**
    * Opens a success dialog.
    * @param title the title of the dialog
    * @param message the details of the operation.
    * @return
    */
-  String showSuccessMessage(String title, String message);
+  void showSuccessMessage(String title, String message);
 
   /**
    * Opens an error dialog.
@@ -79,5 +90,5 @@ public interface View {
    * @param message the reason for failure.
    * @return
    */
-  String showErrorMessage(String title, String message);
+  void showErrorMessage(String title, String message);
 }

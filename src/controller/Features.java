@@ -47,6 +47,16 @@ public interface Features {
   void attack();
 
   /**
+   * Look around the current space occupied by the player.
+   */
+  void lookAround();
+
+  /**
+   * Handles the upload of new game config file.
+   */
+  void handleGameFileUpload();
+
+  /**
    * Handles the moue click of the game board.
    * @param xCoordinate the x-coordinate of the game board
    * @param yCoordinate the y-coordinate of the game board

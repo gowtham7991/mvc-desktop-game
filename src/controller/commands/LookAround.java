@@ -4,25 +4,23 @@ import model.Model;
 import view.View;
 
 public class LookAround implements Command{
-  private final View view;
-
-  public LookAround(View view) {
-    this.view = view;
-  }
 
   @Override
-  public void execute(Model m) {
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
     try {
       String response = m.lookAround();
-      view.openLookAroundPrompt(response);
+      v.openLookAroundPrompt(response);
       if (m.isGameOver()) {
         String winner = m.getWinner();
-        view.openGameOverPrompt(winner);
+        v.openGameOverPrompt(winner);
       } else {
-        view.refresh();
+        v.refresh();
       }
     } catch (IllegalArgumentException e) {
-      view.showErrorMessage("Could not retrieve information!",e.getMessage());
+      v.showErrorMessage("Could not retrieve information!",e.getMessage());
     }
   }
 }

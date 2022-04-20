@@ -202,7 +202,7 @@ public class WorldImpl implements World {
 
       g.drawRect(x, y, spaceWidth, spaceHeight);
 
-      g.setFont(new Font("TimesRoman", Font.PLAIN, (int) ((width / noOfColumns)*0.4)));
+      g.setFont(new Font("TimesRoman", Font.BOLD, 12));
       g.drawString(spaceName, x + width / 200, y + height / 80);
     }
 
@@ -226,7 +226,6 @@ public class WorldImpl implements World {
       int spaceHeight = (bottomRightRow - topLeftRow) + (height / noOfRows);
 
       Set<String> players = getAllPlayersInSpace(space);
-
       for (int i = 0; i < players.size(); i++) {
         String playerName = findNthElementOfSet(players, i);
         int playerId = playerIdBasedOnName(playerName);
@@ -329,7 +328,6 @@ public class WorldImpl implements World {
           noOfPlayers);
       players.put(noOfPlayers, player);
       noOfPlayers += 1;
-
       sr.append(name).append(" added to ").append(space);
       return sr.toString();
     } else {
@@ -422,9 +420,7 @@ public class WorldImpl implements World {
     Player player = players.get(playerInTurn);
     sr.append("<html>");
     while (player.getPlayerType() == PlayerType.COMPUTER) {
-      sr.append(player.getName()).append(" in turn").append("<br>");
-      String str = controlComputerControlledPlayer();
-      sr.append(str).append("\n");
+      controlComputerControlledPlayer();
       player = players.get(playerInTurn);
     }
     if (winner == null) {
@@ -530,7 +526,6 @@ public class WorldImpl implements World {
     String playerCurrentSpace = players.get(playerInTurn).getPosition();
     Set<String> result = spaceMap.get(playerCurrentSpace).getItems();
     List<String> list = new ArrayList<>();
-
     for(String s : result) {
       list.add(s);
     }
@@ -797,7 +792,9 @@ public class WorldImpl implements World {
   private String handlePickUpItemComputerPlayer() {
     String currentSpace = players.get(playerInTurn).getPosition();
     Set<String> items = spaceMap.get(currentSpace).getItems();
-
+    if (items.size() == 0) {
+      throw new IllegalArgumentException("No items picked");
+    }
     int randomItemIdx = randGen.getRandomInt() % items.size();
     String randomItem = findNthElementOfSet(items, randomItemIdx);
     return pickUpItem(randomItem);
@@ -1081,7 +1078,7 @@ public class WorldImpl implements World {
   }
 
   /**
-   * Re-initializes the DFS stack strating from the given index of the space.
+   * Re-initializes the DFS stack starting from the given index of the space.
    * @param idx the index of the space
    */
   private void initializeDfs(int idx) {

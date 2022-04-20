@@ -5,29 +5,28 @@ import model.Model;
 import view.View;
 
 public class PickUpItem implements Command{
-  private final View view;
-
-  public PickUpItem(View view) {
-    this.view = view;
-  }
 
   @Override
-  public void execute(Model m) {
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
+
     List<String> itemsInSpace = m.getItemsInCurrentSpace();
-    String response = view.openPrompt(itemsInSpace, "Pick an item");
+    String response = v.openPrompt(itemsInSpace, "Pick an item");
     if (!"cancel".equalsIgnoreCase(response)) {
       try {
         m.pickUpItem(response);
-        view.showSuccessMessage("Item picked up!", "");
+        v.showSuccessMessage("Item picked up!", "");
 
         if (m.isGameOver()) {
           String winner = m.getWinner();
-          view.openGameOverPrompt(winner);
+          v.openGameOverPrompt(winner);
         } else {
-          view.refresh();
+          v.refresh();
         }
       } catch (IllegalArgumentException e) {
-        view.showErrorMessage("Failed to pick up item",e.getMessage());
+        v.showErrorMessage("Failed to pick up item",e.getMessage());
       }
     }
   }
