@@ -35,7 +35,7 @@ public interface World {
    *
    * @return the buffered image of the world which has spaces.
    */
-  WritableRenderedImage getBufferedImage(int width, int height);
+  WritableRenderedImage getBufferedImage();
 
   /**
    * Moves the target from the current position.
@@ -97,6 +97,14 @@ public interface World {
   String move(String space);
 
   /**
+   * Moves a player to the chosen neighbouring space from the current space.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return the details of the move of a player to the space.
+   */
+  String move(int x, int y);
+
+  /**
    * Returns the name of the player currently in turn.
    *
    * @return player who is currently in turn, if a computer player is next,
@@ -118,6 +126,13 @@ public interface World {
    * @return the details of the player
    */
   String displayPlayerDescription(String name);
+
+  /**
+   * Return the details of the player in turn including the items one is carrying.
+   *
+   * @return the details of the player
+   */
+  String displayPlayerDescription();
 
   /**
    * Picks up an item for the player in turn from the current space the player is in.
@@ -237,4 +252,10 @@ public interface World {
    * @return the space
    */
   String getSpaceBasedOnCoordinates(int x, int y);
+
+  /**
+   * Returns the position of the current player in turn.
+   * @return the space occupied by the player
+   */
+  String getCurrentPlayerPosition();
 }

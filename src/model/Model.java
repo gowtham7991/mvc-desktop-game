@@ -54,6 +54,14 @@ public interface Model extends ReadOnlyModel {
   String move(String space);
 
   /**
+   * Moves a player to the chosen neighbouring space from the current space.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return the details of the move of a player to the space.
+   */
+  String move(int x, int y);
+
+  /**
    * Moves a pet to the chosen space from the current space.
    *
    * @param space the space to move into
@@ -77,6 +85,13 @@ public interface Model extends ReadOnlyModel {
    * @return the details of the player
    */
   String displayPlayerDescription(String name);
+
+  /**
+   * Return the details of the player currently in turn including the items one is carrying.
+   *
+   * @return the details of the player
+   */
+  String displayPlayerDescription();
 
   /**
    * Removes an item from the current space the player is in and adds it to the players item
@@ -142,14 +157,6 @@ public interface Model extends ReadOnlyModel {
    * @return the details of the attack
    */
   String attack();
-
-  /**
-   * Returns the name of the space based on the co-ordinates.
-   * @param x the X coordinate
-   * @param y the Y coordinate
-   * @return the space
-   */
-  String getSpaceBasedOnCoordinates(int x, int y);
 
   /**
    * Re-initializes the world data using the provided configuration file.

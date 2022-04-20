@@ -4,14 +4,30 @@ import model.Model;
 import view.View;
 
 public class Move implements Command{
-  private final View view;
+  private final int x;
+  private final int y;
 
-  public Move(View view) {
-    this.view = view;
+  public Move(int xCoordinate, int yCoordinate) {
+    this.x = xCoordinate;
+    this.y = yCoordinate;
   }
 
   @Override
-  public void execute(Model m) {
-
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
+    try {
+      m.move(x, y);
+      v.showSuccessMessage("Player moved!", "");
+      if (m.isGameOver()) {
+        String winner = m.getWinner();
+        v.openGameOverPrompt(winner);
+      } else {
+        v.refresh();
+      }
+    } catch (IllegalArgumentException e) {
+      v.showErrorMessage("Failed to move",e.getMessage());
+    }
   }
 }

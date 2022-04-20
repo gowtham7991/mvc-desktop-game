@@ -1,17 +1,32 @@
 package controller.commands;
 
+import java.util.List;
 import model.Model;
 import view.View;
 
 public class MovePet implements Command{
-  private final View view;
-
-  public MovePet(View view) {
-    this.view = view;
-  }
 
   @Override
-  public void execute(Model m) {
+  public void execute(Model m, View v) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
+    List<String> spaces = m.getAllSpaces();
+    String response = v.openPrompt(spaces, "Choose a space");
+    if (!"cancel".equalsIgnoreCase(response)) {
+      try {
+        m.movePet(response);
+        v.showSuccessMessage("Pet moved!", "");
+        if (m.isGameOver()) {
+          String winner = m.getWinner();
+          v.openGameOverPrompt(winner);
+        } else {
+          v.refresh();
+        }
+      } catch (IllegalArgumentException e) {
+        v.showErrorMessage("Failed to move",e.getMessage());
+      }
+    }
 
   }
 }
