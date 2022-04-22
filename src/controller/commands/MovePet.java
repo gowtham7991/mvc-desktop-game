@@ -13,15 +13,18 @@ public class MovePet implements Command{
     }
     List<String> spaces = m.getAllSpaces();
     String response = v.openPrompt(spaces, "Choose a space");
-    if (!"cancel".equalsIgnoreCase(response)) {
+    if (response != null) {
       try {
         m.movePet(response);
         v.showSuccessMessage("Pet moved!", "");
+        v.refresh();
+        while (m.isComputerInTurn()) {
+          v.showSuccessMessage("", "Computer player took a turn!");
+          v.refresh();
+        }
         if (m.isGameOver()) {
           String winner = m.getWinner();
           v.openGameOverPrompt(winner);
-        } else {
-          v.refresh();
         }
       } catch (IllegalArgumentException e) {
         v.showErrorMessage("Failed to move",e.getMessage());

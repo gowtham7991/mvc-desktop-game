@@ -167,7 +167,7 @@ public class GameScreenImpl extends JFrame implements Screen {
   @Override
   public void refresh() {
     map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
-    playerName.setText(m.getTurn());
+    playerName.setText(m.playerInTurn() + "is in turn : ");
     hints.setText(m.getCluesForTurn());
   }
 

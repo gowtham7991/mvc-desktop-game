@@ -141,6 +141,21 @@ public class WorldImpl implements World {
   }
 
   @Override
+  public String playerInTurn() {
+    return players.get(playerInTurn).getName();
+  }
+
+  @Override
+  public boolean isComputerInTurn() {
+    Player p = players.get(playerInTurn);
+    boolean isComputerPlayer = p.getPlayerType() == PlayerType.COMPUTER;
+    if (isComputerPlayer) {
+      controlComputerControlledPlayer();
+    }
+    return isComputerPlayer;
+  }
+
+  @Override
   public Set<String> getNeighboursOf(String name) throws IllegalArgumentException {
     if (!neighboursMap.containsKey(name)) {
       throw new IllegalArgumentException("Could not find the Space not found in the world!");
@@ -410,24 +425,6 @@ public class WorldImpl implements World {
     }
 
     turnHelper();
-    return sr.toString();
-  }
-
-  @Override
-  public String getTurn() {
-    StringBuilder sr = new StringBuilder();
-
-    Player player = players.get(playerInTurn);
-    sr.append("<html>");
-    while (player.getPlayerType() == PlayerType.COMPUTER) {
-      controlComputerControlledPlayer();
-      player = players.get(playerInTurn);
-    }
-    if (winner == null) {
-      sr.append(player.getName()).append(" in turn").append("<br>");
-    }
-    sr.append("</html>");
-
     return sr.toString();
   }
 

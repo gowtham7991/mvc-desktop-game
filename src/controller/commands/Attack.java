@@ -16,19 +16,22 @@ public class Attack implements Command{
 
     String response = v.openPrompt(itemList, "Choose an item");
     String result = "";
-    if (!"cancel".equalsIgnoreCase(response)) {
+    if (response != null) {
       try {
         if ("poke".equalsIgnoreCase(response)) {
           result = m.attack();
         } else {
           result = m.attack(response);
         }
-        v.showSuccessMessage(result,"Target attacked!");
+        v.showSuccessMessage(result, "Target attacked!");
+        v.refresh();
+        while (m.isComputerInTurn()) {
+          v.showSuccessMessage("", "Computer player took a turn!");
+          v.refresh();
+        }
         if (m.isGameOver()) {
           String winner = m.getWinner();
           v.openGameOverPrompt(winner);
-        } else {
-          v.refresh();
         }
       } catch (IllegalArgumentException e) {
         v.showErrorMessage(e.getMessage(),"Attack failed!");
