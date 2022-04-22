@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
 import model.ReadOnlyModel;
 
 public class GameScreenImpl extends JFrame implements Screen {
@@ -19,9 +22,13 @@ public class GameScreenImpl extends JFrame implements Screen {
   private JLabel playerName;
   private JLabel hints;
   private JPanel gamePanel;
+  private TitledBorder title;
 
   public GameScreenImpl(ReadOnlyModel m) {
     super();
+    Border blackline = BorderFactory.createLineBorder(Color.black);
+    Border instBorder = BorderFactory.createTitledBorder(blackline,"Instructions");
+    Border hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
     //setSize(720, 1080);
     Dimension size
         = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,18 +45,31 @@ public class GameScreenImpl extends JFrame implements Screen {
     JPanel infoPanel = new JPanel();
     JPanel hintsPanel = new JPanel(new GridLayout(2, 0));
 
+    hintsPanel.setBorder(hintBorder);
     JLabel playerName = new JLabel();
     JLabel hints = new JLabel();
 
     hintsPanel.add(playerName);
     hintsPanel.add(hints);
-
-    JButton btn3 = new JButton("3");
+    
+    JPanel instructionPanel = new JPanel();
+    instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
+    instructionPanel.setBorder(instBorder);
+    JLabel i1 = new JLabel("Move Pet",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i2 = new JLabel("Pick Up an Item",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i3 = new JLabel("Attack Target",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i4 = new JLabel("Look Around",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i5 = new JLabel("Move Player",new ImageIcon("res/p.png"),JLabel.LEFT);
+    instructionPanel.add(i1);
+    instructionPanel.add(i2);
+    instructionPanel.add(i3);
+    instructionPanel.add(i4);
+    instructionPanel.add(i5);
 
     infoPanel.setLayout(new GridLayout(2, 0));
 
     infoPanel.add(hintsPanel);
-    infoPanel.add(btn3);
+    infoPanel.add(instructionPanel);
     JScrollPane pane = new JScrollPane(gamePanel);
     JSplitPane sl = new JSplitPane(SwingConstants.HORIZONTAL, pane, infoPanel);
 
@@ -63,6 +83,7 @@ public class GameScreenImpl extends JFrame implements Screen {
     map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
     gamePanel.add(map);
     this.setSize(width, height);
+    sl.setResizeWeight(0.75);
 
     this.map = map;
     this.playerName = playerName;
@@ -90,13 +111,13 @@ public class GameScreenImpl extends JFrame implements Screen {
 
       @Override
       public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == 'w') {
+        if (e.getKeyChar() == 'p') {
           f.pickUpItem();
-        } else if (e.getKeyChar() == 'a') {
+        } else if (e.getKeyChar() == 'm') {
           f.movePet();
-        } else if (e.getKeyChar() == 's') {
+        } else if (e.getKeyChar() == 'k') {
           f.attack();
-        } else if (e.getKeyChar() == 'd') {
+        } else if (e.getKeyChar() == 'a') {
           f.lookAround();
         }
       }
@@ -111,7 +132,7 @@ public class GameScreenImpl extends JFrame implements Screen {
   @Override
   public void showScreen() {
     try {
-      ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/player1.png")));
+      ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/Game.png")));
       String information = "The Objective of the game is to kill the Target.\n"
           + "Press the buttons on the keyboard to choose your turn. \n"
           + "Use mouse to move to move the player from one room to another on your turn.";
