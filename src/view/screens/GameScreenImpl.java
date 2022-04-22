@@ -22,13 +22,17 @@ public class GameScreenImpl extends JFrame implements Screen {
   private JLabel playerName;
   private JLabel hints;
   private JPanel gamePanel;
-  private TitledBorder title;
+  private final Border blackline;
+  private final Border instBorder;
+  private final Border hintBorder;
+  private final JPanel instructionPanel;
+  
 
   public GameScreenImpl(ReadOnlyModel m) {
     super();
-    Border blackline = BorderFactory.createLineBorder(Color.black);
-    Border instBorder = BorderFactory.createTitledBorder(blackline,"Instructions");
-    Border hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
+    blackline = BorderFactory.createLineBorder(Color.black);
+    instBorder = BorderFactory.createTitledBorder(blackline,"Instructions");
+    hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
     //setSize(720, 1080);
     Dimension size
         = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,19 +51,23 @@ public class GameScreenImpl extends JFrame implements Screen {
 
     hintsPanel.setBorder(hintBorder);
     JLabel playerName = new JLabel();
+    playerName.setHorizontalAlignment(SwingConstants.CENTER);
+    playerName.setFont(new Font("MONOSPACE", Font.BOLD, 18));
+    playerName.setForeground(Color.BLUE);
     JLabel hints = new JLabel();
+    hints.setHorizontalAlignment(SwingConstants.CENTER);
 
     hintsPanel.add(playerName);
     hintsPanel.add(hints);
     
-    JPanel instructionPanel = new JPanel();
+    instructionPanel = new JPanel();
     instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
     instructionPanel.setBorder(instBorder);
-    JLabel i1 = new JLabel("Move Pet",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i1 = new JLabel("Move Pet",new ImageIcon("res/m.png"),JLabel.LEFT);
     JLabel i2 = new JLabel("Pick Up an Item",new ImageIcon("res/p.png"),JLabel.LEFT);
-    JLabel i3 = new JLabel("Attack Target",new ImageIcon("res/p.png"),JLabel.LEFT);
-    JLabel i4 = new JLabel("Look Around",new ImageIcon("res/p.png"),JLabel.LEFT);
-    JLabel i5 = new JLabel("Move Player",new ImageIcon("res/p.png"),JLabel.LEFT);
+    JLabel i3 = new JLabel("Attack Target",new ImageIcon("res/k.png"),JLabel.LEFT);
+    JLabel i4 = new JLabel("Look Around",new ImageIcon("res/a.png"),JLabel.LEFT);
+    JLabel i5 = new JLabel("Move Player",new ImageIcon("res/mouse.png"),JLabel.LEFT);
     instructionPanel.add(i1);
     instructionPanel.add(i2);
     instructionPanel.add(i3);

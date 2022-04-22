@@ -72,7 +72,7 @@ public class SplashScreen extends JFrame {
       while( i<=100)
       {
           try{
-              Thread.sleep(50);
+              Thread.sleep(10);
               progressBar.setValue(i);
               i++;
               if(i==100) {

@@ -23,7 +23,7 @@ public class Attack implements Command{
         } else {
           result = m.attack(response);
         }
-        v.showSuccessMessage(result, "Target attacked!");
+        v.showSuccessMessage(result,"Target attacked!");
         if (m.isGameOver()) {
           String winner = m.getWinner();
           v.openGameOverPrompt(winner);

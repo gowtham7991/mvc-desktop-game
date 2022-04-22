@@ -36,7 +36,7 @@ public class SpawnScreenImpl extends JFrame implements Screen {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
   ImagePanel panel = new ImagePanel(
-      new ImageIcon("res/splashbg.jpg").getImage());
+      new ImageIcon("res/new2b.jpg").getImage());
   
     // create panel
     p1 = new JPanel();
@@ -44,7 +44,7 @@ public class SpawnScreenImpl extends JFrame implements Screen {
     p = new JPanel();
     panel.add(p);
     p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-    p.setBounds(350, 250, 390, 40);
+    p.setBounds(250, 380, 390, 40);
 
     // create buttons
     addPlayerBtn = new JButton("Add Player");

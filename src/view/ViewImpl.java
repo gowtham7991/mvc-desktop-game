@@ -105,11 +105,12 @@ public class ViewImpl implements View{
 
   @Override
   public void openGameOverPrompt(String winner) {
+    String[] buttons = { "RESTART" , "QUIT" };
     try {
       ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/GameOver.png")));
       String result = "\nTarget Escapes!";
-      JOptionPane.showMessageDialog(null, result, "GAME OVER",
-          JOptionPane.INFORMATION_MESSAGE, icon);
+      JOptionPane.showOptionDialog(null, result, "GAME OVER",
+          JOptionPane.INFORMATION_MESSAGE, 0, icon, buttons, null);
     } catch (IOException e) {
       throw new IllegalArgumentException("Cannot Read File!");
     }
