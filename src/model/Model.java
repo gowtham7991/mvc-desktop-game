@@ -3,11 +3,18 @@ package model;
 import java.awt.image.WritableRenderedImage;
 import java.io.IOException;
 import java.util.List;
+import model.layout.GameStatus;
 
 /**
  * An interface representing one of the possibilities of a World for the Game.
  */
 public interface Model extends ReadOnlyModel {
+  /**
+   * Returns if a computer player is in turn.
+   * @return true if computer player else false.
+   */
+  boolean isComputerInTurn();
+
   /**
    * Returns the information of specific space in the world like, the name of the space,
    * the items in the space and the neighbours of the space.
@@ -163,4 +170,10 @@ public interface Model extends ReadOnlyModel {
    * @param r the readable of the config file.
    */
   void reInitializeGame(Readable r);
+
+  /**
+   * Return if the game is in progress.
+   * @return true if game is inprogress else false
+   */
+  boolean isGameInProgress();
 }

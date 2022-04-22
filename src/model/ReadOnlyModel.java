@@ -6,10 +6,9 @@ import java.util.List;
 public interface ReadOnlyModel {
   /**
    * Returns the name of the player currently in turn.
-   *
-   * @return the name of the current player in turn
+   * @return the name
    */
-  String getTurn();
+  String playerInTurn();
 
   /**
    * Returns all the players in the game as a string.

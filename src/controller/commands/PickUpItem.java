@@ -14,16 +14,18 @@ public class PickUpItem implements Command{
 
     List<String> itemsInSpace = m.getItemsInCurrentSpace();
     String response = v.openPrompt(itemsInSpace, "Pick an item");
-    if (!"cancel".equalsIgnoreCase(response)) {
+    if (response != null) {
       try {
         m.pickUpItem(response);
         v.showSuccessMessage("Item picked up!", "");
-
+        v.refresh();
+        while (m.isComputerInTurn()) {
+          v.showSuccessMessage("", "Computer player took a turn!");
+          v.refresh();
+        }
         if (m.isGameOver()) {
           String winner = m.getWinner();
           v.openGameOverPrompt(winner);
-        } else {
-          v.refresh();
         }
       } catch (IllegalArgumentException e) {
         v.showErrorMessage("Failed to pick up item",e.getMessage());

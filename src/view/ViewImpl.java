@@ -91,7 +91,7 @@ public class ViewImpl implements View{
   public String openPrompt(List<String> list, String prompt) {
     Object[] options = list.toArray();
     String response = (String) JOptionPane.showInputDialog(null, prompt, "",
-        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        JOptionPane.QUESTION_MESSAGE, null, options, null);
     return response;
   }
 
