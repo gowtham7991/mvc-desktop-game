@@ -3,6 +3,7 @@ package model;
 import java.awt.image.WritableRenderedImage;
 import java.util.List;
 import java.util.Scanner;
+import model.layout.GameStatus;
 import model.layout.World;
 import model.layout.WorldImpl;
 import utils.ConfigFileParser;
@@ -16,6 +17,7 @@ public class ModelImpl implements Model {
   private final RandomGenerator rg;
   private final int maxTurns;
   private int turns;
+  private GameStatus status;
 
   /**
    * Creates the game based on the given configuration file.
@@ -25,19 +27,23 @@ public class ModelImpl implements Model {
    * @param maxTurns the max number of turns
    */
   public ModelImpl(Readable in, RandomGenerator rand, int maxTurns) {
-
     if (in == null || rand == null) {
       throw new IllegalArgumentException("Invalid values passed!");
     }
-
     reConfigureWorld(in, rand);
     this.rg = rand;
     this.maxTurns = maxTurns;
+    status = GameStatus.NOTSTARTED;
   }
 
   @Override
   public WritableRenderedImage createGraphicalRepresentation() {
     return world.getBufferedImage();
+  }
+
+  @Override
+  public boolean isComputerInTurn() {
+    return world.isComputerInTurn();
   }
 
   @Override
@@ -52,11 +58,13 @@ public class ModelImpl implements Model {
 
   @Override
   public String addPlayer(String name, String space, int limit) throws IllegalArgumentException {
+    status = GameStatus.INPROGRESS;
     return world.addPlayer(name, space, limit);
   }
 
   @Override
   public String addComputerPlayer() {
+    status = GameStatus.INPROGRESS;
     return world.addComputerPlayer();
   }
 
@@ -74,11 +82,6 @@ public class ModelImpl implements Model {
   @Override
   public String movePet(String space) {
     return world.movePet(space);
-  }
-
-  @Override
-  public String getTurn() {
-    return world.getTurn();
   }
 
   @Override
@@ -106,6 +109,11 @@ public class ModelImpl implements Model {
   @Override
   public List<String> getItemsOfPlayerInTurn() {
     return world.getItemsOfPlayerInTurn();
+  }
+
+  @Override
+  public String playerInTurn() {
+    return world.playerInTurn();
   }
 
   @Override
@@ -140,6 +148,7 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isGameOver() {
+    status = GameStatus.COMPLETED;
     return turns >= maxTurns || world.getWinner() != null;
   }
 
@@ -173,6 +182,14 @@ public class ModelImpl implements Model {
   @Override
   public void reInitializeGame(Readable r) {
     reConfigureWorld(r, rg);
+  }
+
+  @Override
+  public boolean isGameInProgress() {
+    if(status == GameStatus.INPROGRESS) {
+      return true;
+    }
+    return false;
   }
 
   @Override

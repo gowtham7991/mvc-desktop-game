@@ -38,7 +38,15 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void begin() {
-    v.begin();
+    if (m.isGameInProgress()) {
+      v.begin();
+      if (m.isComputerInTurn()) {
+        v.showSuccessMessage("", "Computer player took a turn!");
+        v.refresh();
+      }
+    } else {
+      v.showErrorMessage("Cannot start the game", "Players not added.");
+    }
   }
 
   @Override
@@ -48,7 +56,6 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void pickUpItem() {
-    System.out.println("invoked");
     Command c = new PickUpItem();
     c.execute(m, v);
   }

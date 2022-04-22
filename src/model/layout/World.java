@@ -9,6 +9,17 @@ import java.util.Set;
  * Every world has a target.
  */
 public interface World {
+  /**
+   * Returns the name of the player currently in turn.
+   * @return the name
+   */
+  String playerInTurn();
+
+  /**
+   * Returns if a computer player is in turn.
+   * @return true if computer player else false.
+   */
+  boolean isComputerInTurn();
 
   /**
    * Returns the neighbours of a given space in the world,
@@ -103,14 +114,6 @@ public interface World {
    * @return the details of the move of a player to the space.
    */
   String move(int x, int y);
-
-  /**
-   * Returns the name of the player currently in turn.
-   *
-   * @return player who is currently in turn, if a computer player is next,
-   *     the next normal player is prompted
-   */
-  String getTurn();
 
   /**
    * Return the details of the current space and neighbouring spaces.
