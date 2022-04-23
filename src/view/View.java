@@ -36,6 +36,11 @@ public interface View {
   void begin();
 
   /**
+   * Resets the view and opens the first screen.
+   */
+  void reset();
+
+  /**
    * Refreshes the screen.
    */
   void refresh();

@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.image.WritableRenderedImage;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import model.layout.GameStatus;
@@ -18,6 +20,7 @@ public class ModelImpl implements Model {
   private final int maxTurns;
   private int turns;
   private GameStatus status;
+  private final String defaultGameFilePath;
 
   /**
    * Creates the game based on the given configuration file.
@@ -34,6 +37,7 @@ public class ModelImpl implements Model {
     this.rg = rand;
     this.maxTurns = maxTurns;
     status = GameStatus.NOTSTARTED;
+    defaultGameFilePath = "res/defaultGame.txt";
   }
 
   @Override
@@ -76,11 +80,13 @@ public class ModelImpl implements Model {
 
   @Override
   public String move(int x, int y) {
+    turns += 1;
     return world.move(x, y);
   }
 
   @Override
   public String movePet(String space) {
+    turns += 1;
     return world.movePet(space);
   }
 
@@ -148,8 +154,13 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isGameOver() {
-    status = GameStatus.COMPLETED;
-    return turns >= maxTurns || world.getWinner() != null;
+    if (turns >= maxTurns || world.getWinner() != null) {
+      status = GameStatus.COMPLETED;
+      System.out.println("Done" + turns + " " + maxTurns);
+      return true;
+    }
+    System.out.println("not Done" + turns + " " + maxTurns);
+    return false;
   }
 
   @Override
@@ -166,11 +177,13 @@ public class ModelImpl implements Model {
 
   @Override
   public String attack(String itemName) {
+    turns += 1;
     return world.attack(itemName);
   }
 
   @Override
   public String attack() {
+    turns += 1;
     return world.attack();
   }
 
@@ -182,6 +195,20 @@ public class ModelImpl implements Model {
   @Override
   public void reInitializeGame(Readable r) {
     reConfigureWorld(r, rg);
+    turns = 0;
+    status = GameStatus.NOTSTARTED;
+  }
+
+  @Override
+  public void reInitializeGame() {
+    try {
+      Readable r = new FileReader(defaultGameFilePath);
+      reConfigureWorld(r, rg);
+      turns = 0;
+      status = GameStatus.NOTSTARTED;
+    } catch (IOException io) {
+      throw new IllegalArgumentException("Could not read the file!");
+    }
   }
 
   @Override

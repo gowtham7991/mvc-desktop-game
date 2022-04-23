@@ -14,14 +14,6 @@ public class LookAround implements Command{
       String response = m.lookAround();
       v.openLookAroundPrompt(response);
       v.refresh();
-      while (m.isComputerInTurn()) {
-        v.showSuccessMessage("", "Computer player took a turn!");
-        v.refresh();
-      }
-      if (m.isGameOver()) {
-        String winner = m.getWinner();
-        v.openGameOverPrompt(winner);
-      }
     } catch (IllegalArgumentException e) {
       v.showErrorMessage("Could not retrieve information!",e.getMessage());
     }

@@ -15,7 +15,7 @@ public class Attack implements Command{
     itemList.add("poke");
 
     String response = v.openPrompt(itemList, "Choose an item");
-    String result = "";
+    String result;
     if (response != null) {
       try {
         if ("poke".equalsIgnoreCase(response)) {
@@ -25,14 +25,6 @@ public class Attack implements Command{
         }
         v.showSuccessMessage(result, "Target attacked!");
         v.refresh();
-        while (m.isComputerInTurn()) {
-          v.showSuccessMessage("", "Computer player took a turn!");
-          v.refresh();
-        }
-        if (m.isGameOver()) {
-          String winner = m.getWinner();
-          v.openGameOverPrompt(winner);
-        }
       } catch (IllegalArgumentException e) {
         v.showErrorMessage(e.getMessage(),"Attack failed!");
       }
