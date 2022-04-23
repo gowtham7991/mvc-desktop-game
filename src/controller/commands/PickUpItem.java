@@ -19,14 +19,6 @@ public class PickUpItem implements Command{
         m.pickUpItem(response);
         v.showSuccessMessage("Item picked up!", "");
         v.refresh();
-        while (m.isComputerInTurn()) {
-          v.showSuccessMessage("", "Computer player took a turn!");
-          v.refresh();
-        }
-        if (m.isGameOver()) {
-          String winner = m.getWinner();
-          v.openGameOverPrompt(winner);
-        }
       } catch (IllegalArgumentException e) {
         v.showErrorMessage("Failed to pick up item",e.getMessage());
       }

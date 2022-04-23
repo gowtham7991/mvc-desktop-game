@@ -21,14 +21,6 @@ public class Move implements Command{
       m.move(x, y);
       v.showSuccessMessage("Player moved!", "");
       v.refresh();
-      while (m.isComputerInTurn()) {
-        v.showSuccessMessage("", "Computer player took a turn!");
-        v.refresh();
-      }
-      if (m.isGameOver()) {
-        String winner = m.getWinner();
-        v.openGameOverPrompt(winner);
-      }
     } catch (IllegalArgumentException e) {
       v.showErrorMessage("Failed to move",e.getMessage());
     }

@@ -1,19 +1,20 @@
 package view.screens;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
  
 public class SplashScreen extends JFrame {
-   /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
   private JFrame frame;
-   private Color customColor;
-   private String text = " ";
-   private String c = " ";
-    JLabel title;
-    JLabel credits;
-    JLabel image=new JLabel(new ImageIcon("res/marvel.gif"));
+  private Color customColor;
+  private String text = " ";
+  private String c = " ";
+  private JLabel title;
+  private JLabel credits;
+
     JProgressBar progressBar=new JProgressBar();
     public SplashScreen()
     {
@@ -36,8 +37,12 @@ public class SplashScreen extends JFrame {
  
     }
     public void addImage(){
-      image.setSize(600,400);//Setting size of the image
-      frame.add(image);//Adding image to the frame
+
+        JLabel gif = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("assets/marvel.gif")));
+
+        gif.setSize(600, 400);//Setting size of the image
+        frame.add(gif);//Adding image to the frame
+
   }
 
     public void addText()

@@ -55,6 +55,13 @@ public class ViewImpl implements View{
   }
 
   @Override
+  public void reset() {
+    welcomeScreen.showScreen();
+    spawnScreen.hideScreen();
+    gameScreen.hideScreen();
+  }
+
+  @Override
   public void refresh() {
     welcomeScreen.refresh();
     spawnScreen.refresh();
@@ -108,9 +115,8 @@ public class ViewImpl implements View{
     String[] buttons = { "RESTART" , "QUIT" };
     try {
       ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/GameOver.png")));
-      String result = "\nTarget Escapes!";
-      JOptionPane.showOptionDialog(null, result, "GAME OVER",
-          JOptionPane.INFORMATION_MESSAGE, 0, icon, buttons, null);
+      JOptionPane.showOptionDialog(null, winner, "GAME OVER",
+          JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, buttons, null);
     } catch (IOException e) {
       throw new IllegalArgumentException("Cannot Read File!");
     }

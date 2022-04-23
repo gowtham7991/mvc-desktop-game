@@ -2,12 +2,18 @@ package view.screens;
 
 import controller.Features;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.Key;
+import java.util.Map;
+import java.util.function.Function;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -110,15 +116,10 @@ public class GameScreenImpl extends JFrame implements Screen {
       }
     });
 
-    this.addKeyListener(new KeyListener() {
-
-      @Override
-      public void keyTyped(KeyEvent e) {
-
-      }
-
+    this.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
+        super.keyPressed(e);
         if (e.getKeyChar() == 'p') {
           f.pickUpItem();
         } else if (e.getKeyChar() == 'm') {
@@ -129,18 +130,16 @@ public class GameScreenImpl extends JFrame implements Screen {
           f.lookAround();
         }
       }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-
-      }
     });
   }
 
   @Override
   public void showScreen() {
     try {
-      ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/Game.png")));
+      InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("assets/Game.png");
+      BufferedImage image = ImageIO.read(in);
+      ImageIcon icon = new ImageIcon(image);
+
       String information = "The Objective of the game is to kill the Target.\n"
           + "Press the buttons on the keyboard to choose your turn. \n"
           + "Use mouse to move to move the player from one room to another on your turn.";

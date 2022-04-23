@@ -51,13 +51,15 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void restart() {
-
+    m.reInitializeGame();
+    v.reset();
   }
 
   @Override
   public void pickUpItem() {
     Command c = new PickUpItem();
     c.execute(m, v);
+    perTurnChecks();
   }
 
   @Override
@@ -76,18 +78,21 @@ public class ControllerImpl implements Controller{
   public void movePet() {
     Command c = new MovePet();
     c.execute(m, v);
+    perTurnChecks();
   }
 
   @Override
   public void attack() {
     Command c = new Attack();
     c.execute(m, v);
+    perTurnChecks();
   }
 
   @Override
   public void lookAround() {
     Command c = new LookAround();
     c.execute(m, v);
+    perTurnChecks();
   }
 
   @Override
@@ -98,21 +103,37 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void handleMouseClick(int x, int y) {
-    String spaceClicked = m.getSpaceBasedOnCoordinates(x, y);
-    String playerCurrentPosition = m.getCurrentPlayerPosition();
+    try {
+      String spaceClicked = m.getSpaceBasedOnCoordinates(x, y);
+      String playerCurrentPosition = m.getCurrentPlayerPosition();
 
-    Command c;
-    if (spaceClicked.equalsIgnoreCase(playerCurrentPosition)) {
-      c = new DisplayPlayerDescription();
-    } else {
-      c = new Move(x, y);
+      Command c;
+      if (spaceClicked.equalsIgnoreCase(playerCurrentPosition)) {
+        c = new DisplayPlayerDescription();
+      } else {
+        c = new Move(x, y);
+      }
+      c.execute(m, v);
+      perTurnChecks();
+    } catch (IllegalArgumentException ie) {
+      v.showErrorMessage("Invalid click", ie.getMessage());
     }
-    c.execute(m, v);
   }
 
   @Override
   public void setView(View v) {
     this.v = v;
     v.setFeatures(this);
+  }
+
+  private void perTurnChecks() {
+    while (m.isComputerInTurn()) {
+      v.showSuccessMessage("", "Computer player took a turn!");
+      v.refresh();
+    }
+    if (m.isGameOver()) {
+      String winner = m.getWinner();
+      v.openGameOverPrompt(winner);
+    }
   }
 }

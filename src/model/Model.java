@@ -172,6 +172,11 @@ public interface Model extends ReadOnlyModel {
   void reInitializeGame(Readable r);
 
   /**
+   * Re-initializes the world data using default game layout file.
+   */
+  void reInitializeGame();
+
+  /**
    * Return if the game is in progress.
    * @return true if game is inprogress else false
    */
