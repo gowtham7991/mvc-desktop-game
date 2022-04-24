@@ -10,11 +10,7 @@ import controller.commands.LookAround;
 import controller.commands.Move;
 import controller.commands.MovePet;
 import controller.commands.PickUpItem;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 import model.Model;
-import model.ReadOnlyModel;
 import view.View;
 
 public class ControllerImpl implements Controller{
@@ -33,6 +29,7 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void exit() {
+    v.quit();
     System.exit(0);
   }
 

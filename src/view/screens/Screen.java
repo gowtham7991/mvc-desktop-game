@@ -39,4 +39,9 @@ public interface Screen {
    * listener attached to it, so that keyboard events will still flow through.
    */
   void resetFocus();
+
+  /**
+   * Disposes the screen.
+   */
+  void quit();
 }

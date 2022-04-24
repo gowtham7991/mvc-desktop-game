@@ -36,6 +36,11 @@ public interface View {
   void begin();
 
   /**
+   * Quits the game by disposing all the screens.
+   */
+  void quit();
+
+  /**
    * Resets the view and opens the first screen.
    */
   void reset();

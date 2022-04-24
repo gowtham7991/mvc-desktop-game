@@ -55,6 +55,13 @@ public class ViewImpl implements View{
   }
 
   @Override
+  public void quit() {
+    welcomeScreen.quit();
+    spawnScreen.quit();
+    gameScreen.quit();
+  }
+
+  @Override
   public void reset() {
     welcomeScreen.showScreen();
     spawnScreen.hideScreen();
