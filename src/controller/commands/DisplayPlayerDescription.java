@@ -3,7 +3,7 @@ package controller.commands;
 import model.Model;
 import view.View;
 
-public class DisplayPlayerDescription implements Command{
+public class DisplayPlayerDescription implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -15,7 +15,7 @@ public class DisplayPlayerDescription implements Command{
       v.showSuccessMessage("Player details", response);
       v.refresh();
     } catch (IllegalArgumentException e) {
-      v.showErrorMessage("Failed to fetch player details",e.getMessage());
+      v.showErrorMessage("Failed to fetch player details", e.getMessage());
     }
   }
 }

@@ -4,14 +4,20 @@ import controller.Features;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import model.ReadOnlyModel;
 import view.screens.GameScreenImpl;
 import view.screens.Screen;
 import view.screens.SpawnScreenImpl;
 import view.screens.WelcomeScreenImpl;
 
-public class ViewImpl implements View{
+public class ViewImpl implements View {
   private final Screen welcomeScreen;
   private final Screen spawnScreen;
   private final Screen gameScreen;
@@ -93,12 +99,13 @@ public class ViewImpl implements View{
       spaceList[i] = list.get(i);
     }
 
-    String[] itemCountList = {"1","2","3","4","5","6","7","8","9","10"};
+    String[] itemCountList = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     JComboBox<String> spaceSelection = new JComboBox<String>(spaceList);
     JComboBox<String> itemCountSelection = new JComboBox<String>(itemCountList);
 
     final JComponent[] inputs = new JComponent[] { new JLabel("First"), playerName,
-        new JLabel("Select a Room"), spaceSelection, new JLabel("Select maximum Items"), itemCountSelection };
+        new JLabel("Select a Room"), spaceSelection,
+        new JLabel("Select maximum Items"), itemCountSelection };
     int result = JOptionPane.showConfirmDialog(null, inputs, "Add Player",
         JOptionPane.PLAIN_MESSAGE);
     if (result == JOptionPane.OK_OPTION) {
@@ -151,8 +158,9 @@ public class ViewImpl implements View{
     } else {
       winner = t;
     }
-    String[] buttons = { "RESTART" , "QUIT" };
-    ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/GameOver_200x200.png"));
+    String[] buttons = { "RESTART",  "QUIT" };
+    ImageIcon icon = new ImageIcon(getClass().getClassLoader()
+        .getResource("assets/GameOver_200x200.png"));
     return JOptionPane.showOptionDialog(null, winner, "GAME OVER",
         JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, icon, buttons, null);
 
@@ -188,7 +196,7 @@ public class ViewImpl implements View{
       title = t;
       message = m;
     }
-    JOptionPane.showMessageDialog(null,message,title,JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
   }
 
   @Override

@@ -4,7 +4,7 @@ import java.util.List;
 import model.Model;
 import view.View;
 
-public class MovePet implements Command{
+public class MovePet implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -27,6 +27,5 @@ public class MovePet implements Command{
         v.showErrorMessage("Failed to move", e.getMessage());
       }
     }
-
   }
 }

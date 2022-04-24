@@ -13,12 +13,15 @@ import controller.commands.PickUpItem;
 import model.Model;
 import view.View;
 
-public class ControllerImpl implements Controller{
+public class ControllerImpl implements Controller {
 
   private final Model m;
   private View v;
 
   public ControllerImpl(Model m) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model passed!");
+    }
     this.m = m;
   }
 
@@ -116,6 +119,9 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void setView(View v) {
+    if (v == null) {
+      throw new IllegalArgumentException("Invalid view passed!");
+    }
     this.v = v;
     v.setFeatures(this);
   }

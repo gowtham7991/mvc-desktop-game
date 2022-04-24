@@ -4,7 +4,7 @@ import java.util.List;
 import model.Model;
 import view.View;
 
-public class AddPlayer implements Command{
+public class AddPlayer implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -20,7 +20,8 @@ public class AddPlayer implements Command{
 
     if (response.size() != 0) {
       try {
-        String result = m.addPlayer(response.get(0), response.get(1), Integer.parseInt(response.get(2)));
+        String result = m.addPlayer(response.get(0), response.get(1),
+            Integer.parseInt(response.get(2)));
         v.showSuccessMessage("Player added!", result);
         v.refresh();
       } catch (IllegalArgumentException e) {

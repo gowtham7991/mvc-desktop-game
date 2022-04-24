@@ -3,7 +3,7 @@ package controller.commands;
 import model.Model;
 import view.View;
 
-public class AddComputerPlayer implements Command{
+public class AddComputerPlayer implements Command {
 
   @Override
   public void execute(Model m, View v) {

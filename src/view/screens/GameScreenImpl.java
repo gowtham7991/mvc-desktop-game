@@ -1,7 +1,12 @@
 package view.screens;
 
 import controller.Features;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -10,7 +15,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import model.ReadOnlyModel;
 
@@ -26,13 +40,13 @@ public class GameScreenImpl extends JFrame implements Screen {
   public GameScreenImpl(ReadOnlyModel m) {
     super();
     Border blackline = BorderFactory.createLineBorder(Color.black);
-    Border instBorder = BorderFactory.createTitledBorder(blackline,"Instructions");
+    Border instBorder = BorderFactory.createTitledBorder(blackline, "Instructions");
     Border hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
     Dimension size
         = Toolkit.getDefaultToolkit().getScreenSize();
 
-    int width = (int)size.getWidth();
-    int height = (int)size.getHeight();
+    int width = (int) size.getWidth();
+    int height = (int) size.getHeight();
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel gamePanel = new JPanel(new GridLayout(1, 0));
@@ -55,11 +69,16 @@ public class GameScreenImpl extends JFrame implements Screen {
     instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
     instructionPanel.setBorder(instBorder);
 
-    JLabel i1 = new JLabel("Move Pet",new ImageIcon(getClass().getClassLoader().getResource("assets/m.png")),JLabel.LEFT);
-    JLabel i2 = new JLabel("Pick Up an Item",new ImageIcon(getClass().getClassLoader().getResource("assets/p.png")),JLabel.LEFT);
-    JLabel i3 = new JLabel("Attack Target",new ImageIcon(getClass().getClassLoader().getResource("assets/k.png")),JLabel.LEFT);
-    JLabel i4 = new JLabel("Look Around",new ImageIcon(getClass().getClassLoader().getResource("assets/a.png")),JLabel.LEFT);
-    JLabel i5 = new JLabel("Move Player",new ImageIcon(getClass().getClassLoader().getResource("assets/mouse.png")),JLabel.LEFT);
+    JLabel i1 = new JLabel("Move Pet",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/m.png")), JLabel.LEFT);
+    JLabel i2 = new JLabel("Pick Up an Item",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/p.png")), JLabel.LEFT);
+    JLabel i3 = new JLabel("Attack Target",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/k.png")), JLabel.LEFT);
+    JLabel i4 = new JLabel("Look Around",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/a.png")), JLabel.LEFT);
+    JLabel i5 = new JLabel("Move Player",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/mouse.png")), JLabel.LEFT);
 
     instructionPanel.add(i1);
     instructionPanel.add(i2);

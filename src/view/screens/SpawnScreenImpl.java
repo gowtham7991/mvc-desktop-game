@@ -1,8 +1,12 @@
 package view.screens;
 
 import controller.Features;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import model.ReadOnlyModel;
 
 public class SpawnScreenImpl extends JFrame implements Screen {
@@ -18,7 +22,8 @@ public class SpawnScreenImpl extends JFrame implements Screen {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setLayout(new BorderLayout());
-    JLabel bgImage = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("assets/welcome_screen_wallpaper.png")));
+    JLabel bgImage = new JLabel(new ImageIcon(getClass().getClassLoader()
+        .getResource("assets/welcome_screen_wallpaper.png")));
     this.add(bgImage);
     bgImage.setLayout(new FlowLayout());
 

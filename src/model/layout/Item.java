@@ -7,14 +7,12 @@ public interface Item {
 
   /**
    * Returns the damage caused by the item.
-   *
    * @return the damage
    */
   int getDamage();
 
   /**
    * Returns the name of the item.
-   *
    * @return the name
    */
   String getName();

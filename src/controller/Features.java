@@ -58,8 +58,8 @@ public interface Features {
 
   /**
    * Handles the moue click of the game board.
-   * @param xCoordinate the x-coordinate of the game board
-   * @param yCoordinate the y-coordinate of the game board
+   * @param x the x-coordinate of the game board
+   * @param y the y-coordinate of the game board
    */
-  void handleMouseClick(int xCoordinate, int yCoordinate);
+  void handleMouseClick(int x, int y);
 }

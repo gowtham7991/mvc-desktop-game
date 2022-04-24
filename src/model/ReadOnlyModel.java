@@ -3,6 +3,10 @@ package model;
 import java.awt.image.WritableRenderedImage;
 import java.util.List;
 
+/**
+ * This is a read only model which only supports operations to retrieve static data from the model
+ * to the client.
+ */
 public interface ReadOnlyModel {
   /**
    * Returns the name of the player currently in turn.

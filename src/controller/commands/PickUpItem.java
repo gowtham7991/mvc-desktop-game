@@ -4,7 +4,7 @@ import java.util.List;
 import model.Model;
 import view.View;
 
-public class PickUpItem implements Command{
+public class PickUpItem implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -28,7 +28,5 @@ public class PickUpItem implements Command{
         }
       }
     }
-
-
   }
 }

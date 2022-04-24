@@ -4,7 +4,7 @@ import java.util.List;
 import model.Model;
 import view.View;
 
-public class Attack implements Command{
+public class Attack implements Command {
 
   @Override
   public void execute(Model m, View v) {

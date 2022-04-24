@@ -46,12 +46,12 @@ public interface View {
 
   /**
    * Opens the add player prompt.
-   * @return
+   * @return the list chosen values
    */
   List<String> openAddPlayerPrompt(List<String> spaces);
 
   /**
-   * Opens the prompt with the given list of options
+   * Opens the prompt with the given list of options.
    * @param options the list of options in the dropdown
    * @return the option chosen
    */
@@ -84,7 +84,6 @@ public interface View {
    * Opens a success dialog.
    * @param title the title of the dialog
    * @param message the details of the operation.
-   * @return
    */
   void showSuccessMessage(String title, String message);
 
@@ -92,7 +91,6 @@ public interface View {
    * Opens an error dialog.
    * @param title the title of the error dialog.
    * @param message the reason for failure.
-   * @return
    */
   void showErrorMessage(String title, String message);
 }

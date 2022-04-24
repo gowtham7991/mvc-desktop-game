@@ -235,7 +235,7 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isGameInProgress() {
-    if(status == GameStatus.INPROGRESS) {
+    if (status == GameStatus.INPROGRESS) {
       return true;
     }
     return false;

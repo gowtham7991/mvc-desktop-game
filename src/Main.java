@@ -2,7 +2,6 @@ import controller.Controller;
 import controller.ControllerImpl;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import model.Model;
 import model.ModelImpl;
 import utils.RandomGeneratorImpl;
@@ -27,7 +26,6 @@ public class Main {
         String configFilePath = args[0];
         int turnsPerGame = Integer.parseInt(args[1]);
         Readable configFile = new FileReader(configFilePath);
-        Readable in = new InputStreamReader(System.in);
         RandomGeneratorImpl rand = new RandomGeneratorImpl();
         Model model = new ModelImpl(configFile, rand, turnsPerGame);
         if (model == null) {

@@ -1,12 +1,12 @@
 package model.layout;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRenderedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -246,21 +246,22 @@ public class WorldImpl implements World {
       for (int i = 0; i < players.size(); i++) {
         String playerName = findNthElementOfSet(players, i);
         int playerId = playerIdBasedOnName(playerName);
-        int offsetX, offsetY;
+        int offsetX;
+        int offsetY;
         if (i < 4) {
-          offsetX = spaceWidth/6
-              + (i%3)*(spaceWidth/3);
-          offsetY = spaceHeight/6
-              + (i/3)*(spaceHeight/3);
+          offsetX = spaceWidth / 6
+              + (i % 3) * (spaceWidth / 3);
+          offsetY = spaceHeight / 6
+              + (i / 3) * (spaceHeight / 3);
         } else {
-          offsetX = spaceWidth/6
-              + ((i+1)%3)*(spaceWidth/3);
-          offsetY = spaceHeight/6
-              + ((i+1)/3)*(spaceHeight/3);
+          offsetX = spaceWidth / 6
+              + ((i + 1) % 3) * (spaceWidth / 3);
+          offsetY = spaceHeight / 6
+              + ((i + 1) / 3) * (spaceHeight / 3);
         }
 
-        int playerCoordinateX = topLeftCol + offsetX - spaceWidth/10;
-        int playerCoordinateY = topLeftRow + offsetY - spaceHeight/10;
+        int playerCoordinateX = topLeftCol + offsetX - spaceWidth / 10;
+        int playerCoordinateY = topLeftRow + offsetY - spaceHeight / 10;
 
         try {
           String img;
@@ -292,17 +293,17 @@ public class WorldImpl implements World {
     int spaceWidth = (bottomRightCol - topLeftCol) + (width / noOfColumns);
     int spaceHeight = (bottomRightRow - topLeftRow) + (height / noOfRows);
 
-    int offsetX = spaceWidth/6  + (4%3)*(spaceWidth/3);
-    int offsetY = spaceHeight/6  + (4/3)*(spaceHeight/3);
+    int offsetX = spaceWidth / 6  + (4 % 3) * (spaceWidth / 3);
+    int offsetY = spaceHeight / 6  + (4 / 3) * (spaceHeight / 3);
 
-    int targetCoordinateX = topLeftCol + offsetX - spaceWidth/10;
-    int targetCoordinateY = topLeftRow + offsetY - spaceHeight/10;
+    int targetCoordinateX = topLeftCol + offsetX - spaceWidth / 10;
+    int targetCoordinateY = topLeftRow + offsetY - spaceHeight / 10;
 
     try {
       InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("assets/target.png");
       BufferedImage image = ImageIO.read(in);
 
-      g.drawImage(image, targetCoordinateX, targetCoordinateY, 30, 30,null);
+      g.drawImage(image, targetCoordinateX, targetCoordinateY, 30, 30, null);
     } catch (IOException io) {
       throw new IllegalArgumentException("Could not read the file!");
     }
@@ -542,7 +543,7 @@ public class WorldImpl implements World {
     String playerCurrentSpace = players.get(playerInTurn).getPosition();
     Set<String> result = spaceMap.get(playerCurrentSpace).getItems();
     List<String> list = new ArrayList<>();
-    for(String s : result) {
+    for (String s : result) {
       list.add(s);
     }
     return list;
@@ -559,8 +560,8 @@ public class WorldImpl implements World {
     List<String> list = new ArrayList<>();
 
     for (int id : players.keySet()) {
-        Player p = players.get(id);
-        list.add(p.getName());
+      Player p = players.get(id);
+      list.add(p.getName());
     }
 
     return list;
@@ -622,9 +623,6 @@ public class WorldImpl implements World {
 
   @Override
   public String attack(String itemName) {
-    if (itemName == null) {
-
-    }
     StringBuilder sb = new StringBuilder();
     Item item = players.get(playerInTurn).useItem(itemName);
     if (item == null) {
