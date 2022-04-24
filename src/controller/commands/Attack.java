@@ -12,6 +12,9 @@ public class Attack implements Command{
       throw new IllegalArgumentException("Invalid model!");
     }
     List<String> itemList = m.getItemsOfPlayerInTurn();
+    if (itemList == null) {
+      v.showErrorMessage("Failed", "Could not retrieve item list");
+    }
     itemList.add("poke");
 
     String response = v.openPrompt(itemList, "Choose an item");
@@ -23,10 +26,10 @@ public class Attack implements Command{
         } else {
           result = m.attack(response);
         }
-        v.showSuccessMessage(result, "Target attacked!");
+        v.showSuccessMessage("Target attacked!", result);
         v.refresh();
       } catch (IllegalArgumentException e) {
-        v.showErrorMessage(e.getMessage(),"Attack failed!");
+        v.showErrorMessage("Attack failed!", e.getMessage());
       }
     }
   }

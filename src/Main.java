@@ -30,6 +30,9 @@ public class Main {
         Readable in = new InputStreamReader(System.in);
         RandomGeneratorImpl rand = new RandomGeneratorImpl();
         Model model = new ModelImpl(configFile, rand, turnsPerGame);
+        if (model == null) {
+          throw new IllegalArgumentException("Failed to initialize the model");
+        }
         Controller controller = new ControllerImpl(model);
         View view = new ViewImpl(model);
         controller.setView(view);

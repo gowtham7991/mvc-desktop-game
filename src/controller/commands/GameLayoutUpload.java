@@ -17,8 +17,9 @@ public class GameLayoutUpload implements Command{
       m.reInitializeGame(r);
       v.startGame();
     } catch (IOException e) {
-      throw new IllegalArgumentException("File not found!");
+      v.showErrorMessage("Upload failed!", e.getMessage() );
+    } catch (IllegalArgumentException ie) {
+      v.showErrorMessage("Upload failed!", ie.getMessage());
     }
-
   }
 }

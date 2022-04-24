@@ -6,7 +6,7 @@ import javax.swing.*;
 import model.ReadOnlyModel;
 
 public class SpawnScreenImpl extends JFrame implements Screen {
-  private ReadOnlyModel m;
+  private final ReadOnlyModel m;
   private final JButton addPlayerBtn;
   private final JButton addCompPlayerBtn;
   private final JButton startGameBtn;
@@ -46,11 +46,6 @@ public class SpawnScreenImpl extends JFrame implements Screen {
   @Override
   public void hideScreen() {
     setVisible(false);
-  }
-
-  @Override
-  public void setModel(ReadOnlyModel m) {
-    this.m = m;
   }
 
   @Override

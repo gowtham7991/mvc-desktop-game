@@ -342,6 +342,11 @@ public class WorldImpl implements World {
     if (noOfPlayers == 10) {
       throw new IllegalArgumentException("Max number of players added!");
     }
+
+    if (checkIfUsernameIsTaken(name)) {
+      throw new IllegalArgumentException("Username is already taken!");
+    }
+
     if (spaceMap.containsKey(space)) {
       StringBuilder sr = new StringBuilder();
       Player player = new PlayerImpl(name, space, PlayerType.MANUAL, maxItemsPerPlayer,
@@ -353,6 +358,15 @@ public class WorldImpl implements World {
     } else {
       throw new IllegalArgumentException("Space not found!");
     }
+  }
+
+  private boolean checkIfUsernameIsTaken(String name) {
+    for (int id : players.keySet()) {
+      if (name.equals(players.get(id).getName())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

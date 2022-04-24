@@ -12,7 +12,7 @@ import model.ReadOnlyModel;
 
 public class WelcomeScreenImpl extends JFrame implements Screen {
 
-  private ReadOnlyModel m;
+  private final ReadOnlyModel m;
   private final JMenu menu, submenu;
   private final JMenuItem currLayout, newLayout, quit, help;
   private final JMenuBar mb;
@@ -78,11 +78,6 @@ public class WelcomeScreenImpl extends JFrame implements Screen {
   @Override
   public void hideScreen() {
     this.setVisible(false);
-  }
-
-  @Override
-  public void setModel(ReadOnlyModel m) {
-    this.m = m;
   }
 
   @Override

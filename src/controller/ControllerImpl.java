@@ -37,10 +37,7 @@ public class ControllerImpl implements Controller{
   public void begin() {
     if (m.isGameInProgress()) {
       v.begin();
-      if (m.isComputerInTurn()) {
-        v.showSuccessMessage("", "Computer player took a turn!");
-        v.refresh();
-      }
+      perTurnChecks();
     } else {
       v.showErrorMessage("Cannot start the game", "Players not added.");
     }
@@ -125,12 +122,27 @@ public class ControllerImpl implements Controller{
 
   private void perTurnChecks() {
     while (m.isComputerInTurn()) {
+      System.out.println("player in turn " + m.playerInTurn());
       v.showSuccessMessage("", "Computer player took a turn!");
       v.refresh();
+      if (m.isGameOver()) {
+        String winner = m.getWinner();
+        int response = v.openGameOverPrompt(winner);
+        if (response == 0) {
+          restart();
+        } else {
+          exit();
+        }
+      }
     }
     if (m.isGameOver()) {
       String winner = m.getWinner();
-      v.openGameOverPrompt(winner);
+      int response = v.openGameOverPrompt(winner);
+      if (response == 0) {
+        restart();
+      } else {
+        exit();
+      }
     }
   }
 }

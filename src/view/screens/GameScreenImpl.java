@@ -16,13 +16,12 @@ import model.ReadOnlyModel;
 
 public class GameScreenImpl extends JFrame implements Screen {
 
-  private ReadOnlyModel m;
+  private final ReadOnlyModel m;
   private final JLabel map;
   private final JLabel playerName;
   private final JLabel hints;
   private final JPanel gamePanel;
   private final JPanel instructionPanel;
-  
 
   public GameScreenImpl(ReadOnlyModel m) {
     super();
@@ -141,12 +140,6 @@ public class GameScreenImpl extends JFrame implements Screen {
   @Override
   public void hideScreen() {
     this.setVisible(false);
-  }
-
-
-  @Override
-  public void setModel(ReadOnlyModel m) {
-    this.m = m;
   }
 
   @Override

@@ -12,7 +12,7 @@ public class DisplayPlayerDescription implements Command{
     }
     try {
       String response = m.displayPlayerDescription();
-      v.showSuccessMessage(response,"Player details" );
+      v.showSuccessMessage("Player details", response);
       v.refresh();
     } catch (IllegalArgumentException e) {
       v.showErrorMessage("Failed to fetch player details",e.getMessage());

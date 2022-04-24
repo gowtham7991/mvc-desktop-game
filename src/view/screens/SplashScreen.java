@@ -5,12 +5,10 @@ import javax.swing.*;
  
 public class SplashScreen extends JFrame {
   private static final long serialVersionUID = 1L;
-  private Color customColor;
-  private String text = " ";
-  private String c = " ";
+  private final Color customColor;
+  private final JProgressBar progressBar;
   private JLabel title;
   private JLabel credits;
-  private final JProgressBar progressBar;
 
   public SplashScreen() {
     customColor = new Color(211,211,243);
@@ -42,17 +40,17 @@ public class SplashScreen extends JFrame {
   private void addText() {
     title = new JLabel();
     credits = new JLabel();
-    title.setText(text);
-    title.setFont(new Font("Hack",Font.BOLD,20));//Setting font size of text
-    title.setForeground(Color.BLUE);//Setting foreground color
-    this.getContentPane().add(title);//adding text to the frame
-    title.setBounds(180, 60, 300, 80);//Setting size and location
+    title.setText(" ");
+    title.setFont(new Font("Hack",Font.BOLD,20));
+    title.setForeground(Color.BLUE);
+    this.getContentPane().add(title);
+    title.setBounds(180, 60, 300, 80);
 
-    credits.setText(c);
-    credits.setFont(new Font("Hack",Font.BOLD,20));//Setting font size of text
-    credits.setForeground(Color.BLACK);//Setting foreground color
-    this.getContentPane().add(credits);//adding text to the frame
-    credits.setBounds(185, 160, 300, 180);//Setting size and location
+    credits.setText(" ");
+    credits.setFont(new Font("Hack",Font.BOLD,20));
+    credits.setForeground(Color.BLACK);
+    this.getContentPane().add(credits);
+    credits.setBounds(185, 160, 300, 180);
     this.setVisible(true);
   }
 

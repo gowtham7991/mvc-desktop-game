@@ -24,12 +24,6 @@ public interface Screen {
   void hideScreen();
 
   /**
-   * Resets the model in the screen
-   * @param m the readonly model
-   */
-  void setModel(ReadOnlyModel m);
-
-  /**
    * Refreshes the screen by re-generating the components.
    */
   void refresh();

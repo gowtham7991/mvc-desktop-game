@@ -37,7 +37,7 @@ public class ModelImpl implements Model {
     this.rg = rand;
     this.maxTurns = maxTurns;
     status = GameStatus.NOTSTARTED;
-    defaultGameFilePath = "res/defaultGame.txt";
+    defaultGameFilePath = "res/assets/defaultGame.txt";
   }
 
   @Override
@@ -47,6 +47,9 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isComputerInTurn() {
+    if (world.isComputerInTurn()) {
+      turns += 1;
+    }
     return world.isComputerInTurn();
   }
 
@@ -74,30 +77,45 @@ public class ModelImpl implements Model {
 
   @Override
   public String move(String space) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.move(space);
   }
 
   @Override
   public String move(int x, int y) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.move(x, y);
   }
 
   @Override
   public String movePet(String space) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.movePet(space);
   }
 
   @Override
   public String lookAround() {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.lookAround();
   }
 
   @Override
   public String pickUpItem(String itemName) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.pickUpItem(itemName);
   }
@@ -156,10 +174,8 @@ public class ModelImpl implements Model {
   public boolean isGameOver() {
     if (turns >= maxTurns || world.getWinner() != null) {
       status = GameStatus.COMPLETED;
-      System.out.println("Done" + turns + " " + maxTurns);
       return true;
     }
-    System.out.println("not Done" + turns + " " + maxTurns);
     return false;
   }
 
@@ -177,12 +193,18 @@ public class ModelImpl implements Model {
 
   @Override
   public String attack(String itemName) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.attack(itemName);
   }
 
   @Override
   public String attack() {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.attack();
   }

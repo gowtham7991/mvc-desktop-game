@@ -20,12 +20,6 @@ public interface View {
   void setFeatures(Features f);
 
   /**
-   * Resets the model in all the screens
-   * @param m the readonly model
-   */
-  void setModel(ReadOnlyModel m);
-
-  /**
    * Prompts the users to add players into the game.
    */
   void startGame();
@@ -73,7 +67,7 @@ public interface View {
    * Opens the game over prompt.
    * @param winner the winner of the game if won or game tied.
    */
-  void openGameOverPrompt(String winner);
+  int openGameOverPrompt(String winner);
 
   /**
    * Opens the file upload prompt for the game layout config file.
