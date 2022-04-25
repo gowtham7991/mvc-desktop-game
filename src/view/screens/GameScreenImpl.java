@@ -14,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -56,9 +58,9 @@ public class GameScreenImpl extends JFrame implements Screen {
 
     hintsPanel.setBorder(hintBorder);
     JLabel playerName = new JLabel();
-    playerName.setHorizontalAlignment(SwingConstants.CENTER);
+    playerName.setHorizontalAlignment(SwingConstants.LEFT);
     playerName.setFont(new Font("MONOSPACE", Font.BOLD, 18));
-    playerName.setForeground(Color.BLUE);
+    playerName.setForeground(Color.DARK_GRAY);
     JLabel hints = new JLabel();
     hints.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -124,15 +126,16 @@ public class GameScreenImpl extends JFrame implements Screen {
       @Override
       public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
-        if (e.getKeyChar() == 'p') {
-          f.pickUpItem();
-        } else if (e.getKeyChar() == 'm') {
-          f.movePet();
-        } else if (e.getKeyChar() == 'k') {
-          f.attack();
-        } else if (e.getKeyChar() == 'a') {
-          f.lookAround();
-        }
+        Map<Character, Runnable> keyPressMap = new HashMap<>();
+
+        keyPressMap.put('p', () -> f.pickUpItem());
+        keyPressMap.put('m', () -> f.movePet());
+        keyPressMap.put('k', () -> f.attack());
+        keyPressMap.put('a', () -> f.lookAround());
+
+        Character c = e.getKeyChar();
+        Runnable r = keyPressMap.get(c);
+        r.run();
       }
     });
   }

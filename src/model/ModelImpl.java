@@ -3,6 +3,9 @@ package model;
 import java.awt.image.WritableRenderedImage;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Scanner;
 import model.layout.GameStatus;
@@ -37,7 +40,7 @@ public class ModelImpl implements Model {
     this.rg = rand;
     this.maxTurns = maxTurns;
     status = GameStatus.NOTSTARTED;
-    defaultGameFilePath = "res/assets/defaultGame.txt";
+    defaultGameFilePath = "assets/defaultGame.txt";
   }
 
   @Override
@@ -223,14 +226,11 @@ public class ModelImpl implements Model {
 
   @Override
   public void reInitializeGame() {
-    try {
-      Readable r = new FileReader(defaultGameFilePath);
-      reConfigureWorld(r, rg);
-      turns = 0;
-      status = GameStatus.NOTSTARTED;
-    } catch (IOException io) {
-      throw new IllegalArgumentException("Could not read the file!");
-    }
+    InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(defaultGameFilePath);
+    Readable r = new InputStreamReader(in);
+    reConfigureWorld(r, rg);
+    turns = 0;
+    status = GameStatus.NOTSTARTED;
   }
 
   @Override
