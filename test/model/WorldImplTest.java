@@ -11,14 +11,13 @@ import java.util.List;
 import model.layout.World;
 import model.layout.WorldImpl;
 import mocks.RandomGeneratorMock;
-import org.junit.Before;
 import org.junit.Test;
 import utils.RandomGenerator;
 
 /**
  * Test suite for the World Implementation, spaces and items.
  */
-public class ModelImplTest {
+public class WorldImplTest {
 
   private final String validWorldDescription;
   private final String validTargetDescription;
@@ -33,7 +32,7 @@ public class ModelImplTest {
   /**
    * Constructs the World class test suite.
    */
-  public ModelImplTest() {
+  public WorldImplTest() {
     this.validWorldDescription = "30 30 MyWorld";
     this.validTargetDescription = "50 MyTarget";
     this.validPetDescription = "My Pet";
@@ -225,22 +224,7 @@ public class ModelImplTest {
     w.addPlayer("Player1", "Space1", 5);
     w.addPlayer("Player2", "Space2", 5);
     w.addPlayer("Player3", "Space3", 5);
-    StringBuilder sb = new StringBuilder();
-    sb.append("Player0 : Player1\n");
-    sb.append("Type - MANUAL\n");
-    sb.append("Location - Space1\n");
-    sb.append("\n");
-    sb.append("Player1 : Player2\n");
-    sb.append("Type - MANUAL\n");
-    sb.append("Location - Space2\n");
-    sb.append("\n");
-    sb.append("Player2 : Player3\n");
-    sb.append("Type - MANUAL\n");
-    sb.append("Location - Space3\n");
-    sb.append("\n");
-    sb.append("\n");
-    assertEquals(3, w.getTotalNumberOfHumanPlayers());
-    assertEquals(sb.toString(), w.getPlayers());
+    assertEquals("[Player1, Player2, Player3]", w.getPlayers().toString());
 
   }
 
@@ -258,7 +242,7 @@ public class ModelImplTest {
     w.addPlayer("Player1", "SpaceX", 5);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testAdditionOfPlayerWithSameName() {
     World w = validWorld;
     w.addPlayer("Player1", "Space3", 5);
@@ -290,21 +274,8 @@ public class ModelImplTest {
     w.addPlayer("Player1", "Space1", 5);
     w.addComputerPlayer();
     w.addPlayer("Player2", "Space4", 5);
-    StringBuilder sb = new StringBuilder();
-    sb.append("Player0 : Player1\n");
-    sb.append("Type - MANUAL\n");
-    sb.append("Location - Space1\n");
-    sb.append("\n");
-    sb.append("Player1 : Computer1\n");
-    sb.append("Type - COMPUTER\n");
-    sb.append("Location - Space1\n");
-    sb.append("\n");
-    sb.append("Player2 : Player2\n");
-    sb.append("Type - MANUAL\n");
-    sb.append("Location - Space4\n");
-    sb.append("\n");
-    sb.append("\n");
-    assertEquals(sb.toString(), w.getPlayers());
+    String expected = "[Player1, Computer1, Player2]";
+    assertEquals(expected, w.getPlayers().toString());
   }
 
   @Test
@@ -332,7 +303,7 @@ public class ModelImplTest {
     String out = w.move("SpaceY");
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testMovePlayerToSameSpace() {
     World w = validWorld;
     w.addPlayer("Player1", "Space7", 5);
@@ -352,7 +323,7 @@ public class ModelImplTest {
     assertEquals(expected, response);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemWhenNoItemsInSpace() {
     World w = validWorld;
     w.addPlayer("Player1", "Space9", 5);
@@ -395,7 +366,7 @@ public class ModelImplTest {
     String response = w.pickUpItem("Item4");
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemNotInSpace() {
     World w = validWorld;
     w.addPlayer("Player1", "Space7", 5);
@@ -404,7 +375,7 @@ public class ModelImplTest {
     w.pickUpItem("ItemX");
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemNotInWorld() {
     World w = validWorld;
     w.addPlayer("Player1", "Space7", 5);
@@ -413,7 +384,7 @@ public class ModelImplTest {
     w.pickUpItem("ItemX");
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemAfterItemLimit() {
     World w = validWorld;
     w.addPlayer("Player1", "Space1", 1);
@@ -427,7 +398,7 @@ public class ModelImplTest {
     assertEquals(expected, out);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemAlreadyInPossession() {
     World w = validWorld;
     w.addPlayer("Player1", "Space1", 1);
@@ -453,7 +424,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -470,7 +441,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -487,7 +458,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -504,7 +475,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -521,7 +492,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -538,7 +509,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -556,7 +527,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : [Player2]\n\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -574,7 +545,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : [Player2]\n\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -608,7 +579,7 @@ public class ModelImplTest {
         + "Items available : []\n" + "Players in Space : []\n" + "\n";
 
     assertEquals(expected, s);
-    assertEquals("Player1 - Player2 is in turn.\n", w.playerInTurn());
+    assertEquals("Player2", w.playerInTurn());
   }
 
   @Test
@@ -754,11 +725,11 @@ public class ModelImplTest {
     w.addPlayer("Dr.Strange", "Space1", 1);
     w.addComputerPlayer();
     w.addPlayer("Thor", "Space7", 1);
-    String expected = "Player0 - Dr.Strange is in turn.\n";
+    String expected = "Dr.Strange";
     assertEquals(expected, w.playerInTurn());
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testGetTurnAfterFewMoves() {
     World w = validWorld;
     w.addPlayer("Batman", "Space1", 1);
@@ -791,17 +762,11 @@ public class ModelImplTest {
 
     w.addComputerPlayer();
     w.addPlayer("Gowtham", "Space1", 5);
-    String expected = "Player0 - Computer1 is in turn. Select a command.\n"
-        + "Current Space : Space1\n" + "Items available : [Item1, Item111]\n"
-        + "Players in Space : [Gowtham, Computer1]\n" + "\n" + "Neighbours : \n" + "Space2\n"
-        + "Items available : [Item2]\n" + "Players in Space : []\n" + "\n" + "Space3\n"
-        + "Items available : [Item3]\n" + "Players in Space : []\n" + "\n" + "Space6\n"
-        + "Items available : []\n" + "Players in Space : []\n" + "\n" + "\n"
-        + "Player1 - Gowtham is in turn.\n";
+    String expected = "Computer1";
     assertEquals(expected, w.playerInTurn());
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testMoveForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(0, 1);
     World w = createWorld(validWorldDescription, validTargetDescription, validPetDescription,
@@ -818,7 +783,7 @@ public class ModelImplTest {
     assertEquals(expected, actual);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testLookAroundForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(1);
     World w = createWorld(validWorldDescription, validTargetDescription, validPetDescription,
@@ -840,7 +805,7 @@ public class ModelImplTest {
     assertEquals(expected, actual);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPickUpItemForComputerPlayer() {
     RandomGenerator rand = new RandomGeneratorMock(2, 1);
     World w = createWorld(validWorldDescription, validTargetDescription, validPetDescription,
@@ -902,13 +867,7 @@ public class ModelImplTest {
     assertEquals(expected, response);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testMovePetToInvalidSpace() {
-    World w = validWorld;
-    w.addPlayer("Player1", "Space9", 5);
-  }
-
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testMovePetAfterEveryTurn() {
     World w = validWorld;
     w.addPlayer("Player1", "Space9", 5);
@@ -1063,7 +1022,7 @@ public class ModelImplTest {
     w.playerInTurn();
     w.lookAround();
     w.playerInTurn();
-    assertEquals("Name : Computer1\nItems : [Item1, Item111]\nCurrent Position : Space1\n",
+    assertEquals("Name : Computer1\n" + "Items : []\n" + "Current Position : Space1\n",
         w.displayPlayerDescription("Computer1"));
 
     w.lookAround();
@@ -1075,9 +1034,9 @@ public class ModelImplTest {
     w.lookAround();
     w.playerInTurn();
 
-    assertEquals(29, w.getTargetHealth());
+    assertEquals(50, w.getTargetHealth());
 
-    assertEquals("Name : Computer1\nItems : [Item1]\nCurrent Position : Space2\n",
+    assertEquals("Name : Computer1\n" + "Items : []\n" + "Current Position : Space1\n",
         w.displayPlayerDescription("Computer1"));
   }
 
@@ -1152,7 +1111,7 @@ public class ModelImplTest {
     assertEquals(50, w.getTargetHealth());
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testPlayerAttackWithInvalidItem() {
     RandomGenerator rand = new RandomGeneratorMock(3);
     World w = createWorld(validWorldDescription, validTargetDescription, validPetDescription,
@@ -1191,7 +1150,7 @@ public class ModelImplTest {
     assertEquals("Player1", w.getWinner());
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testGameOverWhenComputerPlayerKillsTarget() {
     RandomGenerator rand = new RandomGeneratorMock(2, 0, 2, 0, 1, 3);
     World w = createWorld(validWorldDescription, "12 myTarget", validPetDescription, noOfSpaces,
@@ -1245,7 +1204,7 @@ public class ModelImplTest {
     assertEquals("Player1", w.getWinner());
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testGameOverWhenComputerPlayerKillsTargetByPoke() {
 
     RandomGenerator rand = new RandomGeneratorMock(1, 1, 1, 3);
@@ -1300,5 +1259,73 @@ public class ModelImplTest {
     World w = validWorld;
     w.addPlayer("Player1", "Space1", 5);
     assertTrue(w.getPetLocation().equals(w.getTargetPosition()));
+  }
+
+  @Test
+  public void testReinitializeGame() {
+    String input = "30 30 MyWorld\n" + "50 MyTarget\n" + "My Pet\n" + "9\n" + "0 0 4 3 Space1 \n"
+        + "0 4 1 14 Space2 \n" + "2 4 6 7 Space3 \n" + "2 8 11 9 Space4\n" + "2 10 19 11 Space5 \n"
+        + "5 2 12 3 Space6 \n" + "13 0 14 9 Space7 \n" + "15 3 17 5 Space8\n" + "15 7 17 8 Space9\n"
+        + "5\n" + "0 10 Item1\n" + "0 10 Item111 \n" + "1 20 Item2 \n" + "2 30 Item3 \n"
+        + "3 40 Item4";
+
+    String input1 = "30 30 MyWorld1\n" + "10 MyTarget\n" + "My Pet1\n" + "5\n" + "0 0 4 3 Space1 \n"
+        + "0 4 1 14 Space2 \n" + "2 4 6 7 Space3 \n" + "2 8 11 9 Space4\n" + "2 10 19 11 Space5 \n"
+        + "3\n" + "0 10 Item1\n" + "0 10 Item111 \n" + "1 20 Item2 \n";
+
+    Readable r = new StringReader(input);
+    Readable r1 = new StringReader(input1);
+    Model m = new ModelImpl(r, rand, 5);
+    assertEquals("MyWorld", m.getName());
+    assertEquals("[Space1, Space2, Space3, Space4, Space5, Space6, Space7, Space8, Space9]"
+        , m.getAllSpaces().toString());
+
+    m.reInitializeGame(r1);
+    assertEquals("MyWorld1", m.getName());
+    assertEquals("[Space1, Space2, Space3, Space4, Space5]", m.getAllSpaces().toString());
+  }
+
+  @Test
+  public void testGetSpaceBasedOnCoordinates() {
+    World w = validWorld;
+    assertEquals("Space1", w.getSpaceBasedOnCoordinates(3, 5));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInvalidGetSpaceBasedOnCoordinates() {
+    World w = validWorld;
+    assertEquals("Space1", w.getSpaceBasedOnCoordinates(-3, -5));
+  }
+
+  @Test
+  public void testMoveBasedOnCoordinates() {
+    World w = validWorld;
+    w.addPlayer("Gowtham", "Space2", 5);
+    w.move(0, 0);
+    String actual = w.playerInTurn();
+
+    String expected = "Gowtham";
+    assertEquals(expected, actual);
+    assertEquals("Space1", w.getCurrentPlayerPosition());
+
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInvalidMoveBasedOnCoordinates() {
+    World w = validWorld;
+    w.addPlayer("Gowtham", "Space4", 5);
+    w.move(0, 0);
+    String actual = w.playerInTurn();
+
+    String expected = "Gowtham";
+    assertEquals(expected, actual);
+    assertEquals("Space1", w.getCurrentPlayerPosition());
+  }
+
+  @Test
+  public void testGetAllSpaces() {
+    World w = validWorld;
+    String expected = "[Space1, Space2, Space3, Space4, Space5, Space6, Space7, Space8, Space9]";
+    assertEquals(expected, w.getSpaces().toString());
   }
 }

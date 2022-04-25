@@ -708,7 +708,9 @@ public class WorldImpl implements World {
 
   @Override
   public String getSpaceBasedOnCoordinates(int x, int y) {
-
+    if (x < 0 || y < 0) {
+      throw new IllegalArgumentException("Invalid coordinates");
+    }
     int col = x / (gameLayoutWidth / noOfColumns);
     int row = y / (gameLayoutHeight / noOfRows);
 

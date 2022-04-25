@@ -24,12 +24,6 @@ public class MockViewValid implements View{
   }
 
   @Override
-  public void setModel(ReadOnlyModel m) {
-    log.append("Inside method setModel. Id = ").append(uniqueNumber).append(m);
-    
-  }
-
-  @Override
   public void startGame() {
     log.append("Inside method startGame. Id = ").append(uniqueNumber);
     
@@ -39,6 +33,11 @@ public class MockViewValid implements View{
   public void begin() {
     log.append("Inside method begin. Id = ").append(uniqueNumber);
     
+  }
+
+  @Override
+  public void quit() {
+    log.append("Inside method quit. Id = ").append(uniqueNumber);
   }
 
   @Override
@@ -76,9 +75,9 @@ public class MockViewValid implements View{
   }
 
   @Override
-  public void openGameOverPrompt(String winner) {
+  public int openGameOverPrompt(String winner) {
     log.append("Inside method openGameOverPrompt. Id = ").append(uniqueNumber).append(winner);
-    
+    return 0;
   }
 
   @Override
