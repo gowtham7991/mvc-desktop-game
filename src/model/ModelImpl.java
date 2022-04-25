@@ -156,10 +156,8 @@ public class ModelImpl implements Model {
   public boolean isGameOver() {
     if (turns >= maxTurns || world.getWinner() != null) {
       status = GameStatus.COMPLETED;
-      System.out.println("Done" + turns + " " + maxTurns);
       return true;
     }
-    System.out.println("not Done" + turns + " " + maxTurns);
     return false;
   }
 
