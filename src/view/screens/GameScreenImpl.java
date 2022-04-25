@@ -1,53 +1,54 @@
 package view.screens;
 
 import controller.Features;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Key;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
 import model.ReadOnlyModel;
 
 public class GameScreenImpl extends JFrame implements Screen {
 
-  private ReadOnlyModel m;
-  private JLabel map;
-  private JLabel playerName;
-  private JLabel hints;
-  private JPanel gamePanel;
-  private final Border blackline;
-  private final Border instBorder;
-  private final Border hintBorder;
+  private final ReadOnlyModel m;
+  private final JLabel map;
+  private final JLabel playerName;
+  private final JLabel hints;
+  private final JPanel gamePanel;
   private final JPanel instructionPanel;
-  
 
   public GameScreenImpl(ReadOnlyModel m) {
     super();
-    blackline = BorderFactory.createLineBorder(Color.black);
-    instBorder = BorderFactory.createTitledBorder(blackline,"Instructions");
-    hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
-    //setSize(720, 1080);
+    Border blackline = BorderFactory.createLineBorder(Color.black);
+    Border instBorder = BorderFactory.createTitledBorder(blackline, "Instructions");
+    Border hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
     Dimension size
         = Toolkit.getDefaultToolkit().getScreenSize();
 
-    // width will store the width of the screen
-    int width = (int)size.getWidth();
-
-    // height will store the height of the screen
-    int height = (int)size.getHeight();
+    int width = (int) size.getWidth();
+    int height = (int) size.getHeight();
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel gamePanel = new JPanel(new GridLayout(1, 0));
@@ -57,9 +58,9 @@ public class GameScreenImpl extends JFrame implements Screen {
 
     hintsPanel.setBorder(hintBorder);
     JLabel playerName = new JLabel();
-    playerName.setHorizontalAlignment(SwingConstants.CENTER);
+    playerName.setHorizontalAlignment(SwingConstants.LEFT);
     playerName.setFont(new Font("MONOSPACE", Font.BOLD, 18));
-    playerName.setForeground(Color.BLUE);
+    playerName.setForeground(Color.DARK_GRAY);
     JLabel hints = new JLabel();
     hints.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -69,11 +70,18 @@ public class GameScreenImpl extends JFrame implements Screen {
     instructionPanel = new JPanel();
     instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
     instructionPanel.setBorder(instBorder);
-    JLabel i1 = new JLabel("Move Pet",new ImageIcon("res/m.png"),JLabel.LEFT);
-    JLabel i2 = new JLabel("Pick Up an Item",new ImageIcon("res/p.png"),JLabel.LEFT);
-    JLabel i3 = new JLabel("Attack Target",new ImageIcon("res/k.png"),JLabel.LEFT);
-    JLabel i4 = new JLabel("Look Around",new ImageIcon("res/a.png"),JLabel.LEFT);
-    JLabel i5 = new JLabel("Move Player",new ImageIcon("res/mouse.png"),JLabel.LEFT);
+
+    JLabel i1 = new JLabel("Move Pet",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/m.png")), JLabel.LEFT);
+    JLabel i2 = new JLabel("Pick Up an Item",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/p.png")), JLabel.LEFT);
+    JLabel i3 = new JLabel("Attack Target",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/k.png")), JLabel.LEFT);
+    JLabel i4 = new JLabel("Look Around",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/a.png")), JLabel.LEFT);
+    JLabel i5 = new JLabel("Move Player",
+        new ImageIcon(getClass().getClassLoader().getResource("assets/mouse.png")), JLabel.LEFT);
+
     instructionPanel.add(i1);
     instructionPanel.add(i2);
     instructionPanel.add(i3);
@@ -87,11 +95,9 @@ public class GameScreenImpl extends JFrame implements Screen {
     JScrollPane pane = new JScrollPane(gamePanel);
     JSplitPane sl = new JSplitPane(SwingConstants.HORIZONTAL, pane, infoPanel);
 
-    // set Orientation for slider
     sl.setOrientation(SwingConstants.VERTICAL);
     sl.setResizeWeight(0.75);
 
-    // add panel
     this.add(sl);
     JLabel map = new JLabel();
     map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
@@ -120,15 +126,16 @@ public class GameScreenImpl extends JFrame implements Screen {
       @Override
       public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
-        if (e.getKeyChar() == 'p') {
-          f.pickUpItem();
-        } else if (e.getKeyChar() == 'm') {
-          f.movePet();
-        } else if (e.getKeyChar() == 'k') {
-          f.attack();
-        } else if (e.getKeyChar() == 'a') {
-          f.lookAround();
-        }
+        Map<Character, Runnable> keyPressMap = new HashMap<>();
+
+        keyPressMap.put('p', () -> f.pickUpItem());
+        keyPressMap.put('m', () -> f.movePet());
+        keyPressMap.put('k', () -> f.attack());
+        keyPressMap.put('a', () -> f.lookAround());
+
+        Character c = e.getKeyChar();
+        Runnable r = keyPressMap.get(c);
+        r.run();
       }
     });
   }
@@ -157,12 +164,6 @@ public class GameScreenImpl extends JFrame implements Screen {
     this.setVisible(false);
   }
 
-
-  @Override
-  public void setModel(ReadOnlyModel m) {
-    this.m = m;
-  }
-
   @Override
   public void refresh() {
     map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
@@ -174,5 +175,10 @@ public class GameScreenImpl extends JFrame implements Screen {
   public void resetFocus() {
     this.setFocusable(true);
     this.requestFocus();
+  }
+
+  @Override
+  public void quit() {
+    this.dispose();
   }
 }

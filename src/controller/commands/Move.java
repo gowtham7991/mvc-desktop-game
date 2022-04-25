@@ -3,13 +3,13 @@ package controller.commands;
 import model.Model;
 import view.View;
 
-public class Move implements Command{
+public class Move implements Command {
   private final int x;
   private final int y;
 
-  public Move(int xCoordinate, int yCoordinate) {
-    this.x = xCoordinate;
-    this.y = yCoordinate;
+  public Move(int x, int y) {
+    this.x = x;
+    this.y = y;
   }
 
   @Override
@@ -22,7 +22,7 @@ public class Move implements Command{
       v.showSuccessMessage("Player moved!", "");
       v.refresh();
     } catch (IllegalArgumentException e) {
-      v.showErrorMessage("Failed to move",e.getMessage());
+      v.showErrorMessage("Failed to move", e.getMessage());
     }
   }
 }

@@ -3,6 +3,9 @@ package model;
 import java.awt.image.WritableRenderedImage;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Scanner;
 import model.layout.GameStatus;
@@ -37,7 +40,7 @@ public class ModelImpl implements Model {
     this.rg = rand;
     this.maxTurns = maxTurns;
     status = GameStatus.NOTSTARTED;
-    defaultGameFilePath = "res/defaultGame.txt";
+    defaultGameFilePath = "assets/defaultGame.txt";
   }
 
   @Override
@@ -47,6 +50,9 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isComputerInTurn() {
+    if (world.isComputerInTurn()) {
+      turns += 1;
+    }
     return world.isComputerInTurn();
   }
 
@@ -74,30 +80,45 @@ public class ModelImpl implements Model {
 
   @Override
   public String move(String space) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.move(space);
   }
 
   @Override
   public String move(int x, int y) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.move(x, y);
   }
 
   @Override
   public String movePet(String space) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.movePet(space);
   }
 
   @Override
   public String lookAround() {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.lookAround();
   }
 
   @Override
   public String pickUpItem(String itemName) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.pickUpItem(itemName);
   }
@@ -175,12 +196,18 @@ public class ModelImpl implements Model {
 
   @Override
   public String attack(String itemName) {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.attack(itemName);
   }
 
   @Override
   public String attack() {
+    if (status != GameStatus.INPROGRESS) {
+      throw new IllegalArgumentException("Game not in progress!");
+    }
     turns += 1;
     return world.attack();
   }
@@ -199,19 +226,16 @@ public class ModelImpl implements Model {
 
   @Override
   public void reInitializeGame() {
-    try {
-      Readable r = new FileReader(defaultGameFilePath);
-      reConfigureWorld(r, rg);
-      turns = 0;
-      status = GameStatus.NOTSTARTED;
-    } catch (IOException io) {
-      throw new IllegalArgumentException("Could not read the file!");
-    }
+    InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(defaultGameFilePath);
+    Readable r = new InputStreamReader(in);
+    reConfigureWorld(r, rg);
+    turns = 0;
+    status = GameStatus.NOTSTARTED;
   }
 
   @Override
   public boolean isGameInProgress() {
-    if(status == GameStatus.INPROGRESS) {
+    if (status == GameStatus.INPROGRESS) {
       return true;
     }
     return false;

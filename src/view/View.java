@@ -20,12 +20,6 @@ public interface View {
   void setFeatures(Features f);
 
   /**
-   * Resets the model in all the screens
-   * @param m the readonly model
-   */
-  void setModel(ReadOnlyModel m);
-
-  /**
    * Prompts the users to add players into the game.
    */
   void startGame();
@@ -34,6 +28,11 @@ public interface View {
    * Starts the game by displaying the game board.
    */
   void begin();
+
+  /**
+   * Quits the game by disposing all the screens.
+   */
+  void quit();
 
   /**
    * Resets the view and opens the first screen.
@@ -47,12 +46,12 @@ public interface View {
 
   /**
    * Opens the add player prompt.
-   * @return
+   * @return the list chosen values
    */
   List<String> openAddPlayerPrompt(List<String> spaces);
 
   /**
-   * Opens the prompt with the given list of options
+   * Opens the prompt with the given list of options.
    * @param options the list of options in the dropdown
    * @return the option chosen
    */
@@ -68,7 +67,7 @@ public interface View {
    * Opens the game over prompt.
    * @param winner the winner of the game if won or game tied.
    */
-  void openGameOverPrompt(String winner);
+  int openGameOverPrompt(String winner);
 
   /**
    * Opens the file upload prompt for the game layout config file.
@@ -85,7 +84,6 @@ public interface View {
    * Opens a success dialog.
    * @param title the title of the dialog
    * @param message the details of the operation.
-   * @return
    */
   void showSuccessMessage(String title, String message);
 
@@ -93,7 +91,6 @@ public interface View {
    * Opens an error dialog.
    * @param title the title of the error dialog.
    * @param message the reason for failure.
-   * @return
    */
   void showErrorMessage(String title, String message);
 }

@@ -24,12 +24,6 @@ public interface Screen {
   void hideScreen();
 
   /**
-   * Resets the model in the screen
-   * @param m the readonly model
-   */
-  void setModel(ReadOnlyModel m);
-
-  /**
    * Refreshes the screen by re-generating the components.
    */
   void refresh();
@@ -39,4 +33,9 @@ public interface Screen {
    * listener attached to it, so that keyboard events will still flow through.
    */
   void resetFocus();
+
+  /**
+   * Disposes the screen.
+   */
+  void quit();
 }

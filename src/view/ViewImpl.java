@@ -2,22 +2,31 @@ package view;
 
 import controller.Features;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import model.ReadOnlyModel;
 import view.screens.GameScreenImpl;
 import view.screens.Screen;
-import view.screens.WelcomeScreenImpl;
 import view.screens.SpawnScreenImpl;
+import view.screens.WelcomeScreenImpl;
 
-public class ViewImpl implements View{
+public class ViewImpl implements View {
   private final Screen welcomeScreen;
   private final Screen spawnScreen;
   private final Screen gameScreen;
 
+  /**
+   * Constructs the facade view class.
+   * The model validation takes place in the driver class.
+   * @param m the readonly model
+   */
   public ViewImpl(ReadOnlyModel m) {
     this.welcomeScreen = new WelcomeScreenImpl(m);
     this.spawnScreen = new SpawnScreenImpl(m);
@@ -31,13 +40,6 @@ public class ViewImpl implements View{
     gameScreen.setFeatures(f);
     welcomeScreen.showScreen();
     spawnScreen.resetFocus();
-  }
-
-  @Override
-  public void setModel(ReadOnlyModel m) {
-    welcomeScreen.setModel(m);
-    spawnScreen.setModel(m);
-    gameScreen.setModel(m);
   }
 
   @Override
@@ -55,6 +57,13 @@ public class ViewImpl implements View{
   }
 
   @Override
+  public void quit() {
+    welcomeScreen.quit();
+    spawnScreen.quit();
+    gameScreen.quit();
+  }
+
+  @Override
   public void reset() {
     welcomeScreen.showScreen();
     spawnScreen.hideScreen();
@@ -68,8 +77,20 @@ public class ViewImpl implements View{
     gameScreen.refresh();
   }
 
+  /**
+   * Validation of the list of spaces takes place in the controller and hence is not handled in the
+   * view. If the list sent to the view is null, an error message is prompted.
+   * @param l the list of spaces.
+   * @return the response
+   */
   @Override
-  public List<String> openAddPlayerPrompt(List<String> list) {
+  public List<String> openAddPlayerPrompt(List<String> l) {
+    List<String> list;
+    if (l == null) {
+      list = new ArrayList<>();
+    } else {
+      list = l;
+    }
     List<String> response = new ArrayList<>();
     JTextField playerName = new JTextField();
 
@@ -78,12 +99,13 @@ public class ViewImpl implements View{
       spaceList[i] = list.get(i);
     }
 
-    String[] itemCountList = {"1","2","3","4","5","6","7","8","9","10"};
+    String[] itemCountList = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     JComboBox<String> spaceSelection = new JComboBox<String>(spaceList);
     JComboBox<String> itemCountSelection = new JComboBox<String>(itemCountList);
 
     final JComponent[] inputs = new JComponent[] { new JLabel("First"), playerName,
-        new JLabel("Select a Room"), spaceSelection, new JLabel("Select maximum Items"), itemCountSelection };
+        new JLabel("Select a Room"), spaceSelection,
+        new JLabel("Select maximum Items"), itemCountSelection };
     int result = JOptionPane.showConfirmDialog(null, inputs, "Add Player",
         JOptionPane.PLAIN_MESSAGE);
     if (result == JOptionPane.OK_OPTION) {
@@ -94,8 +116,20 @@ public class ViewImpl implements View{
     return response;
   }
 
+  /**
+   * Validation of the list of options takes place in the controller and hence is not handled in the
+   * view. If the list sent to the view is null, an error message is prompted.
+   * @param l the list of spaces.
+   * @return the response
+   */
   @Override
-  public String openPrompt(List<String> list, String prompt) {
+  public String openPrompt(List<String> l, String prompt) {
+    List<String> list;
+    if (l == null) {
+      list = new ArrayList<>();
+    } else {
+      list = l;
+    }
     Object[] options = list.toArray();
     String response = (String) JOptionPane.showInputDialog(null, prompt, "",
         JOptionPane.QUESTION_MESSAGE, null, options, null);
@@ -103,7 +137,13 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public void openLookAroundPrompt(String text) {
+  public void openLookAroundPrompt(String t) {
+    String text;
+    if (t == null) {
+      text = "";
+    } else {
+      text = t;
+    }
     String[] buttons = { "OK" };
     JOptionPane.showOptionDialog(null, text, "Space Details",
         JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null,
@@ -111,15 +151,19 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public void openGameOverPrompt(String winner) {
-    String[] buttons = { "RESTART" , "QUIT" };
-    try {
-      ImageIcon icon = new ImageIcon(ImageIO.read(new File("res/GameOver.png")));
-      JOptionPane.showOptionDialog(null, winner, "GAME OVER",
-          JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, buttons, null);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Cannot Read File!");
+  public int openGameOverPrompt(String t) {
+    String winner;
+    if (t == null) {
+      winner = "";
+    } else {
+      winner = t;
     }
+    String[] buttons = { "RESTART",  "QUIT" };
+    ImageIcon icon = new ImageIcon(getClass().getClassLoader()
+        .getResource("assets/GameOver_200x200.png"));
+    return JOptionPane.showOptionDialog(null, winner, "GAME OVER",
+        JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, icon, buttons, null);
+
   }
 
   @Override
@@ -142,13 +186,31 @@ public class ViewImpl implements View{
   }
 
   @Override
-  public void showSuccessMessage(String title, String message) {
-    JOptionPane.showMessageDialog(null,title,message,JOptionPane.INFORMATION_MESSAGE);
+  public void showSuccessMessage(String t, String m) {
+    String title;
+    String message;
+    if (t == null || m == null) {
+      title = "";
+      message = "";
+    } else {
+      title = t;
+      message = m;
+    }
+    JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
   }
 
   @Override
-  public void showErrorMessage(String title, String message) {
-    JOptionPane.showMessageDialog(null, title, message,
+  public void showErrorMessage(String t, String m) {
+    String title;
+    String message;
+    if (t == null || m == null) {
+      title = "";
+      message = "";
+    } else {
+      title = t;
+      message = m;
+    }
+    JOptionPane.showMessageDialog(null, message, title,
         JOptionPane.ERROR_MESSAGE);
   }
 }

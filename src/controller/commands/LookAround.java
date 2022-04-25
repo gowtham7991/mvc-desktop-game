@@ -3,7 +3,7 @@ package controller.commands;
 import model.Model;
 import view.View;
 
-public class LookAround implements Command{
+public class LookAround implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -15,7 +15,7 @@ public class LookAround implements Command{
       v.openLookAroundPrompt(response);
       v.refresh();
     } catch (IllegalArgumentException e) {
-      v.showErrorMessage("Could not retrieve information!",e.getMessage());
+      v.showErrorMessage("Could not retrieve information!", e.getMessage());
     }
   }
 }

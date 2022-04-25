@@ -10,19 +10,18 @@ import controller.commands.LookAround;
 import controller.commands.Move;
 import controller.commands.MovePet;
 import controller.commands.PickUpItem;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 import model.Model;
-import model.ReadOnlyModel;
 import view.View;
 
-public class ControllerImpl implements Controller{
+public class ControllerImpl implements Controller {
 
   private final Model m;
   private View v;
 
   public ControllerImpl(Model m) {
+    if (m == null) {
+      throw new IllegalArgumentException("Invalid model passed!");
+    }
     this.m = m;
   }
 
@@ -33,6 +32,7 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void exit() {
+    v.quit();
     System.exit(0);
   }
 
@@ -40,10 +40,7 @@ public class ControllerImpl implements Controller{
   public void begin() {
     if (m.isGameInProgress()) {
       v.begin();
-      if (m.isComputerInTurn()) {
-        v.showSuccessMessage("", "Computer player took a turn!");
-        v.refresh();
-      }
+      perTurnChecks();
     } else {
       v.showErrorMessage("Cannot start the game", "Players not added.");
     }
@@ -122,18 +119,36 @@ public class ControllerImpl implements Controller{
 
   @Override
   public void setView(View v) {
+    if (v == null) {
+      throw new IllegalArgumentException("Invalid view passed!");
+    }
     this.v = v;
     v.setFeatures(this);
   }
 
   private void perTurnChecks() {
     while (m.isComputerInTurn()) {
+      System.out.println("player in turn " + m.playerInTurn());
       v.showSuccessMessage("", "Computer player took a turn!");
       v.refresh();
+      if (m.isGameOver()) {
+        String winner = m.getWinner();
+        int response = v.openGameOverPrompt(winner);
+        if (response == 0) {
+          restart();
+        } else {
+          exit();
+        }
+      }
     }
     if (m.isGameOver()) {
       String winner = m.getWinner();
-      v.openGameOverPrompt(winner);
+      int response = v.openGameOverPrompt(winner);
+      if (response == 0) {
+        restart();
+      } else {
+        exit();
+      }
     }
   }
 }

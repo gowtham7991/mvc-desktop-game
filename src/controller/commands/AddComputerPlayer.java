@@ -3,7 +3,7 @@ package controller.commands;
 import model.Model;
 import view.View;
 
-public class AddComputerPlayer implements Command{
+public class AddComputerPlayer implements Command {
 
   @Override
   public void execute(Model m, View v) {
@@ -12,9 +12,9 @@ public class AddComputerPlayer implements Command{
     }
     try {
       String result = m.addComputerPlayer();
-      v.showSuccessMessage(result, "Player added!");
+      v.showSuccessMessage("Player added!", result);
     } catch (IllegalArgumentException e) {
-      v.showErrorMessage(e.getMessage(), "Failed to add player");
+      v.showErrorMessage("Failed to add the player", e.getMessage());
     }
     v.refresh();
   }
