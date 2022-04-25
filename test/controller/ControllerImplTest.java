@@ -324,7 +324,7 @@ public class ControllerImplTest {
     cmd.begin();
     cmd.lookAround();
     assertEquals("Inside method setFeatures. Id = 545"
-        +"Inside method startGame. Id = 545"
+        + "Inside method startGame. Id = 545"
         + "Inside method isGameInProgress. Id = 545"
         + "Inside method showErrorMessage. Id = 545"
         + "Cannot start the gamePlayers not added."

@@ -9,6 +9,10 @@ import view.View;
  */
 public interface Command {
 
-
+  /**
+   * This allows the command to be executed.
+   * @param m the valid model
+   * @param v the valid model
+   */
   void execute(Model m, View v);
 }

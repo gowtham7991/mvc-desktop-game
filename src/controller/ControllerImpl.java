@@ -14,7 +14,8 @@ import model.Model;
 import view.View;
 
 /**
- * This is the controller for the MVC application. This interacts with the model and the view.
+ * This is the conrete implementation of the controller for the MVC application.
+ * The controller implements all the functionalities required by the view which is the MVC game.
  */
 public class ControllerImpl implements Controller {
 
