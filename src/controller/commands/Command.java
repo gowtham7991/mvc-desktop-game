@@ -9,5 +9,6 @@ import view.View;
  */
 public interface Command {
 
+
   void execute(Model m, View v);
 }

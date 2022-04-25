@@ -11,6 +11,11 @@ public class Move implements Command {
   private final int x;
   private final int y;
 
+  /**
+   * Constructor for the move command.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
   public Move(int x, int y) {
     this.x = x;
     this.y = y;

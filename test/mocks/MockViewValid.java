@@ -14,6 +14,11 @@ public class MockViewValid implements View {
   private StringBuffer log;
   private int uniqueNumber;
 
+  /**
+   * This is the constructor of the class.
+   * @param log the log for each method.
+   * @param uniqueNumber the uniwue number.
+   */
   public MockViewValid(StringBuffer log, int uniqueNumber) {
     this.log = log;
     this.uniqueNumber = uniqueNumber;

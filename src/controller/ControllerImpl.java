@@ -13,11 +13,18 @@ import controller.commands.PickUpItem;
 import model.Model;
 import view.View;
 
+/**
+ * This is the controller for the MVC application. This interacts with the model and the view.
+ */
 public class ControllerImpl implements Controller {
 
   private final Model m;
   private View v;
 
+  /**
+   * Constructs the controller when a model is passed.
+   * @param m the model
+   */
   public ControllerImpl(Model m) {
     if (m == null) {
       throw new IllegalArgumentException("Invalid model passed!");

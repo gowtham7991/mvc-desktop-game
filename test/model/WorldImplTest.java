@@ -8,9 +8,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import mocks.RandomGeneratorMock;
 import model.layout.World;
 import model.layout.WorldImpl;
-import mocks.RandomGeneratorMock;
 import org.junit.Test;
 import utils.RandomGenerator;
 
@@ -1277,8 +1277,8 @@ public class WorldImplTest {
     Readable r1 = new StringReader(input1);
     Model m = new ModelImpl(r, rand, 5);
     assertEquals("MyWorld", m.getName());
-    assertEquals("[Space1, Space2, Space3, Space4, Space5, Space6, Space7, Space8, Space9]"
-        , m.getAllSpaces().toString());
+    assertEquals("[Space1, Space2, Space3, Space4, Space5, Space6, Space7, Space8, Space9]",
+        m.getAllSpaces().toString());
 
     m.reInitializeGame(r1);
     assertEquals("MyWorld1", m.getName());
