@@ -4,6 +4,10 @@ import java.util.List;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to attack target.
+ *
+ */
 public class Attack implements Command {
 
   @Override

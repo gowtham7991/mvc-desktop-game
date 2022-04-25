@@ -6,6 +6,10 @@ import java.io.IOException;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to a add upload game layout.
+ *
+ */
 public class GameLayoutUpload implements Command {
 
   @Override

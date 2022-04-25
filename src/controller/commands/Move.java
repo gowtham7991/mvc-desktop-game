@@ -3,6 +3,10 @@ package controller.commands;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to a add computer player.
+ *
+ */
 public class Move implements Command {
   private final int x;
   private final int y;

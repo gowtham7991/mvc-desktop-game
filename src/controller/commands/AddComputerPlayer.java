@@ -3,8 +3,12 @@ package controller.commands;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to a add computer player.
+ *
+ */
 public class AddComputerPlayer implements Command {
-
+  
   @Override
   public void execute(Model m, View v) {
     if (m == null) {

@@ -4,6 +4,10 @@ import java.util.List;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to a add player.
+ *
+ */
 public class AddPlayer implements Command {
 
   @Override

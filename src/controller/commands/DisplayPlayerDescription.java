@@ -3,6 +3,10 @@ package controller.commands;
 import model.Model;
 import view.View;
 
+/**
+ * This is the command class for the command to display player information.
+ *
+ */
 public class DisplayPlayerDescription implements Command {
 
   @Override

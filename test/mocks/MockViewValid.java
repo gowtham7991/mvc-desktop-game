@@ -109,11 +109,4 @@ public class MockViewValid implements View {
         .append(message);
 
   }
-
-  @Override
-  public void quit() {
-    log.append("Inside method showErrorMessage. Id = ").append(uniqueNumber);
-
-  }
-
 }
