@@ -30,32 +30,36 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import model.ReadOnlyModel;
 
+/**
+ * This class represents the main screen of the game. This screen contains the
+ * graphical representation of the world and the instructions to play the game.
+ *
+ */
 public class GameScreenImpl extends JFrame implements Screen {
 
-  private final ReadOnlyModel m;
+  /**
+   * serialVersionUID attribute to remember versions of a Serializable class to
+   * verify that a loaded class and the serialized object are compatible.
+   */
+  private static final long serialVersionUID = 1L;
+  private final ReadOnlyModel model;
   private final JLabel map;
   private final JLabel playerName;
   private final JLabel hints;
   private final JPanel gamePanel;
   private final JPanel instructionPanel;
 
-  public GameScreenImpl(ReadOnlyModel m) {
+  /**
+   * This is the constructor for this class.
+   * 
+   * @param model - this is the read only model.
+   */
+  public GameScreenImpl(ReadOnlyModel model) {
     super();
     Border blackline = BorderFactory.createLineBorder(Color.black);
-    Border instBorder = BorderFactory.createTitledBorder(blackline, "Instructions");
     Border hintBorder = BorderFactory.createTitledBorder(blackline, "Hints");
-    Dimension size
-        = Toolkit.getDefaultToolkit().getScreenSize();
-
-    int width = (int) size.getWidth();
-    int height = (int) size.getHeight();
-
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    JPanel gamePanel = new JPanel(new GridLayout(1, 0));
-
-    JPanel infoPanel = new JPanel();
     JPanel hintsPanel = new JPanel(new GridLayout(2, 0));
-
     hintsPanel.setBorder(hintBorder);
     JLabel playerName = new JLabel();
     playerName.setHorizontalAlignment(SwingConstants.LEFT);
@@ -63,14 +67,12 @@ public class GameScreenImpl extends JFrame implements Screen {
     playerName.setForeground(Color.DARK_GRAY);
     JLabel hints = new JLabel();
     hints.setHorizontalAlignment(SwingConstants.CENTER);
-
     hintsPanel.add(playerName);
     hintsPanel.add(hints);
-    
+    Border instBorder = BorderFactory.createTitledBorder(blackline, "Instructions");
     instructionPanel = new JPanel();
     instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
     instructionPanel.setBorder(instBorder);
-
     JLabel i1 = new JLabel("Move Pet",
         new ImageIcon(getClass().getClassLoader().getResource("assets/m.png")), JLabel.LEFT);
     JLabel i2 = new JLabel("Pick Up an Item",
@@ -81,26 +83,26 @@ public class GameScreenImpl extends JFrame implements Screen {
         new ImageIcon(getClass().getClassLoader().getResource("assets/a.png")), JLabel.LEFT);
     JLabel i5 = new JLabel("Move Player",
         new ImageIcon(getClass().getClassLoader().getResource("assets/mouse.png")), JLabel.LEFT);
-
     instructionPanel.add(i1);
     instructionPanel.add(i2);
     instructionPanel.add(i3);
     instructionPanel.add(i4);
     instructionPanel.add(i5);
-
+    JPanel gamePanel = new JPanel(new GridLayout(1, 0));
+    JPanel infoPanel = new JPanel();
     infoPanel.setLayout(new GridLayout(2, 0));
-
     infoPanel.add(hintsPanel);
     infoPanel.add(instructionPanel);
     JScrollPane pane = new JScrollPane(gamePanel);
     JSplitPane sl = new JSplitPane(SwingConstants.HORIZONTAL, pane, infoPanel);
-
     sl.setOrientation(SwingConstants.VERTICAL);
     sl.setResizeWeight(0.75);
-
     this.add(sl);
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    int width = (int) size.getWidth();
+    int height = (int) size.getHeight();
     JLabel map = new JLabel();
-    map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
+    map.setIcon(new ImageIcon((Image) model.createGraphicalRepresentation()));
     gamePanel.add(map);
     this.setSize(width, height);
     sl.setResizeWeight(0.75);
@@ -109,7 +111,7 @@ public class GameScreenImpl extends JFrame implements Screen {
     this.playerName = playerName;
     this.hints = hints;
     this.gamePanel = gamePanel;
-    this.m = m;
+    this.model = model;
   }
 
   @Override
@@ -166,9 +168,9 @@ public class GameScreenImpl extends JFrame implements Screen {
 
   @Override
   public void refresh() {
-    map.setIcon(new ImageIcon((Image) m.createGraphicalRepresentation()));
-    playerName.setText(m.playerInTurn() + "is in turn : ");
-    hints.setText(m.getCluesForTurn());
+    map.setIcon(new ImageIcon((Image) model.createGraphicalRepresentation()));
+    playerName.setText(model.playerInTurn() + "is in turn : ");
+    hints.setText(model.getCluesForTurn());
   }
 
   @Override

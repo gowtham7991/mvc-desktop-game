@@ -18,9 +18,21 @@ import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.ReadOnlyModel;
 
+/**
+ * This class represents the welcome screen. The screen contains the name of the
+ * developers along with an option to start the game, using existing
+ * configuration file or using a new configuration file and the option to quit
+ * the game.
+ *
+ */
 public class WelcomeScreenImpl extends JFrame implements Screen {
 
-  private final ReadOnlyModel m;
+  /**
+   * serialVersionUID attribute to remember versions of a Serializable class to
+   * verify that a loaded class and the serialized object are compatible.
+   */
+  private static final long serialVersionUID = 1L;
+  private final ReadOnlyModel model;
   private final JMenu menu;
   private final JMenu submenu;
   private final JMenuItem currLayout;
@@ -31,9 +43,14 @@ public class WelcomeScreenImpl extends JFrame implements Screen {
   private final JLabel bgImage;
   private final JLabel welcomeCredits;
 
-  public WelcomeScreenImpl(ReadOnlyModel m) {
+  /**
+   * This class represents the constructor of this class.
+   * 
+   * @param model - the Read Only Model.
+   */
+  public WelcomeScreenImpl(ReadOnlyModel model) {
     JLabel bgImage1;
-    this.m = m;
+    this.model = model;
     setExtendedState(JFrame.MAXIMIZED_BOTH);
     setLayout(new BorderLayout());
     try {
@@ -71,8 +88,6 @@ public class WelcomeScreenImpl extends JFrame implements Screen {
     this.setJMenuBar(mb);
   }
 
-
-
   @Override
   public void setFeatures(Features f) {
     currLayout.addActionListener(l -> f.startGame());
@@ -106,4 +121,5 @@ public class WelcomeScreenImpl extends JFrame implements Screen {
   public void quit() {
     this.dispose();
   }
+
 }

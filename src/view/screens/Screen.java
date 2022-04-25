@@ -1,15 +1,23 @@
 package view.screens;
 
 import controller.Features;
-import model.ReadOnlyModel;
 
+/**
+ * This is an interface for the screens of the game. The screen interface
+ * supports basic functionalities to handle a screen like display, hide and
+ * refresh.
+ *
+ */
 public interface Screen {
 
   /**
    * Sets all the action listeners and key listeners for the game screen.
    *
-   * <p>Each function is designed to take in the necessary data to complete that
+   * <p>
+   * Each function is designed to take in the necessary data to complete that
    * functionality.
+   * 
+   * @param f the features interface which is an instance of the controller.
    */
   void setFeatures(Features f);
 

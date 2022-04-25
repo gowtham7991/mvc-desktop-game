@@ -3,59 +3,67 @@ package mocks;
 import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Model;
 
+/**
+ * This is an invalid mock model class. Its function is to test the controller
+ * when invalid arguments are passed to the functions.
+ * 
+ *
+ */
 public class MockModelInvalid implements Model {
   private StringBuffer log;
   private int uniqueNumber;
-  
+
   public MockModelInvalid(StringBuffer log, int uniqueNumber) {
     this.log = log;
     this.uniqueNumber = uniqueNumber;
   }
+
   @Override
   public String playerInTurn() {
     log.append("Inside invalid model method playerInTurn. Id = ").append(uniqueNumber);
-    return  String.valueOf(uniqueNumber);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public List<String> getPlayers() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("player");
     log.append("Inside invalid model method getPlayers. Id = ").append(uniqueNumber);
     return list;
-   
+
   }
 
   @Override
   public String getCluesForTurn() {
     log.append("Inside invalid model method getCluesForTurn. Id = ").append(uniqueNumber);
-    return  String.valueOf(uniqueNumber);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public String getName() {
     log.append("Inside invalid model method getName. Id = ").append(uniqueNumber);
-    return  String.valueOf(uniqueNumber);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public String getCurrentPlayerPosition() {
     log.append("Inside invalid model method getCurrentPlayerPosition. Id = ").append(uniqueNumber);
-    return  String.valueOf(uniqueNumber);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public WritableRenderedImage createGraphicalRepresentation() {
-    log.append("Inside invalid model method createGraphicalRepresentation. Id = ").append(uniqueNumber);
+    log.append("Inside invalid model method createGraphicalRepresentation. Id = ")
+        .append(uniqueNumber);
     throw new IllegalArgumentException("No player.");
   }
 
   @Override
   public String getSpaceBasedOnCoordinates(int x, int y) {
-    log.append("Inside invalid model method getSpaceBasedOnCoordinates. Id = ").append(uniqueNumber).append(x).append(y);
+    log.append("Inside invalid model method getSpaceBasedOnCoordinates. Id = ").append(uniqueNumber)
+        .append(x).append(y);
     throw new IllegalArgumentException("invalid coordinates");
   }
 
@@ -67,19 +75,22 @@ public class MockModelInvalid implements Model {
 
   @Override
   public String getInfoOfSpace(String name) {
-    log.append("Inside invalid model method getInfoOfSpace. Id = ").append(uniqueNumber).append(name);
-    return  String.valueOf(uniqueNumber);
+    log.append("Inside invalid model method getInfoOfSpace. Id = ").append(uniqueNumber)
+        .append(name);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public String getNeighboursOf(String name) {
-    log.append("Inside invalid model method getNeighboursOf. Id = ").append(uniqueNumber).append(name);
-    return  String.valueOf(uniqueNumber);
+    log.append("Inside invalid model method getNeighboursOf. Id = ").append(uniqueNumber)
+        .append(name);
+    return String.valueOf(uniqueNumber);
   }
 
   @Override
   public String addPlayer(String name, String space, int limit) {
-    log.append("Inside invalid model method addPlayer. Id = ").append(uniqueNumber).append(name).append(space).append(limit);
+    log.append("Inside invalid model method addPlayer. Id = ").append(uniqueNumber).append(name)
+        .append(space).append(limit);
     throw new IllegalArgumentException("Invalid player.");
   }
 
@@ -115,7 +126,8 @@ public class MockModelInvalid implements Model {
 
   @Override
   public String displayPlayerDescription(String name) {
-    log.append("Inside invalid model method displayPlayerDescription. Id = ").append(uniqueNumber).append(name);
+    log.append("Inside invalid model method displayPlayerDescription. Id = ").append(uniqueNumber)
+        .append(name);
     throw new IllegalArgumentException("Invalid player description.");
   }
 
@@ -133,13 +145,14 @@ public class MockModelInvalid implements Model {
 
   @Override
   public String getNeighboursOfPlayerCurrentSpace() {
-    log.append("Inside invalid model method getNeighboursOfPlayerCurrentSpace. Id = ").append(uniqueNumber);
+    log.append("Inside invalid model method getNeighboursOfPlayerCurrentSpace. Id = ")
+        .append(uniqueNumber);
     throw new IllegalArgumentException("Invalid neighbours.");
   }
 
   @Override
   public List<String> getItemsInCurrentSpace() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("item");
     log.append("Inside invalid model method getItemsInCurrentSpace. Id = ").append(uniqueNumber);
     return list;
@@ -147,7 +160,7 @@ public class MockModelInvalid implements Model {
 
   @Override
   public List<String> getItemsOfPlayerInTurn() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("player");
     log.append("Inside invalid model method getItemsOfPlayerInTurn. Id = ").append(uniqueNumber);
     return list;
@@ -155,7 +168,7 @@ public class MockModelInvalid implements Model {
 
   @Override
   public List<String> getAllSpaces() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("space");
     log.append("Inside invalid model method getAllSpaces. Id = ").append(uniqueNumber);
     return list;
@@ -163,7 +176,8 @@ public class MockModelInvalid implements Model {
 
   @Override
   public int getTotalNumberOfHumanPlayers() {
-    log.append("Inside invalid model method getTotalNumberOfHumanPlayers. Id = ").append(uniqueNumber);
+    log.append("Inside invalid model method getTotalNumberOfHumanPlayers. Id = ")
+        .append(uniqueNumber);
     throw new IllegalArgumentException("Invalid human players.");
   }
 
@@ -181,7 +195,8 @@ public class MockModelInvalid implements Model {
 
   @Override
   public String attack(String itemName) {
-    log.append("Inside invalid model method getPlayers. Id = ").append(uniqueNumber).append(itemName);
+    log.append("Inside invalid model method getPlayers. Id = ").append(uniqueNumber)
+        .append(itemName);
     throw new IllegalArgumentException("Invalid attack");
   }
 
@@ -194,13 +209,13 @@ public class MockModelInvalid implements Model {
   @Override
   public void reInitializeGame(Readable r) {
     log.append("Inside invalid model method getPlayers. Id = ").append(uniqueNumber).append(r);
-     
+
   }
 
   @Override
   public void reInitializeGame() {
     log.append("Inside invalid model method reInitializeGame. Id = ").append(uniqueNumber);
-    
+
   }
 
   @Override

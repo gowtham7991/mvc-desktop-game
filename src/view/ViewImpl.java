@@ -17,14 +17,20 @@ import view.screens.Screen;
 import view.screens.SpawnScreenImpl;
 import view.screens.WelcomeScreenImpl;
 
+/**
+ * This is the facade view which controls the visibility of multiple screens
+ * based on user's selection.
+ *
+ */
 public class ViewImpl implements View {
   private final Screen welcomeScreen;
   private final Screen spawnScreen;
   private final Screen gameScreen;
-
+  
   /**
-   * Constructs the facade view class.
-   * The model validation takes place in the driver class.
+   * Constructs the facade view class. The model validation takes place in the
+   * driver class.
+   * 
    * @param m the readonly model
    */
   public ViewImpl(ReadOnlyModel m) {
@@ -78,8 +84,10 @@ public class ViewImpl implements View {
   }
 
   /**
-   * Validation of the list of spaces takes place in the controller and hence is not handled in the
-   * view. If the list sent to the view is null, an error message is prompted.
+   * Validation of the list of spaces takes place in the controller and hence is
+   * not handled in the view. If the list sent to the view is null, an error
+   * message is prompted.
+   * 
    * @param l the list of spaces.
    * @return the response
    */
@@ -99,13 +107,13 @@ public class ViewImpl implements View {
       spaceList[i] = list.get(i);
     }
 
-    String[] itemCountList = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    String[] itemCountList = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     JComboBox<String> spaceSelection = new JComboBox<String>(spaceList);
     JComboBox<String> itemCountSelection = new JComboBox<String>(itemCountList);
 
     final JComponent[] inputs = new JComponent[] { new JLabel("First"), playerName,
-        new JLabel("Select a Room"), spaceSelection,
-        new JLabel("Select maximum Items"), itemCountSelection };
+        new JLabel("Select a Room"), spaceSelection, new JLabel("Select maximum Items"),
+        itemCountSelection };
     int result = JOptionPane.showConfirmDialog(null, inputs, "Add Player",
         JOptionPane.PLAIN_MESSAGE);
     if (result == JOptionPane.OK_OPTION) {
@@ -117,8 +125,10 @@ public class ViewImpl implements View {
   }
 
   /**
-   * Validation of the list of options takes place in the controller and hence is not handled in the
-   * view. If the list sent to the view is null, an error message is prompted.
+   * Validation of the list of options takes place in the controller and hence is
+   * not handled in the view. If the list sent to the view is null, an error
+   * message is prompted.
+   * 
    * @param l the list of spaces.
    * @return the response
    */
@@ -145,9 +155,8 @@ public class ViewImpl implements View {
       text = t;
     }
     String[] buttons = { "OK" };
-    JOptionPane.showOptionDialog(null, text, "Space Details",
-        JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null,
-        buttons, buttons[0]);
+    JOptionPane.showOptionDialog(null, text, "Space Details", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
   }
 
   @Override
@@ -158,11 +167,11 @@ public class ViewImpl implements View {
     } else {
       winner = t;
     }
-    String[] buttons = { "RESTART",  "QUIT" };
-    ImageIcon icon = new ImageIcon(getClass().getClassLoader()
-        .getResource("assets/GameOver_200x200.png"));
-    return JOptionPane.showOptionDialog(null, winner, "GAME OVER",
-        JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, icon, buttons, null);
+    String[] buttons = { "RESTART", "QUIT" };
+    ImageIcon icon = new ImageIcon(
+        getClass().getClassLoader().getResource("assets/GameOver_200x200.png"));
+    return JOptionPane.showOptionDialog(null, winner, "GAME OVER", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane.INFORMATION_MESSAGE, icon, buttons, null);
 
   }
 
@@ -210,7 +219,6 @@ public class ViewImpl implements View {
       title = t;
       message = m;
     }
-    JOptionPane.showMessageDialog(null, message, title,
-        JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
   }
 }

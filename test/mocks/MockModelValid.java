@@ -3,18 +3,21 @@ package mocks;
 import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Model;
 
-public class MockModelValid implements Model{
+/**
+ * This is a mock model class. Its function is to test the controller.
+ *
+ */
+public class MockModelValid implements Model {
   private StringBuffer log;
   private int uniqueNumber;
-  
+
   public MockModelValid(StringBuffer log, int uniqueNumber) {
     this.log = log;
     this.uniqueNumber = uniqueNumber;
   }
-  
+
   @Override
   public String playerInTurn() {
     log.append("Inside method playerInTurn. Id = ").append(uniqueNumber);
@@ -23,7 +26,7 @@ public class MockModelValid implements Model{
 
   @Override
   public List<String> getPlayers() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("player");
     log.append("Inside method getPlayers. Id = ").append(uniqueNumber);
     return list;
@@ -55,7 +58,8 @@ public class MockModelValid implements Model{
 
   @Override
   public String getSpaceBasedOnCoordinates(int x, int y) {
-    log.append("Inside method getSpaceBasedOnCoordinates. Id = ").append(uniqueNumber).append(x).append(y);
+    log.append("Inside method getSpaceBasedOnCoordinates. Id = ").append(uniqueNumber).append(x)
+        .append(y);
     return String.valueOf(uniqueNumber);
   }
 
@@ -79,7 +83,8 @@ public class MockModelValid implements Model{
 
   @Override
   public String addPlayer(String name, String space, int limit) {
-    log.append("Inside method addPlayer. Id = ").append(uniqueNumber).append(name).append(space).append(limit);
+    log.append("Inside method addPlayer. Id = ").append(uniqueNumber).append(name).append(space)
+        .append(limit);
     return String.valueOf(uniqueNumber);
   }
 
@@ -139,15 +144,15 @@ public class MockModelValid implements Model{
 
   @Override
   public List<String> getItemsInCurrentSpace() {
-    List<String> list=new ArrayList<String>();  
-    list.add("item"); 
+    List<String> list = new ArrayList<String>();
+    list.add("item");
     log.append("Inside method getItemsInCurrentSpace. Id = ").append(uniqueNumber);
     return list;
   }
 
   @Override
   public List<String> getItemsOfPlayerInTurn() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("item");
     log.append("Inside method getItemsOfPlayerInTurn. Id = ").append(uniqueNumber);
     return list;
@@ -155,7 +160,7 @@ public class MockModelValid implements Model{
 
   @Override
   public List<String> getAllSpaces() {
-    List<String> list=new ArrayList<String>();  
+    List<String> list = new ArrayList<String>();
     list.add("space");
     log.append("Inside method getAllSpaces. Id = ").append(uniqueNumber);
     return list;
@@ -194,13 +199,13 @@ public class MockModelValid implements Model{
   @Override
   public void reInitializeGame(Readable r) {
     log.append("Inside method reInitializeGame. Id = ").append(uniqueNumber).append(r);
-    
+
   }
 
   @Override
   public void reInitializeGame() {
     log.append("Inside method reInitializeGame. Id = ").append(uniqueNumber);
-    
+
   }
 
   @Override

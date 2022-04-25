@@ -9,21 +9,37 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import model.ReadOnlyModel;
 
+/**
+ * This class represent the screen that is responsible for adding
+ * players(manual/computer) to the game and starting the game after addition of
+ * players.
+ *
+ */
 public class SpawnScreenImpl extends JFrame implements Screen {
-  private final ReadOnlyModel m;
+  /**
+   * serialVersionUID attribute to remember versions of a Serializable class to
+   * verify that a loaded class and the serialized object are compatible.
+   */
+  private static final long serialVersionUID = 1L;
+  private final ReadOnlyModel model;
   private final JButton addPlayerBtn;
   private final JButton addCompPlayerBtn;
   private final JButton startGameBtn;
 
-  public SpawnScreenImpl(ReadOnlyModel m) {
+  /**
+   * This is the constructor of the class.
+   * 
+   * @param model - the ReadOnlyModel
+   */
+  public SpawnScreenImpl(ReadOnlyModel model) {
     super();
-    this.m = m;
+    this.model = model;
     setExtendedState(JFrame.MAXIMIZED_BOTH);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setLayout(new BorderLayout());
-    JLabel bgImage = new JLabel(new ImageIcon(getClass().getClassLoader()
-        .getResource("assets/welcome_screen_wallpaper.png")));
+    JLabel bgImage = new JLabel(new ImageIcon(
+        getClass().getClassLoader().getResource("assets/welcome_screen_wallpaper.png")));
     this.add(bgImage);
     bgImage.setLayout(new FlowLayout());
 

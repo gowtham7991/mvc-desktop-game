@@ -11,7 +11,6 @@ import java.util.List;
 import model.layout.World;
 import model.layout.WorldImpl;
 import mocks.RandomGeneratorMock;
-import org.junit.Before;
 import org.junit.Test;
 import utils.RandomGenerator;
 

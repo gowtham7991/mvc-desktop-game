@@ -7,6 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
+/**
+ * This class represents the first screen that appears when the game starts. It
+ * enhance the user experience of the game.
+ * 
+ * serialVersionUID attribute to remember versions of a Serializable class to
+ * verify that a loaded class and the serialized object are compatible.
+ *
+ */
 public class SplashScreen extends JFrame {
   private static final long serialVersionUID = 1L;
   private final Color customColor;
@@ -14,6 +22,10 @@ public class SplashScreen extends JFrame {
   private JLabel title;
   private JLabel credits;
 
+  /**
+   * This is the constructor of the class.
+   * 
+   */
   public SplashScreen() {
     customColor = new Color(211, 211, 243);
     progressBar = new JProgressBar();
@@ -35,8 +47,8 @@ public class SplashScreen extends JFrame {
   }
 
   private void addImage() {
-    JLabel gif = new JLabel(new ImageIcon(getClass().getClassLoader()
-        .getResource("assets/marvel.gif")));
+    JLabel gif = new JLabel(
+        new ImageIcon(getClass().getClassLoader().getResource("assets/marvel.gif")));
     gif.setSize(600, 400);
     this.add(gif);
   }
