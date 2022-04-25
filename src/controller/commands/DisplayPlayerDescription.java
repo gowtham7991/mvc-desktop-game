@@ -11,8 +11,8 @@ public class DisplayPlayerDescription implements Command {
 
   @Override
   public void execute(Model m, View v) {
-    if (m == null) {
-      throw new IllegalArgumentException("Invalid model!");
+    if (m == null || v == null) {
+      throw new IllegalArgumentException("Invalid model or view!");
     }
     try {
       String response = m.displayPlayerDescription();

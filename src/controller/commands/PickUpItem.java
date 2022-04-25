@@ -12,7 +12,7 @@ public class PickUpItem implements Command {
 
   @Override
   public void execute(Model m, View v) {
-    if (m == null) {
+    if (m == null || v == null) {
       throw new IllegalArgumentException("Invalid model!");
     }
 

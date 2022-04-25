@@ -14,6 +14,9 @@ public class GameLayoutUpload implements Command {
 
   @Override
   public void execute(Model m, View v) {
+    if (m == null || v == null) {
+      throw new IllegalArgumentException("Invalid model!");
+    }
     try {
       File f = v.openFileUploadPrompt();
       Readable r = new FileReader(f);

@@ -12,7 +12,7 @@ public class MovePet implements Command {
 
   @Override
   public void execute(Model m, View v) {
-    if (m == null) {
+    if (m == null || v == null) {
       throw new IllegalArgumentException("Invalid model!");
     }
     List<String> spaces = m.getAllSpaces();
