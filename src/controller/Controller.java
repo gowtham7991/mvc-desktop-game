@@ -10,7 +10,7 @@ import view.View;
 public interface Controller extends Features {
   /**
    * This method is used to set the view in the controller and configure features in the view.
-   * @param v
+   * @param v the valid view
    */
   void setView(View v);
 }
