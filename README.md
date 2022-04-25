@@ -1,134 +1,155 @@
 # CS 5010 Semester Project
 
-This repo represents the coursework for CS 5010, the Fall 2022 Edition!
+This repo represents the coursework for CS 5010, the Spring 2022 Edition!
 
-**Name:** Gowtham Potnuru
+**Name:** Aashi Shrimal, Gowtham Potnuru
 
-**Email:** potnuru.g@northeastern.edu
+**Email:** shrimal.a@northeastern.edu, potnuru.g@northeastern.edu
 
-**Preferred Name:** Gowtham
-
-
+**Preferred Name:** Aashi, Gowtham
 
 ### About/Overview
 
-The problem statement is about representing a board game using a config file
-which has the ability any defined world which has spaces and items
-
-
+This is a full scale MVC application created using the Java Swing framework for the View, 
+the model is configured using a text file. The application is built using good design patterns
+and best practices. The functionality of the MVC application is tested end to end using the 
+JUnit framework.
 
 ### List of Features
 
-The program can read a text file and based on the text file can initiate a game with a world,
-spaces and items inside along with a target.
-Thg program can display the information of a specified space.
-The program can display the number spaces visible or neighbours of a specified space.
-The program can move the target around the world.
-The program lets user add a normal player
-The program lets the user add a computer controlled player
-The program allows the user to move around the world.
-The program allows the user to pick up an item from the current space.
-The program allows the user to look around the current space.
-The program allows the user to read a specific player's description
-The program allows the user to generate a layout of the game
-The program allows the user to attack the target.
-The program allows the user to move the pet around.
-The program automatically moves the pet around after every turn.
+This MVC application is a desktop based game inspired by the Kill Dr Lucky. Below are some of the 
+salient features:
 
+1. The game is defined by a number of spaces which make a world.
+2. Every space has a set of items.
+3. The game has a Target and a Pet whose location changes after every turn a player takes.
+4. A maximum of 10 players can be added to the game.
+5. Every player gets a turn in the sequence they were added.
+6. The objective of the game is kill the target using the items they carry.
+7. The game is tied if no player is able to kill the target after the set number of turns.
+8. The player visibility is affected based on the pet's location in the world.
+9. A player's attack can nullified by other players if they can see each other.
+
+### Player Activities
+
+Below are the options a player can perform when their turn comes up:
+
+1. **Move** :
+   A player can move to the neighbouring space. If one does an invalid move, the operation fails.
+2. **Look Around** :  
+   The player is given an option to view the details of the current space they are in and the neighbouring space as well.
+   Information about the items, pet presence and target presence is displayed.
+3. **Pick Item** :  
+   Allows a player to pick an item from the current space they occupy.
+4. **Move Pet** :   
+   Allows a player to move the pet to a desired space to assist them to attack the target.
+5. **Attack Target** :  
+   Allows a player to attack the target with an item they are carrying or choose to poke the target
+   in the eye.
+6. **Player Description**
+   Allows a player lookup his details including the items they are carrying and the space they
+   are currently in.
 
 ### How to Run
 
-Run the jar file from the command line.
-java -jar <jar file path> <config file path> <Max turns per game>
+The application is a java program which comes packaged as a jar which has to be run to start the
+game.
 
+**JAR location**: ./res/cs5010-final-project-gowtham_aashi_team.jar
+
+**Requirements to Run**:
+
+1. The JAR file expects two command line arguments
+   1. World configuration file : Contains the details of the world, including the list of spaces
+      with their co-ordinates and the items in the space.
+   2. The max number of turns the game allows.
+
+**Commands to run**:  
+Sample command to run the JAR file.
+
+```aidl
+java -jar cs5010-final-project-gowtham_aashi_team.jar layout1.txt 10 
+```
+
+A more generic version where `<filePath>` can be replaced by your own custom layout of the world
+and `<max turns>` can be replaced by maximum allowable turn limit for the game, is shown below.
+
+```aidl
+java -jar cs5010-project-shellfish1.jar <filePath> <max turns> 
+```
+
+### Interactive Components of Program
+
+This is a desktop game, different components of the game user can interact with are as follows:
+
+1. **Welcome Screen** : This is the welcome screen displayed to the user, as soon as one starts the
+   game.  
+   ![Welcome Screen](res/documentss/WelcomeScreen.PNG)  
+
+2. **Spawn Screen**: Once the user chooses to start the game, one has to add players. A maximum
+   of 10 players (manual or computer) in any combination.
+   ![Spawn Screen](res/documents/SpawnScreen.PNG)
+3. **Gameplay Screen**: Once the players are added to the game, the user can begin the game
+   and enter the game. The game screen has an interactive game layout where players can take turns
+   to play the game. This screen also offers hints to the users and an instruction manual.
+   ![Game Screen](res/documnets/GameScreen.PNG)
 
 ### How to Use the Program
 
-The current model provides the ability to create a graphical representation of
-the world provided using the createGraphicalRepresentation() method.
-List of neighbours of a specific space can be listed using the getNeighboursOf() method.
-The information about a specific space can be viewed using the getInfoOf() method.
-The target of the can be moved from the current position using the moveTarget() method.
-
-The game can be played from any command line by running the jar file.
-Once the game starts, the program allows the user to add players to the game.
-Once all the players are added, the game can be started by using the start command.
-
-Once the game starts, based on the order of players, each player can choose from a set of commands
-available.
-If the player is a computer controlled player, the program automatically runs the player.
-
-The program also allows the players to quit the game.
-
-After the max turns are completed the game is automatically stopped.
-
-A player can attack the target using the items he has picked or can also poke him in the eye.
-A player can also move the pet around to strategically plan his/her attacks on the target.
-
+1. **Start the game**: Launches the welcome screen:
+2. Click on Menu
+3. Select the option ***Start*** and ***Current Layout***.
+4. You will be taken to the ***Add Player - spawn*** screen.
+5. **Choosing a layout of your own**:  If the user wished to play the game with a custom layout, one can do so by:
+   1. Click on Menu
+   2. Select the option ***Start*** and ***New Layout***.
+   3. A file chooser appears on screen, and you would have to select your custom layout file.
+   4. You will then be taken to the ***Spawn Screen***.
+6. **How can the players be added?**: Once the game starts, the players can be added. A player has to enter one's username, 
+   starting location and the max item limit. Computer players can also be added. A max of 10 placcordingly.
+   1. To add a new player fill the form and click ***Add***.
+   2. To begin the game click on  ***Begin***
+   3. You will be taken to the ***Game Screen***.
+8. **How to take your turn**: All the rules for the game are displayed to the player on the gameplay
+   screen.
+9. **Pick Item** : Press **p**
+10. **Attack Target**: Press **k**
+11. **Move Player**: Click on the layout.
+12. **Move Pet**: Press **m**
+13. **Look Around**: Press **a**
+14. **Show Player Description**: Click on player icon on the image.
+16. Click on Menu
+17. Select the option ***Quit Game***.
+18. You will be shown the ***Welcome/Intro Screen***.
 
 ### Example Runs
 
-- Milestone1_ExampleRun1.txt
-- Milestone2_ExampleRun2.txt
-- Milestone3_ExampleRun3.txt
-- Milestone3_ExampleRun4.txt
-- Milestone4_ExampleRun5.txt
-
+A 10 minute video will be recorded and upload to canvas.
 
 ### Design/Model Changes
 
-Milestone1
-- Removed the singleton class as I felt that multiple game be played simultaneously
-  and there is no resource which causes a deadlock.
-- I removed the characterIndices map field to track the position of character
-  and other possible players in future as there is no requirement as of today.
-- I moved the position of my target class from Game class to World class.
-- I removed the Unit class which makes up the grid as there is no
-  requirement applicable using this class and a simple integer in the grid works well.
-
-Milestone2
-- I removed the character interface and made seperate interface for target and player.
-
-Milestone3
-- I removed the players index class which stores the players referenced with their id.
+1. A Readonly interface is created to implement interface segregation so that the view has
+   limited access to the model
+2. The model now has a method re-initialize the world by providing a new layout.
 
 ### Assumptions
 
-- A game is not singleton class.
-- No two spaces can have the same name.
-- The position of the target goes back to initial position at the end of last index.
-- There has to be at least 1 row and col in the world.
-- The damage of an item cannot be negative.
-- A space can exist without an item in it.
-- Item with same name can exist in different spaces.
-
-Milestone2
-- Player with the same name can be added to the game.
-- Computer player has an max item limit 5
-- Game cannot start without a single human player
-- Name is not needed for a computer player.
-- If no neighbours and players makes a move, then the turn is up.
-- If no items are found in the space and the user picks up, the turn is completed.
-- The user cannot move to the same space he is in currently.
-
-Milestone3
-- A player can poke even if he has items in bag.
-- A computer player does not have the ability to move the pet.
-- Player's turn gets over if one uses wrong item.
-
+1. Two players cannot have the same name.
+2. A computer player cannot have a custom name.
+3. A player can still poke the target if they have items in their inventory.
+4. The game should have atleast one player to start the game.
+5. A minimum item limit 1 has to be set for the players.
 
 ### Limitations
 
-As per the current design, I have not provided the ability to enter a name for computer players.
-There is no way for a user to reenter a new command once the command is chosen.
-There is re prompt if an invalid action takes place.
-
-Milestone3
-- Pet's current location is being shown in the Hints which shouldn't be the case as it eases
-- the gameplay.
+1. The MVC application doesnot allow clickable icons of the players.
+2. The application doesnot allow the players to quit in between the game.
 
 ### Citations
 
-DFS Traversal of a Graph - https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
+1. MVC Design Pattern : https://www.geeksforgeeks.org/mvc-design-pattern/.
+2. JSwing Documentation : https://docs.oracle.com/javase/7/docs/api/javax/swing/package-summary.html
+
+
 
 

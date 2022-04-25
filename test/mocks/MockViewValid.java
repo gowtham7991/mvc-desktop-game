@@ -38,6 +38,11 @@ public class MockViewValid implements View {
   }
 
   @Override
+  public void quit() {
+    log.append("Inside method quit. Id = ").append(uniqueNumber);
+  }
+
+  @Override
   public void reset() {
     log.append("Inside method reset. Id = ").append(uniqueNumber);
 
@@ -76,7 +81,6 @@ public class MockViewValid implements View {
   public int openGameOverPrompt(String winner) {
     log.append("Inside method openGameOverPrompt. Id = ").append(uniqueNumber).append(winner);
     return uniqueNumber;
-
   }
 
   @Override
