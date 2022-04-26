@@ -50,10 +50,11 @@ public class ModelImpl implements Model {
 
   @Override
   public boolean isComputerInTurn() {
-    if (world.isComputerInTurn()) {
+    boolean isComputerTurn = world.isComputerInTurn();
+    if (isComputerTurn) {
       turns += 1;
     }
-    return world.isComputerInTurn();
+    return isComputerTurn;
   }
 
   @Override

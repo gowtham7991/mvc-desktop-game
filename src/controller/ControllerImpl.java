@@ -14,7 +14,7 @@ import model.Model;
 import view.View;
 
 /**
- * This is the conrete implementation of the controller for the MVC application.
+ * This is the concrete implementation of the controller for the MVC application.
  * The controller implements all the functionalities required by the view which is the MVC game.
  */
 public class ControllerImpl implements Controller {
@@ -136,7 +136,6 @@ public class ControllerImpl implements Controller {
 
   private void perTurnChecks() {
     while (m.isComputerInTurn()) {
-      System.out.println("player in turn " + m.playerInTurn());
       v.showSuccessMessage("", "Computer player took a turn!");
       v.refresh();
       if (m.isGameOver()) {
