@@ -228,3 +228,7 @@ META-INF
 #Ignore META-INF
 META-INF
 */META-INF/*
+
+#Ignore classpath
+*.classpath
+.project
