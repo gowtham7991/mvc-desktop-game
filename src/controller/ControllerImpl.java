@@ -41,7 +41,7 @@ public class ControllerImpl implements Controller {
   @Override
   public void exit() {
     v.quit();
-    System.exit(0);
+//    System.exit(0);
   }
 
   @Override

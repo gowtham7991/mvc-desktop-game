@@ -18,7 +18,11 @@ public class Main {
    *
    * @param args the command line arguments.
    */
+  private static class NestedClass {
+
+  }
   public static void main(String[] args) {
+    NestedClass NC = new NestedClass();
     if (args.length == 0) {
       throw new IllegalArgumentException("File name not provided!");
     } else {
